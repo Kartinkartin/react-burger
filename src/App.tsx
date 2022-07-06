@@ -1,24 +1,49 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AppHeader from './components/header/header';
+import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
+import BurgerConstructor from './components/burger-constructor/burger-constructor';
 
 function App() {
+  const config ={
+    baseUrl: 'https://norma.nomoreparties.space/api/ingredients',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  const [cards, setCards] = React.useState([]);
+  
+  async function getCards() {
+    return await fetch(`${config.baseUrl}`,{
+      headers: config.headers
+    })
+  }
+
+  React.useEffect(()=>{
+    getCards()
+    .then(res=> {
+      if (res.ok) {
+        return res.json();
+      }
+      return Promise.reject(`Ошибка: ${res.status}`);
+    })
+    .then(cards => {
+      console.log(cards);
+      return setCards(cards);
+    })
+    .catch(err => console.log(`Ошибка: ${err}`))
+  }, []);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AppHeader />
+      <div className='main'>
+        <BurgerIngredients cards={cards}/>
+        <BurgerConstructor />
+      </div>
+      
     </div>
   );
 }

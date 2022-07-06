@@ -1,0 +1,21 @@
+.ingridients {
+    width: 600px;
+    
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.title {
+    width: 100%;
+    margin: 0;
+    text-align: start;
+}
+
+.card {
+    width: 272px;
+}
