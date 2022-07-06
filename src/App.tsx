@@ -31,7 +31,7 @@ function App() {
     })
     .then(cards => {
       console.log(cards);
-      return setCards(cards);
+      setCards(cards.data);
     })
     .catch(err => console.log(`Ошибка: ${err}`))
   }, []);
