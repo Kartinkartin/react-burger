@@ -1,0 +1,23 @@
+.title {
+    text-align: left;
+}
+
+.image {
+    width: 520px;
+    height: 240px;
+}
+
+.description {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.description_element {
+    width: 120px;
+}
+
+.popup {
+    max-width: 2080px;
+}

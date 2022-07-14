@@ -6,10 +6,9 @@ import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import './burger-ingredients.css';
 
-export default function BurgerIngredients( { cards } ) {
+export default function BurgerIngredients( { cards, onClick } ) {
     const [current, setCurrent] = React.useState('one');
     const cardsData = cards;
-    console.log(cardsData);
 
     return(
         <section className="ingridients">
@@ -26,9 +25,9 @@ export default function BurgerIngredients( { cards } ) {
                 </Tab>
             </div>
             <div >
-                <MenuCategory cards={cardsData} type='bun' />
-                <MenuCategory cards={cardsData} type='sauce' />
-                <MenuCategory cards={cardsData} type='main' />
+                <MenuCategory cards={cardsData} type='bun' onClick={onClick} />
+                <MenuCategory cards={cardsData} type='sauce' onClick={onClick} />
+                <MenuCategory cards={cardsData} type='main' onClick={onClick} />
             </div>
         </section>
     )
@@ -39,13 +38,13 @@ BurgerIngredients.propTypes = {
 }
 
 
-function MenuCategory({cards, type}) {
+function MenuCategory({cards, type, onClick}) {
     
     const types = {
         bun: 'Булки',
         sauce: 'Соусы',
         main: 'Начинки'
-    } 
+    }
 
     return (
         <>
@@ -55,7 +54,7 @@ function MenuCategory({cards, type}) {
                 cards.filter(prod => prod.type === type)
                 .map((card,index) => {
                     return(
-                        <Card card={card} key={index} />
+                        <Card card={card} key={index} onClick={() => onClick(card)} />
                     )
                 })
             }
@@ -66,11 +65,13 @@ function MenuCategory({cards, type}) {
 
 function Card(props) {
     return(
-      <div className="card" key={props.index}>
-          <img src={props.card.image} alt={props.card.name} />
-          <p className="text text_type_main-default">{props.card.name}</p>
-          <CurrencyIcon />
-          <p className="text text_type_main-default">{props.card.price}</p>
+      <div className="card" key={props.index} onClick={props.onClick} >
+            <img src={props.card.image} alt={props.card.name} />
+            <p className="text text_type_main-default">{props.card.name}</p>
+            <div className="price_container">
+                <p className="text text_type_main-default pr-1">{props.card.price}</p>
+                <CurrencyIcon />
+            </div>
       </div>      
     )  
   }

@@ -1,0 +1,40 @@
+.constructor {
+    width: 600px;
+    box-sizing: border-box;
+}
+
+.constructor_element {
+    display: flex;
+    justify-content: flex-end
+}
+
+.layers_list {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.product {
+    padding-bottom: 16px;
+}
+.product:last-of-type {
+    padding-bottom: 0;
+}
+
+.layer_element {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order_box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.price_container {
+    height: 64px;
+    align-items: center;
+}
