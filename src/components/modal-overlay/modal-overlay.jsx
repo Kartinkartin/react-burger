@@ -1,8 +1,8 @@
 import React from "react";
-import "./modal-overlay.css"
+import styles from "./modal-overlay.module.css"
 
 export default function ModalOverlay({ onClick }) {
     return (
-        <div className="overlay" onClick={onClick} />
+        <div className={styles.overlay} onClick={onClick} />
     )
 }

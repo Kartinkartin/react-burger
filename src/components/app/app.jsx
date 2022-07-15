@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -55,12 +55,13 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={styles.page}>
       <AppHeader />
-      <div className='main'>
+      <div className={styles.main}>
         <BurgerIngredients cards={cards} onClick={openIngridientsDetail} />
         <BurgerConstructor cards={cards} onClick={openOrderDetails} />
       </div>
+      <div id="modals"></div>
       { openingOrder && 
         <Modal title=' ' onClose={closePopup}>
           <OrderDetails />

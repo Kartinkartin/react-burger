@@ -1,6 +1,7 @@
 .ingridients {
     width: 600px;
-    
+    overflow: hidden;
+    height: 900px;
 }
 
 .menu {

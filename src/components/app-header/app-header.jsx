@@ -10,7 +10,7 @@ import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function AppHeader() {
     return (
-        <section className={styles.header + ' ' + 'p-4'}>            
+        <header className={styles.header + ' ' + 'p-4'}>            
             <div className={styles.button + ' ' + 'pl-5 pr-5' }>
                 <BurgerIcon />
                 <p className="text text_type_main-default ml-2">Конструктор</p>
@@ -26,6 +26,6 @@ export default function AppHeader() {
                 <ProfileIcon />
                 <p className="text text_type_main-default ml-2">Личный кабинет</p>
             </div>
-        </section>
+        </header>
     )
 }

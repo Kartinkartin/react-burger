@@ -1,6 +1,6 @@
 .header {
     background-color: #131316;
-    width: 1920px;
+    max-width: 1280px;
     height: 88px;
     box-sizing: border-box;
     display: flex;

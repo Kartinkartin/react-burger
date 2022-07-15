@@ -4,14 +4,14 @@ import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import './burger-ingredients.css';
+import styles from './burger-ingredients.module.css';
 
 export default function BurgerIngredients( { cards, onClick } ) {
     const [current, setCurrent] = React.useState('one');
     const cardsData = cards;
 
     return(
-        <section className="ingridients">
+        <section className={styles.ingridients}>
             <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
             <div style={{ display: 'flex' }}>
                 <Tab value="one" active={current === 'one'} onClick={setCurrent}>
@@ -39,22 +39,20 @@ BurgerIngredients.propTypes = {
 
 
 function MenuCategory({cards, type, onClick}) {
-    
     const types = {
         bun: 'Булки',
         sauce: 'Соусы',
         main: 'Начинки'
     }
-
     return (
         <>
         <h2 className="title pt-10 pb-6 text text_type_main-medium">{types[type]}</h2>
-        <div className="menu pl-4 pr-4">
+        <div className={styles.menu + " " + "pl-4 pr-4"}>
             {
                 cards.filter(prod => prod.type === type)
-                .map((card,index) => {
+                .map(card => {
                     return(
-                        <Card card={card} key={index} onClick={() => onClick(card)} />
+                        <Card card={card} key={card._id} onClick={() => onClick(card)} />
                     )
                 })
             }
@@ -62,16 +60,25 @@ function MenuCategory({cards, type, onClick}) {
         </>
     )
 }
+MenuCategory.propTypes = {
+    cards: PropTypes.array.isRequired,
+    type: PropTypes.string.isRequired,
+    onClick: PropTypes.func
+}
 
-function Card(props) {
+function Card({ card, onClick }) {
     return(
-      <div className="card" key={props.index} onClick={props.onClick} >
-            <img src={props.card.image} alt={props.card.name} />
-            <p className="text text_type_main-default">{props.card.name}</p>
-            <div className="price_container">
-                <p className="text text_type_main-default pr-1">{props.card.price}</p>
+      <div className={styles.card} key={card._id} onClick={onClick} >
+            <img src={card.image} alt={card.name} />
+            <p className="text text_type_main-default">{card.name}</p>
+            <div className={styles.price_container}>
+                <p className="text text_type_main-default pr-1">{card.price}</p>
                 <CurrencyIcon />
             </div>
       </div>      
     )  
-  }
+}
+Card.propTypes = {
+    card: PropTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired
+}

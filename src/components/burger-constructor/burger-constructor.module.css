@@ -2,7 +2,10 @@
     width: 600px;
     box-sizing: border-box;
 }
-
+.list {
+    height: 660px;
+    overflow-y: scroll;
+}
 .constructor_element {
     display: flex;
     justify-content: flex-end
