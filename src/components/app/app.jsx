@@ -49,7 +49,7 @@ function App() {
     setOpeningDetails(true);
     setElement(card);
   }
-  function closePopup() {
+  function closePopup(e) {
     setOpeningOrder(false);
     setOpeningDetails(false);
   }

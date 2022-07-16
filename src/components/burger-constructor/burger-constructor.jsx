@@ -10,37 +10,36 @@ export default function BurgerConstructor({ cards, onClick }) {
     
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
-            <div className={styles.list}>
-                <div className={styles.constructor_element}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price="1255"
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-                    />
-                </div>
-                <ul className={styles.layers_list + " " + "pt-4"}>
-                    {
-                        cards
-                        .filter(prod => prod.type == 'main')
-                        .map(item => {
-                            return(
-                                <Layer prod={item} key={item._id} />
-                            )
-                        })
-                    }
-                </ul>
-                <div className={styles.constructor_element}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price="1255"
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-                    />
-                </div>
+            <div className={styles.constructor_element}>
+                <ConstructorElement
+                    type="top"
+                    isLocked={true}
+                    text="Краторная булка N-200i (верх)"
+                    price="1255"
+                    thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                />
             </div>
+            <ul className={styles.layers_list + " " + "pt-4 pb-4"}>
+                {
+                    cards
+                    .filter(prod => prod.type == 'main')
+                    .map(item => {
+                        return(
+                            <Layer prod={item} key={item._id} />
+                        )
+                    })
+                }
+            </ul>
+            <div className={styles.constructor_element}>
+                <ConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    text="Краторная булка N-200i (низ)"
+                    price="1255"
+                    thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                />
+            </div>
+
             <div className={styles.order_box + " " + "pt-10 pb-10"}>
                 <div className={"styles.price_container pr-10"}>
                     <span className="text text_type_digits-medium pr-2">610</span>

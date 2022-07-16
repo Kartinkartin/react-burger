@@ -24,7 +24,7 @@ export default function BurgerIngredients( { cards, onClick } ) {
                     Начинки
                 </Tab>
             </div>
-            <div >
+            <div className={styles.menu}>
                 <MenuCategory cards={cardsData} type='bun' onClick={onClick} />
                 <MenuCategory cards={cardsData} type='sauce' onClick={onClick} />
                 <MenuCategory cards={cardsData} type='main' onClick={onClick} />
@@ -46,8 +46,8 @@ function MenuCategory({cards, type, onClick}) {
     }
     return (
         <>
-        <h2 className="title pt-10 pb-6 text text_type_main-medium">{types[type]}</h2>
-        <div className={styles.menu + " " + "pl-4 pr-4"}>
+        <h2 className={styles.title + " pt-10 pb-6 text text_type_main-medium"}>{types[type]}</h2>
+        <div className={styles.category + " " + "pl-4 pr-4"}>
             {
                 cards.filter(prod => prod.type === type)
                 .map(card => {

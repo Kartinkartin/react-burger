@@ -4,12 +4,19 @@ import styles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 
 export default function Modal({ title, children, onClose }) {
-    React.useEffect(() => {
-        document.addEventListener('keydown', onClose)
-        return () => {
-            document.removeEventListener('keydown', onClose);
+    const [isOpen, setIsOpen] = React.useState(true); 
+
+    function onKey(e) {
+        if (e.key==="Escape") { setIsOpen(false); onClose() }
+    }
+    React.useEffect(() => { 
+        if(isOpen) { 
+            document.addEventListener('keydown', onKey)
+            return () => {
+                document.removeEventListener('keydown', onKey);
+            }
         }
-    },[])
+    },[isOpen])
     return ReactDOM.createPortal(
         (<section className={styles.popup}>
             <ModalOverlay onClick={onClose} />
