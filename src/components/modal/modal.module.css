@@ -10,6 +10,9 @@
     position: fixed;
     top: 30%;
     left: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .close_button {
@@ -28,5 +31,6 @@
 .title {
     text-align: left;
     height: 64px;
+    width: 100%;
 }
 
