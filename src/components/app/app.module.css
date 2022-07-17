@@ -1,5 +1,17 @@
-.App {
-  text-align: center;
+.page {
+  padding-top: 41px;
+  padding-bottom: 40px;
+  max-width: 1280px;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  width: 1240px;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 
 .App-logo {

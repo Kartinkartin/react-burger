@@ -1,0 +1,24 @@
+.header {
+    background-color: #131316;
+    max-width: 1280px;
+    height: 88px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 100px;
+}
+
+.button {
+    height: 56px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.logo {
+    margin-left: 112px;
+    margin-right: 290px;
+}
+
