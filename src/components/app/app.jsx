@@ -6,6 +6,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
+import { DataContext } from '../../services/appContext';
 
 
 function App() {
@@ -57,21 +58,23 @@ function App() {
   return (
     <div className={styles.page}>
       <AppHeader />
-      <div className={styles.main}>
-        <BurgerIngredients cards={cards} onClick={openIngridientsDetail} />
-        <BurgerConstructor cards={cards} onClick={openOrderDetails} />
-      </div>
-      <div id="modals"></div>
-      { openingOrder && 
-        <Modal title=' ' onClose={closePopup}>
-          <OrderDetails />
-        </Modal>
-      }
-      { openingDetails && 
-        <Modal title='Детали заказа' onClose={closePopup} element={element}>
-          <IngredientDetail element={element} />
-        </Modal>
-      }
+      <DataContext.Provider value={ {cards, setCards} } >
+        <div className={styles.main}>
+          <BurgerIngredients cards={cards} onClick={openIngridientsDetail} />
+          <BurgerConstructor cards={cards} onClick={openOrderDetails} />
+        </div>
+        <div id="modals"></div>
+        { openingOrder && 
+          <Modal title=' ' onClose={closePopup}>
+            <OrderDetails />
+          </Modal>
+        }
+        { openingDetails && 
+          <Modal title='Детали заказа' onClose={closePopup} element={element}>
+            <IngredientDetail element={element} />
+          </Modal>
+        }
+      </DataContext.Provider>
     </div>
   );
 }

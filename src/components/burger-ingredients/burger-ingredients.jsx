@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from 'prop-types';
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
+import { DataContext } from "../../services/appContext";
 
-export default function BurgerIngredients( { cards, onClick } ) {
+export default function BurgerIngredients( { onClick } ) {
     const [current, setCurrent] = React.useState('one');
+    const {cards} = useContext(DataContext);
     const cardsData = cards;
 
     return(

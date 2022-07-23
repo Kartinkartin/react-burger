@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css"
+import { DataContext } from "../../services/appContext";
 
-export default function BurgerConstructor({ cards, onClick }) {
-    
+export default function BurgerConstructor({ onClick }) {
+    const {cards} = useContext(DataContext);
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
             <div className={styles.constructor_element}>
