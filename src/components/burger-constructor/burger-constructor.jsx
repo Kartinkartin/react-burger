@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,27 +10,32 @@ import { DataContext, OrderContext } from "../../services/appContext";
 export default function BurgerConstructor({ onClick }) {
     const {cards} = useContext(DataContext);
     const { orderList, setOrderList } = useContext(OrderContext);
+    const [bunEl, setBunEl] = React.useState(null);
     const currentOrder = [];
     currentOrder.push( cards.find(el=>el.type==='bun') );
     cards.forEach(el=>{
         if(el.type!='bun') {currentOrder.push(el)}
     })
+    React.useEffect(()=> {
+        setBunEl( cards.find(el=>el.type==='bun') );
+    }, [cards.length]);
     debugger;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
-            <div className={styles.constructor_element}>
-                <ConstructorElement
+            {cards.length ?  
+            <><div className={styles.constructor_element}>
+            <ConstructorElement
                     type="top"
                     isLocked={true}
-                    text="Краторная булка N-200i (верх)"
-                    price="1255"
-                    thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-                />
+                    text={bunEl.name + " (верх)"}
+                    price={bunEl.price}
+                    thumbnail={bunEl.image}
+                /> 
             </div>
             <ul className={styles.layers_list + " " + "pt-4 pb-4"}>
                 {
                     cards
-                    .filter(prod => prod.type == 'main')
+                    .filter(prod => prod.type != 'bun')
                     .map(item => {
                         return(
                             <Layer prod={item} key={item._id} />
@@ -42,9 +47,9 @@ export default function BurgerConstructor({ onClick }) {
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
-                    text="Краторная булка N-200i (низ)"
-                    price="1255"
-                    thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+                    text={bunEl.name + " (низ)"}
+                    price={bunEl.price}
+                    thumbnail={bunEl.image}
                 />
             </div>
 
@@ -57,7 +62,9 @@ export default function BurgerConstructor({ onClick }) {
                     Сделать заказ
                 </Button>
             </div>
-            
+            </>
+        : 'loading'
+    }
         </section>
     )
 }
@@ -67,6 +74,12 @@ BurgerConstructor.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
+function Bun({ item }) {
+    <div className={styles.constructor_element} id={item._id}></div>
+}
+// Bun.propTypes = {
+//     item: PropTypes.object.isRequired
+// }
 function Layer({ prod }) {
     return(
         <li className={styles.layer_element + " " + "pb-4"}>
