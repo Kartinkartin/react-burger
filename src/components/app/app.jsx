@@ -6,7 +6,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
-import { DataContext } from '../../services/appContext';
+import { DataContext, OrderContext } from '../../services/appContext';
 
 
 function App() {
@@ -39,6 +39,7 @@ function App() {
     .catch(err => console.log(`Ошибка: ${err}`))
   }, []);
   
+  const [ orderList, setOrderList ] =React.useState([]);
   const [ openingOrder, setOpeningOrder ] = React.useState(false);
   const [ openingDetails, setOpeningDetails ] = React.useState(false);
   const [ element, setElement ] = React.useState(null);
@@ -59,6 +60,7 @@ function App() {
     <div className={styles.page}>
       <AppHeader />
       <DataContext.Provider value={ {cards, setCards} } >
+        <OrderContext.Provider value={ {orderList, setOrderList} } >
         <div className={styles.main}>
           <BurgerIngredients cards={cards} onClick={openIngridientsDetail} />
           <BurgerConstructor cards={cards} onClick={openOrderDetails} />
@@ -74,6 +76,7 @@ function App() {
             <IngredientDetail element={element} />
           </Modal>
         }
+        </OrderContext.Provider>
       </DataContext.Provider>
     </div>
   );

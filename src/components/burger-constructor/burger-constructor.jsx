@@ -5,10 +5,17 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css"
-import { DataContext } from "../../services/appContext";
+import { DataContext, OrderContext } from "../../services/appContext";
 
 export default function BurgerConstructor({ onClick }) {
     const {cards} = useContext(DataContext);
+    const { orderList, setOrderList } = useContext(OrderContext);
+    const currentOrder = [];
+    currentOrder.push( cards.find(el=>el.type==='bun') );
+    cards.forEach(el=>{
+        if(el.type!='bun') {currentOrder.push(el)}
+    })
+    debugger;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
             <div className={styles.constructor_element}>
