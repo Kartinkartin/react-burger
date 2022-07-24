@@ -7,6 +7,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { DataContext, OrderContext } from '../../services/appContext';
+import { ConfigPost } from '../api/api';
 
 
 function App() {
@@ -22,6 +23,21 @@ function App() {
   async function getCards() {
     return await fetch(`${config.baseUrl}`,{
       headers: config.headers
+    })
+  }
+
+  function checkRes(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Ошибка: ${res.status}`);
+  }
+
+  async function postOrder(orderList) {
+    return await fetch(`${ConfigPost.baseUrl}`, {
+      method: ConfigPost.method,
+      headers: ConfigPost.headers,
+      body: JSON.stringify(orderList)
     })
   }
 
@@ -48,6 +64,7 @@ function App() {
     setOpeningOrder(true)
   }
   function openIngridientsDetail(card) {
+    //туть делать запрос
     setOpeningDetails(true);
     setElement(card);
   }

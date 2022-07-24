@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo, useReducer } from "react";
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,15 +10,37 @@ import { DataContext, OrderContext } from "../../services/appContext";
 export default function BurgerConstructor({ onClick }) {
     const {cards} = useContext(DataContext);
     const { orderList, setOrderList } = useContext(OrderContext);
-    const [bunEl, setBunEl] = React.useState(null);
+    const [bunEl, setBunEl] = React.useState({});
     const currentOrder = [];
     currentOrder.push( cards.find(el=>el.type==='bun') );
     cards.forEach(el=>{
         if(el.type!='bun') {currentOrder.push(el)}
     })
     React.useEffect(()=> {
-        setBunEl( cards.find(el=>el.type==='bun') );
+        if (cards.length) setBunEl( cards.find(el=>el.type==='bun') );
     }, [cards.length]);
+    const [state, dispatch] = useReducer(reducer, {price: 0});
+    function reducer(state, item) {
+        switch (item.type)
+        {
+            case ('bun'): return ({price: state.price + item.price})
+            case ('main'): return ({price: state.price + item.price})
+            case ('sauce'): return ({price: state.price + item.price})
+            default: throw new Error();
+        }
+    }
+
+    useEffect(()=> {
+            if(cards.length){
+                currentOrder.forEach(item => {
+                    dispatch(item)
+                    })
+                setOrderList(currentOrder);
+            }
+        }
+        ,[cards.length]
+    )
+    const totalPrice = state.price;
     debugger;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
@@ -55,7 +77,7 @@ export default function BurgerConstructor({ onClick }) {
 
             <div className={styles.order_box + " " + "pt-10 pb-10"}>
                 <div className={"styles.price_container pr-10"}>
-                    <span className="text text_type_digits-medium pr-2">610</span>
+                    <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
                     <CurrencyIcon />
                 </div>
                 <Button type="primary" size="large" onClick={onClick}>
