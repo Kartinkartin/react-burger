@@ -7,22 +7,16 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { DataContext, OrderContext } from '../../services/appContext';
-import { ConfigPost } from '../api/api';
+import { configGet, configPost } from '../api/api';
 
 
 function App() {
-  const config ={
-    baseUrl: 'https://norma.nomoreparties.space/api/ingredients',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
 
   const [cards, setCards] = React.useState([]);
   
   async function getCards() {
-    return await fetch(`${config.baseUrl}`,{
-      headers: config.headers
+    return await fetch(`${configGet.baseUrl}`,{
+      headers: configGet.headers
     })
   }
 
@@ -34,21 +28,17 @@ function App() {
   }
 
   async function postOrder(orderList) {
-    return await fetch(`${ConfigPost.baseUrl}`, {
-      method: ConfigPost.method,
-      headers: ConfigPost.headers,
-      body: JSON.stringify(orderList)
+    const idList = orderList.map(item => item._id)
+    return await fetch(`${configPost.baseUrl}`, {
+      headers: configPost.headers,
+      method: configPost.method,
+      body: {"ingridients": idList}
     })
   }
 
   React.useEffect(()=>{
     getCards()
-    .then(res=> {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    .then(res => checkRes(res))
     .then(cards => {
       setCards(cards.data);
     })
@@ -61,10 +51,11 @@ function App() {
   const [ element, setElement ] = React.useState(null);
 
   function openOrderDetails() {
+    postOrder(orderList)
+    .then(res => checkRes(res))//туть делать запрос
     setOpeningOrder(true)
   }
   function openIngridientsDetail(card) {
-    //туть делать запрос
     setOpeningDetails(true);
     setElement(card);
   }

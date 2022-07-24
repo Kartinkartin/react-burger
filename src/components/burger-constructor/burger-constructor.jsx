@@ -23,7 +23,7 @@ export default function BurgerConstructor({ onClick }) {
     function reducer(state, item) {
         switch (item.type)
         {
-            case ('bun'): return ({price: state.price + item.price})
+            case ('bun'): return ({price: state.price + (item.price*2)})
             case ('main'): return ({price: state.price + item.price})
             case ('sauce'): return ({price: state.price + item.price})
             default: throw new Error();
@@ -41,7 +41,6 @@ export default function BurgerConstructor({ onClick }) {
         ,[cards.length]
     )
     const totalPrice = state.price;
-    debugger;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
             {cards.length ?  
