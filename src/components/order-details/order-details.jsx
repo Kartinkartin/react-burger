@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import doneImage from '../../images/done.jpg';
 
-export default function OrderDetails() {
+export default function OrderDetails({number}) {
     return(
         <>
             <p className="text text_type_digits-large pb-8">
-                034536
+                {number}
             </p>
             <p className=" text text_type_main-medium">
                 идентификатор заказа
@@ -19,4 +20,8 @@ export default function OrderDetails() {
             </p>
         </>
     )
+}
+
+OrderDetails.propTypes = {
+    number: PropTypes.number.isRequired
 }

@@ -28,7 +28,7 @@ function App() {
   }
 
   async function postOrder(orderList) {
-    const idList ={ "ingridients": orderList.map(item => item._id) }
+    const idList ={ "ingredients": orderList.map(item => item._id) }
     return await fetch(`${configPost.baseUrl}`, {
       headers: configPost.headers,
       method: configPost.method,
@@ -45,15 +45,20 @@ function App() {
     .catch(err => console.log(`Ошибка: ${err}`))
   }, []);
   
-  const [ orderList, setOrderList ] =React.useState([]);
+  const [ orderList, setOrderList ] = React.useState([]);
+  const [ orderNumber, setOrderNumber ] = React.useState('');
   const [ openingOrder, setOpeningOrder ] = React.useState(false);
   const [ openingDetails, setOpeningDetails ] = React.useState(false);
   const [ element, setElement ] = React.useState(null);
 
   function openOrderDetails() {
     postOrder(orderList)
-    .then(res => checkRes(res))//туть делать запрос
-    setOpeningOrder(true)
+    .then(res => checkRes(res))
+    .then(data => {
+      setOrderNumber(data.order.number);
+      setOpeningOrder(true);
+    })
+    .catch(err => {throw err});
   }
   function openIngridientsDetail(card) {
     setOpeningDetails(true);
@@ -75,8 +80,8 @@ function App() {
         </div>
         <div id="modals"></div>
         { openingOrder && 
-          <Modal title=' ' onClose={closePopup}>
-            <OrderDetails />
+          <Modal title=' ' onClose={closePopup} number={orderNumber}>
+            <OrderDetails number={orderNumber}/>
           </Modal>
         }
         { openingDetails && 
