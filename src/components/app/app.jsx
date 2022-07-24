@@ -28,11 +28,11 @@ function App() {
   }
 
   async function postOrder(orderList) {
-    const idList = orderList.map(item => item._id)
+    const idList ={ "ingridients": orderList.map(item => item._id) }
     return await fetch(`${configPost.baseUrl}`, {
       headers: configPost.headers,
       method: configPost.method,
-      body: {"ingridients": idList}
+      body:JSON.stringify(idList)
     })
   }
 
