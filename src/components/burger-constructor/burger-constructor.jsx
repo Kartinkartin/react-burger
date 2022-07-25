@@ -12,7 +12,7 @@ export default function BurgerConstructor({ onClick }) {
     const { setOrderList } = useContext(OrderContext);
     const [bunEl, setBunEl] = React.useState({});
     const currentOrder = [];
-    currentOrder.push( cards.find(el=>el.type==='bun') );
+    currentOrder.push( useMemo(() => {return cards.find(el=>el.type==='bun')}, [cards] ));
     useMemo(() => {
         return cards.forEach(el=>{
         if(el.type!='bun') {currentOrder.push(el)}
