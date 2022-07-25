@@ -9,13 +9,14 @@ import { DataContext, OrderContext } from "../../services/appContext";
 
 export default function BurgerConstructor({ onClick }) {
     const {cards} = useContext(DataContext);
-    const { orderList, setOrderList } = useContext(OrderContext);
+    const { setOrderList } = useContext(OrderContext);
     const [bunEl, setBunEl] = React.useState({});
     const currentOrder = [];
     currentOrder.push( cards.find(el=>el.type==='bun') );
-    cards.forEach(el=>{
+    useMemo(() => {
+        return cards.forEach(el=>{
         if(el.type!='bun') {currentOrder.push(el)}
-    })
+    })}, [cards])
     React.useEffect(()=> {
         if (cards.length) setBunEl( cards.find(el=>el.type==='bun') );
     }, [cards.length]);
@@ -91,16 +92,8 @@ export default function BurgerConstructor({ onClick }) {
 }
 
 BurgerConstructor.propTypes = {
-    cards: PropTypes.array.isRequired,
     onClick: PropTypes.func.isRequired,
 }
-
-function Bun({ item }) {
-    <div className={styles.constructor_element} id={item._id}></div>
-}
-// Bun.propTypes = {
-//     item: PropTypes.object.isRequired
-// }
 function Layer({ prod }) {
     return(
         <li className={styles.layer_element + " " + "pb-4"}>

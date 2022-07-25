@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { DataContext, OrderContext } from '../../services/appContext';
-import { configGet, configPost } from '../api/api';
+import { config } from '../api/api';
 
 
 function App() {
@@ -15,8 +15,8 @@ function App() {
   const [cards, setCards] = React.useState([]);
   
   async function getCards() {
-    return await fetch(`${configGet.baseUrl}`,{
-      headers: configGet.headers
+    return await fetch(`${config.baseUrl}/ingredients`,{
+      headers: config.headers
     })
   }
 
@@ -29,9 +29,9 @@ function App() {
 
   async function postOrder(orderList) {
     const idList ={ "ingredients": orderList.map(item => item._id) }
-    return await fetch(`${configPost.baseUrl}`, {
-      headers: configPost.headers,
-      method: configPost.method,
+    return await fetch(`${config.baseUrl}/orders`, {
+      headers: config.headers,
+      method: 'POST',
       body:JSON.stringify(idList)
     })
   }
@@ -58,7 +58,7 @@ function App() {
       setOrderNumber(data.order.number);
       setOpeningOrder(true);
     })
-    .catch(err => {throw err});
+    .catch(err => console.log(`Ошибка: ${err}`));
   }
   function openIngridientsDetail(card) {
     setOpeningDetails(true);
@@ -75,10 +75,9 @@ function App() {
       <DataContext.Provider value={ {cards, setCards} } >
         <OrderContext.Provider value={ {orderList, setOrderList} } >
         <div className={styles.main}>
-          <BurgerIngredients cards={cards} onClick={openIngridientsDetail} />
-          <BurgerConstructor cards={cards} onClick={openOrderDetails} />
+          <BurgerIngredients onClick={openIngridientsDetail} />
+          <BurgerConstructor onClick={openOrderDetails} />
         </div>
-        <div id="modals"></div>
         { openingOrder && 
           <Modal title=' ' onClose={closePopup} number={orderNumber}>
             <OrderDetails number={orderNumber}/>
