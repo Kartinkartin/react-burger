@@ -7,6 +7,8 @@ import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 
+import { rootReducer } from './services/actions';
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -16,7 +18,7 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-//const store = createStore(rootReducer, enhancer); 
+const store = createStore(rootReducer, enhancer); 
  
 
 const root = ReactDOM.createRoot(
