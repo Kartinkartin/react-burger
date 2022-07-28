@@ -6,7 +6,7 @@ export const config = {
 }
 
 
-export async function getCards() {
+export async function getCardsRequest() {
   return await fetch(`${config.baseUrl}/ingredients`,{
     headers: config.headers
   })
@@ -17,4 +17,14 @@ export function checkRes(res) {
     return res.json();
   }
   return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+
+export async function postOrderRequest(orderList) {
+  const idList ={ "ingredients": orderList.map(item => item._id) }
+  return await fetch(`${config.baseUrl}/orders`, {
+    headers: config.headers,
+    method: 'POST',
+    body:JSON.stringify(idList)
+  })
 }

@@ -1,4 +1,4 @@
-import { checkRes, getCards } from "../../components/api/api";
+import { checkRes, getCards, getCardsRequest, postOrderRequest } from "../../components/api/api";
 
 export const GET_API_ITEMS_REQUEST = 'GET_API_ITEMS_REQUEST';
 export const GET_API_ITEMS_SUCCESS = 'GET_API_ITEMS_SUCCESS';
@@ -7,6 +7,11 @@ export const GET_API_ITEMS_FAILED = 'GET_API_ITEMS_FAILED';
 export const GET_CONSTRUCTOR_ITEMS_REQUEST = 'GET_CONSTRUCTOR_ITEMS_REQUEST';
 export const GET_CONSTRUCTOR_ITEMS_SUCCESS = 'GET_CONSTRUCTOR_ITEMS_SUCCESS';
 export const GET_CONSTRUCTOR_ITEMS_FAILED = 'GET_CONSTRUCTOR_ITEMS_FAILED';
+export const GET_CONSTRUCTOR_ITEMS = 'GET_CONSTRUCTOR_ITEMS';
+
+export const POST_CONSTRUCTOR_ITEMS_REQUEST = 'GET_CONSTRUCTOR_ITEMS_REQUEST';
+export const POST_CONSTRUCTOR_ITEMS_SUCCESS = 'GET_CONSTRUCTOR_ITEMS_SUCCESS';
+export const POST_CONSTRUCTOR_ITEMS_FAILED = 'GET_CONSTRUCTOR_ITEMS_FAILED';
 
 export const GET_INFO_CHOSEN_INGREDIENT = 'GET_INFO_CHOSEN_INGREDIENT';
 export const DELETE_INFO_CHOSEN_INGREDIENT = 'DELETE_INFO_CHOSEN_INGREDIENT';
@@ -18,7 +23,7 @@ export function getApiItems() {
         dispatch({
         type: GET_API_ITEMS_REQUEST
         });
-        getCards()
+        getCardsRequest()
         .then(res => checkRes(res))
         .then(res => {
         if (res && res.success) {
@@ -38,4 +43,31 @@ export function getApiItems() {
             });
         })
     };
-  }
+}
+
+export const postOrder = () => {
+    return function (dispatch) {
+        dispatch({
+            type: POST_CONSTRUCTOR_ITEMS_REQUEST
+        });
+        postOrderRequest()
+        .then(res => checkRes(res))
+        .then(res => {
+            if (res && res.success) {
+                dispatch({
+                type: POST_CONSTRUCTOR_ITEMS_SUCCESS,
+                number: res.order.number
+                });
+            } else {
+                dispatch({
+                type: POST_CONSTRUCTOR_ITEMS_FAILED
+                });
+            }
+            })
+        .catch(err => {
+            dispatch({
+                type: POST_CONSTRUCTOR_ITEMS_FAILED
+            });
+        })
+    }
+}

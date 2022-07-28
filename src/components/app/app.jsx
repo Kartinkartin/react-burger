@@ -7,7 +7,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { DataContext, OrderContext } from '../../services/appContext';
-import { config, getCards, checkRes } from '../api/api';
+import { config, getCards, checkRes, postOrderRequest } from '../api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApiItems } from '../../services/actions';
 
@@ -19,14 +19,7 @@ function App() {
   const apiItems = useSelector(store => store.ingredientsApi) 
   
   const [cards, setCards] = React.useState([]);
-  async function postOrder(orderList) {
-    const idList ={ "ingredients": orderList.map(item => item._id) }
-    return await fetch(`${config.baseUrl}/orders`, {
-      headers: config.headers,
-      method: 'POST',
-      body:JSON.stringify(idList)
-    })
-  }
+  
 
   // React.useEffect(()=>{
   //   getCards()
@@ -43,12 +36,25 @@ function App() {
   
   const [ orderList, setOrderList ] = React.useState([]);
   const [ orderNumber, setOrderNumber ] = React.useState('');
+
+  const orderNum = useSelector(store=>store.order.number);
+
   const [ openingOrder, setOpeningOrder ] = React.useState(false);
   const [ openingDetails, setOpeningDetails ] = React.useState(false);
   const [ element, setElement ] = React.useState(null);
 
+  // function openOrderDetails() {
+  //   postOrderRequest(orderList)
+  //   .then(res => checkRes(res))
+  //   .then(data => {
+  //     setOrderNumber(data.order.number);
+  //     setOpeningOrder(true);
+  //   })
+  //   .catch(err => console.log(`Ошибка: ${err}`));
+  // }
+
   function openOrderDetails() {
-    postOrder(orderList)
+    postOrderRequest(orderList)
     .then(res => checkRes(res))
     .then(data => {
       setOrderNumber(data.order.number);
@@ -56,6 +62,7 @@ function App() {
     })
     .catch(err => console.log(`Ошибка: ${err}`));
   }
+
   function openIngridientsDetail(card) {
     setOpeningDetails(true);
     setElement(card);

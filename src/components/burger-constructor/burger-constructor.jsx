@@ -6,21 +6,26 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css"
 import { DataContext, OrderContext } from "../../services/appContext";
+import { useDispatch, useSelector } from "react-redux";
+import { GET_CONSTRUCTOR_ITEMS } from "../../services/actions";
 
 export default function BurgerConstructor({ onClick }) {
+    const dispatch = useDispatch();
+    const items = useSelector(store => store.ingredientsApi);
+    const ingredientsConstructor = useSelector(store=> store.ingredientsConstructor);
     const {cards} = useContext(DataContext);
     const { setOrderList } = useContext(OrderContext);
     const [bunEl, setBunEl] = React.useState({});
     const currentOrder = [];
-    currentOrder.push( useMemo(() => {return cards.find(el=>el.type==='bun')}, [cards] ));
+    currentOrder.push( useMemo(() => {return items.find(el=>el.type==='bun')}, [items] ));
     useMemo(() => {
-        return cards.forEach(el=>{
+        return items.forEach(el=>{
         if(el.type!='bun') {currentOrder.push(el)}
-    })}, [cards])
+    })}, [items])
     React.useEffect(()=> {
-        if (cards.length) setBunEl( cards.find(el=>el.type==='bun') );
-    }, [cards.length]);
-    const [state, dispatch] = useReducer(reducer, {price: 0});
+        if (items.length) setBunEl( items.find(el=>el.type==='bun') );
+    }, [items.length]);
+    const [state, dispatchPrice] = useReducer(reducer, {price: 0});
     function reducer(state, item) {
         switch (item.type)
         {
@@ -32,19 +37,33 @@ export default function BurgerConstructor({ onClick }) {
     }
 
     useEffect(()=> {
-            if(cards.length){
-                currentOrder.forEach(item => {
-                    dispatch(item)
-                    })
-                setOrderList(currentOrder);
-            }
+        if(items.length){
+            currentOrder.forEach(item => {
+                dispatchPrice(item)
+                })
+            setOrderList(currentOrder);
+            dispatch({
+                type: GET_CONSTRUCTOR_ITEMS,
+                items: currentOrder
+            })
         }
-        ,[cards.length]
+    }
+    ,[items.length]
     )
+    // useEffect(()=> {
+    //         if(items.length){
+    //             currentOrder.forEach(item => {
+    //                 dispatch(item)
+    //                 })
+    //             setOrderList(currentOrder);
+    //         }
+    //     }
+    //     ,[items.length]
+    // )
     const totalPrice = state.price;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
-            {cards.length ?  
+            {items.length ?  
             <><div className={styles.constructor_element}>
             <ConstructorElement
                     type="top"
@@ -56,7 +75,7 @@ export default function BurgerConstructor({ onClick }) {
             </div>
             <ul className={styles.layers_list + " " + "pt-4 pb-4"}>
                 {
-                    cards
+                    items
                     .filter(prod => prod.type != 'bun')
                     .map(item => {
                         return(
