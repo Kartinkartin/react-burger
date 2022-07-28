@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -7,26 +7,18 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { DataContext, OrderContext } from '../../services/appContext';
-import { config } from '../api/api';
+import { config, getCards, checkRes } from '../api/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { getApiItems } from '../../services/actions';
+
 
 
 function App() {
 
-  const [cards, setCards] = React.useState([]);
+  const dispatch = useDispatch();
+  const apiItems = useSelector(store => store.ingredientsApi) 
   
-  async function getCards() {
-    return await fetch(`${config.baseUrl}/ingredients`,{
-      headers: config.headers
-    })
-  }
-
-  function checkRes(res) {
-    if (res.ok) {
-      return res.json();
-    }
-    return Promise.reject(`Ошибка: ${res.status}`);
-  }
-
+  const [cards, setCards] = React.useState([]);
   async function postOrder(orderList) {
     const idList ={ "ingredients": orderList.map(item => item._id) }
     return await fetch(`${config.baseUrl}/orders`, {
@@ -36,14 +28,18 @@ function App() {
     })
   }
 
-  React.useEffect(()=>{
-    getCards()
-    .then(res => checkRes(res))
-    .then(cards => {
-      setCards(cards.data);
-    })
-    .catch(err => console.log(`Ошибка: ${err}`))
-  }, []);
+  // React.useEffect(()=>{
+  //   getCards()
+  //   .then(res => checkRes(res))
+  //   .then(cards => {
+  //     setCards(cards.data);
+  //   })
+  //   .catch(err => console.log(`Ошибка: ${err}`))
+  // }, []);
+
+  useEffect(() => {
+    dispatch(getApiItems())
+  }, [dispatch])
   
   const [ orderList, setOrderList ] = React.useState([]);
   const [ orderNumber, setOrderNumber ] = React.useState('');

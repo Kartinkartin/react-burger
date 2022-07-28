@@ -4,3 +4,17 @@ export const config = {
     'Content-Type': 'application/json'
   }
 }
+
+
+export async function getCards() {
+  return await fetch(`${config.baseUrl}/ingredients`,{
+    headers: config.headers
+  })
+}
+
+export function checkRes(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
