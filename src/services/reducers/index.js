@@ -8,7 +8,8 @@ import { GET_API_ITEMS_REQUEST,
         GET_INFO_CHOSEN_INGREDIENT,
         DELETE_INFO_CHOSEN_INGREDIENT,
         GET_ORDER_NUMBER,
-        GET_CONSTRUCTOR_ITEMS } from "../actions"
+        GET_CONSTRUCTOR_ITEMS, 
+        POST_CONSTRUCTOR_ITEMS_SUCCESS} from "../actions"
 
 export const initialState = {
     ingredientsApi: [],
@@ -37,6 +38,15 @@ export const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 ingredientsConstructor: action.items
+            }
+        }
+        case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    number: action.number,
+                }
             }
         }
         default: {

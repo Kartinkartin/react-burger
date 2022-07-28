@@ -9,7 +9,7 @@ import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { DataContext, OrderContext } from '../../services/appContext';
 import { config, getCards, checkRes, postOrderRequest } from '../api/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { getApiItems } from '../../services/actions';
+import { getApiItems, postOrder } from '../../services/actions';
 
 
 
@@ -38,6 +38,7 @@ function App() {
   const [ orderNumber, setOrderNumber ] = React.useState('');
 
   const orderNum = useSelector(store=>store.order.number);
+  const orderItems = useSelector(store => store.ingredientsConstructor)
 
   const [ openingOrder, setOpeningOrder ] = React.useState(false);
   const [ openingDetails, setOpeningDetails ] = React.useState(false);
@@ -54,13 +55,9 @@ function App() {
   // }
 
   function openOrderDetails() {
-    postOrderRequest(orderList)
-    .then(res => checkRes(res))
-    .then(data => {
-      setOrderNumber(data.order.number);
-      setOpeningOrder(true);
-    })
-    .catch(err => console.log(`Ошибка: ${err}`));
+    dispatch(postOrder(orderItems));
+    setOpeningOrder(true);
+  
   }
 
   function openIngridientsDetail(card) {
@@ -82,8 +79,8 @@ function App() {
           <BurgerConstructor onClick={openOrderDetails} />
         </div>
         { openingOrder && 
-          <Modal title=' ' onClose={closePopup} number={orderNumber}>
-            <OrderDetails number={orderNumber}/>
+          <Modal title=' ' onClose={closePopup} number={orderNum}>
+            <OrderDetails number={orderNum}/>
           </Modal>
         }
         { openingDetails && 
@@ -96,5 +93,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
