@@ -13,7 +13,9 @@ export const initialState = {
     ingredientsApi: [],
     ingredientsConstructor: [],
     chosenIngredient: {},
-    order: {}
+    order: {
+        number: 0
+    }
 }
 
 export const rootReducer = (state=initialState, action) => {

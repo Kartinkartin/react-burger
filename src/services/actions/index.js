@@ -1,4 +1,4 @@
-import { getCards } from "../../components/api/api";
+import { checkRes, getCards } from "../../components/api/api";
 
 export const GET_API_ITEMS_REQUEST = 'GET_API_ITEMS_REQUEST';
 export const GET_API_ITEMS_SUCCESS = 'GET_API_ITEMS_SUCCESS';
@@ -19,6 +19,7 @@ export function getApiItems() {
         type: GET_API_ITEMS_REQUEST
         });
         getCards()
+        .then(res => checkRes(res))
         .then(res => {
         if (res && res.success) {
             dispatch({
