@@ -1,17 +1,12 @@
-const initialState = {
-    ingredientsGetted: [],
-    ingredientsConstructor: [],
-    chosenIngredient: {},
-    order: {}
-}
+export const GET_API_ITEMS_REQUEST = 'GET_API_ITEMS_REQUEST';
+export const GET_API_ITEMS_SUCCESS = 'GET_API_ITEMS_SUCCESS';
+export const GET_API_ITEMS_FAILED = 'GET_API_ITEMS_FAILED';
 
-export const rootReducer = (state, action) => {
-    switch (action.type) {
-        case 1: {
-            return state
-        }
-        default: {
-            return state
-        }
-    }
-}
+export const GET_CONSTRUCTOR_ITEMS_REQUEST = 'GET_CONSTRUCTOR_ITEMS_REQUEST';
+export const GET_CONSTRUCTOR_ITEMS_SUCCESS = 'GET_CONSTRUCTOR_ITEMS_SUCCESS';
+export const GET_CONSTRUCTOR_ITEMS_FAILED = 'GET_CONSTRUCTOR_ITEMS_FAILED';
+
+export const GET_INFO_CHOSEN_INGREDIENT = 'GET_INFO_CHOSEN_INGREDIENT';
+export const DELETE_INFO_CHOSEN_INGREDIENT = 'DELETE_INFO_CHOSEN_INGREDIENT';
+
+export const GET_ORDER_NUMBER = 'GET_ORDER_NUMBER';

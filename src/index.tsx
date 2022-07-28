@@ -7,7 +7,7 @@ import './index.css';
 import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 
-import { rootReducer } from './services/actions';
+import { rootReducer } from './services/reducers';
 
 declare global {
   interface Window {
