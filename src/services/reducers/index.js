@@ -1,3 +1,4 @@
+import { act } from "react-dom/test-utils"
 import { bindActionCreators } from "redux"
 import { GET_API_ITEMS_REQUEST,
         GET_API_ITEMS_SUCCESS,
@@ -47,6 +48,18 @@ export const rootReducer = (state=initialState, action) => {
                     ...state.order,
                     number: action.number,
                 }
+            }
+        }
+        case GET_INFO_CHOSEN_INGREDIENT: {
+            return {
+                ...state,
+                chosenIngredient: action.item
+            }
+        }
+        case DELETE_INFO_CHOSEN_INGREDIENT: {
+            return {
+                ...state,
+                chosenIngredient: {}
             }
         }
         default: {

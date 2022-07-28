@@ -1,18 +1,15 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import PropTypes from 'prop-types';
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import { DataContext } from "../../services/appContext";
 import { useSelector } from "react-redux";
 
 export default function BurgerIngredients( { onClick } ) {
     const items = useSelector(store => store.ingredientsApi)
     const [current, setCurrent] = React.useState('one');
-    const {cards} = useContext(DataContext);
-    const cardsData = cards;
 
     return(
         <section className={styles.ingridients}>

@@ -5,7 +5,6 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css"
-import { DataContext, OrderContext } from "../../services/appContext";
 import { useDispatch, useSelector } from "react-redux";
 import { GET_CONSTRUCTOR_ITEMS } from "../../services/actions";
 
@@ -13,8 +12,6 @@ export default function BurgerConstructor({ onClick }) {
     const dispatch = useDispatch();
     const items = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store=> store.ingredientsConstructor);
-    const {cards} = useContext(DataContext);
-    const { setOrderList } = useContext(OrderContext);
     const [bunEl, setBunEl] = React.useState({});
     const currentOrder = [];
     currentOrder.push( useMemo(() => {return items.find(el=>el.type==='bun')}, [items] ));
@@ -40,8 +37,7 @@ export default function BurgerConstructor({ onClick }) {
         if(items.length){
             currentOrder.forEach(item => {
                 dispatchPrice(item)
-                })
-            setOrderList(currentOrder);
+            })
             dispatch({
                 type: GET_CONSTRUCTOR_ITEMS,
                 items: currentOrder
@@ -50,16 +46,7 @@ export default function BurgerConstructor({ onClick }) {
     }
     ,[items.length]
     )
-    // useEffect(()=> {
-    //         if(items.length){
-    //             currentOrder.forEach(item => {
-    //                 dispatch(item)
-    //                 })
-    //             setOrderList(currentOrder);
-    //         }
-    //     }
-    //     ,[items.length]
-    // )
+
     const totalPrice = state.price;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
