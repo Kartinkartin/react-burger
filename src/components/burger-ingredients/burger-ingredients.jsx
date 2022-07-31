@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { useSelector } from "react-redux";
 import { Ingredient } from "../ingredient/ingredient";
 
 export default function BurgerIngredients( { onClick } ) {
-    const items = useSelector(store => store.ingredientsApi)
+    const items = useSelector(store => store.ingredientsApi);
+    const counter = useSelector(store => store.counter);
     const [current, setCurrent] = React.useState('one');
     const sectionRef = useRef();
     const tabsRef = useRef();
@@ -79,7 +80,11 @@ function MenuCategory({cards, type, refer, onClick}) {
                 useMemo(() => {return cards.filter(prod => prod.type === type)
                 .map(card => {
                     return(
-                        <Ingredient card={card} key={card._id} onClick={() => onClick(card)} />
+                        <>
+                        <Ingredient card={card} key={card._id} onClick={() => onClick(card)} >
+                        <Counter count={1} size="default" />
+                        </Ingredient>
+                        </>
                     )
                 })}, [cards])
             }

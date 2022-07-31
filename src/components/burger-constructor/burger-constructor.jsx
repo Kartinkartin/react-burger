@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useReducer } from "react";
 import { useDrop } from "react-dnd";
 import PropTypes from 'prop-types';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -16,13 +16,9 @@ export default function BurgerConstructor({ onClick }) {
     const dispatch = useDispatch();
     const items = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store=> store.ingredientsConstructor);
+    
     const [bunEl, setBunEl] = React.useState({});
-    const currentOrder = [];
-    currentOrder.push( useMemo(() => {return items.find(el=>el.type==='bun')}, [items] ));
-    // useMemo(() => {
-    //     return items.forEach(el=>{
-    //     if(el.type!='bun') {currentOrder.push(el)}
-    // })}, [items])
+    const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type != 'bun')
 
     const [ ,targetDrop] = useDrop({
         accept: 'item',
@@ -45,8 +41,9 @@ export default function BurgerConstructor({ onClick }) {
     }
 
     useEffect(()=> {
-        if (items.length) setBunEl( items.find(el=>el.type==='bun') );
-    }, [items.length]);
+        if (ingredientsConstructor.length) setBunEl( ingredientsConstructor.find(el=>el.type==='bun') ? ingredientsConstructor.find(el=>el.type==='bun') : {});
+    }, [ingredientsConstructor.length, ingredientsConstructor]);
+
     const [state, dispatchPrice] = useReducer(reducer, {price: 0});
     function reducer(state, item) {
         switch (item.type)
@@ -63,13 +60,9 @@ export default function BurgerConstructor({ onClick }) {
             ingredientsConstructor.forEach(item => {
                 dispatchPrice(item)
             })
-            // dispatch({
-            //     type: GET_CONSTRUCTOR_ITEMS,
-            //     items: currentOrder
-            // })
         }
     }
-    ,[items.length]
+    ,[ingredientsConstructor.length]
     )
 
     const totalPrice = state.price;
@@ -77,6 +70,7 @@ export default function BurgerConstructor({ onClick }) {
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'} ref={targetDrop}>
             {items.length && ingredientsConstructor.length ?  
             <>
+            { bunEl.name &&
             <div className={styles.constructor_element} >
                 <ConstructorElement
                         type="top"
@@ -85,18 +79,19 @@ export default function BurgerConstructor({ onClick }) {
                         price={bunEl.price}
                         thumbnail={bunEl.image}
                     /> 
-            </div>
-            <ul className={styles.layers_list + " " + "pt-4 pb-4"} ref={targetDrop}>
-                {
-                    ingredientsConstructor
-                    .filter(prod => prod.type != 'bun')
+            </div>}
+            <ul className={styles.layers_list + " " + "pt-4 pb-4"}>
+                {   notBunsIngredients.length ?
+                    notBunsIngredients
                     .map(item => {
                         return(
-                            <Layer prod={item} key={item._id} />
+                            <Layer prod={item} key={item._id + Math.random().toString(7).slice(2, 7)} /> 
                         )
-                    })
+                    }) :
+                    <p>Добавь еды к булонькам!</p>
                 }
             </ul>
+            { bunEl.name &&
             <div className={styles.constructor_element}>
                 <ConstructorElement
                     type="bottom"
@@ -105,7 +100,7 @@ export default function BurgerConstructor({ onClick }) {
                     price={bunEl.price}
                     thumbnail={bunEl.image}
                 />
-            </div>
+            </div>}
 
             <div className={styles.order_box + " " + "pt-10 pb-10"}>
                 <div className={"styles.price_container pr-10"}>

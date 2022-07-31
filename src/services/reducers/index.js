@@ -1,4 +1,5 @@
 import { act } from "react-dom/test-utils"
+import { useSelector } from "react-redux"
 import { bindActionCreators } from "redux"
 import { GET_API_ITEMS_REQUEST,
         GET_API_ITEMS_SUCCESS,
@@ -17,6 +18,7 @@ import { GET_API_ITEMS_REQUEST,
 export const initialState = {
     ingredientsApi: [],
     ingredientsConstructor: [],
+    counter: {},
     chosenIngredient: {},
     order: {
         number: 0
@@ -46,13 +48,27 @@ export const rootReducer = (state=initialState, action) => {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
                 ...state,
-                ingredientsConstructor: state.ingredientsConstructor.concat(action.item)
+                counter: checkExistence(state, action) ?
+                {
+                    ...state.counter,
+                    [action.item._id]:  state.counter[action.item._id] + 1
+                } : {
+                    ...state.counter,
+                    [action.item._id]: 1
+                } ,
+                ingredientsConstructor: state.ingredientsConstructor.concat(action.item),
+                
             }
         }
         case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: {
             return {
                 ...state,
-                ingredientsConstructor: state.ingredientsConstructor.filter( item => (item.type != 'bun')).concat(action.item)
+                ingredientsConstructor: [action.item, ...state.ingredientsConstructor.slice(1)],
+                counter:  
+                {
+                    ...state.counter,
+                }
+                 //Замени булку в счетчике
             }
         }
         case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
@@ -80,4 +96,8 @@ export const rootReducer = (state=initialState, action) => {
             return state
         }
     }
+}
+
+function checkExistence (state, action) {
+    return state.ingredientsConstructor.map(item=>item._id).includes(action.item._id)
 }
