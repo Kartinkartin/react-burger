@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -18,15 +20,10 @@ function App() {
 
   const dispatch = useDispatch();
   const apiItems = useSelector(store => store.ingredientsApi);
-  
-  const [cards, setCards] = React.useState([]);
-  
 
   useEffect(() => {
     dispatch(getApiItems())
   }, [dispatch])
-  
-  const [ orderList, setOrderList ] = React.useState([]);
 
   const orderNum = useSelector(store=>store.order.number);
   const orderItems = useSelector(store => store.ingredientsConstructor)
@@ -60,10 +57,12 @@ function App() {
   return (
     <div className={styles.page}>
       <AppHeader />
-      <div className={styles.main}>
-        <BurgerIngredients onClick={openIngridientsDetail} />
-        <BurgerConstructor onClick={openOrderDetails} />
-      </div>
+      <DndProvider backend={HTML5Backend}>
+        <div className={styles.main}>
+          <BurgerIngredients onClick={openIngridientsDetail} />
+          <BurgerConstructor onClick={openOrderDetails} />
+        </div>
+      </DndProvider>
       { openingOrder && 
         <Modal title=' ' onClose={closePopup} number={orderNum}>
           <OrderDetails number={orderNum}/>

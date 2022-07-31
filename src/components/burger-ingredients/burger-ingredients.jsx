@@ -6,6 +6,7 @@ import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { useSelector } from "react-redux";
+import { Ingredient } from "../ingredient/ingredient";
 
 export default function BurgerIngredients( { onClick } ) {
     const items = useSelector(store => store.ingredientsApi)
@@ -19,7 +20,6 @@ export default function BurgerIngredients( { onClick } ) {
     let delta = 0;
     useEffect(() => {
         if(sectionRef.current) {
-            debugger
             const section = sectionRef.current;
             section.addEventListener("scroll", () => {
                 return delta = bunRef.current.getBoundingClientRect().top - tabsRef.current.getBoundingClientRect().top
@@ -79,7 +79,7 @@ function MenuCategory({cards, type, refer, onClick}) {
                 useMemo(() => {return cards.filter(prod => prod.type === type)
                 .map(card => {
                     return(
-                        <Card card={card} key={card._id} onClick={() => onClick(card)} />
+                        <Ingredient card={card} key={card._id} onClick={() => onClick(card)} />
                     )
                 })}, [cards])
             }
@@ -91,21 +91,4 @@ MenuCategory.propTypes = {
     cards: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
     onClick: PropTypes.func
-}
-
-function Card({ card, onClick }) {
-    return(
-      <div className={styles.card} key={card._id} onClick={onClick} >
-            <img src={card.image} alt={card.name} />
-            <p className="text text_type_main-default">{card.name}</p>
-            <div className={styles.price_container}>
-                <p className="text text_type_main-default pr-1">{card.price}</p>
-                <CurrencyIcon />
-            </div>
-      </div>      
-    )  
-}
-Card.propTypes = {
-    card: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired
 }
