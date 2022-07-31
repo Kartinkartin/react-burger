@@ -10,6 +10,8 @@ import { GET_API_ITEMS_REQUEST,
         DELETE_INFO_CHOSEN_INGREDIENT,
         GET_ORDER_NUMBER,
         GET_CONSTRUCTOR_ITEMS, 
+        ADD_INGREDIENT_TO_CONSTRUCTOR,
+        ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
         POST_CONSTRUCTOR_ITEMS_SUCCESS} from "../actions"
 
 export const initialState = {
@@ -39,6 +41,18 @@ export const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 ingredientsConstructor: action.items
+            }
+        }
+        case ADD_INGREDIENT_TO_CONSTRUCTOR: {
+            return {
+                ...state,
+                ingredientsConstructor: state.ingredientsConstructor.concat(action.item)
+            }
+        }
+        case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: {
+            return {
+                ...state,
+                ingredientsConstructor: state.ingredientsConstructor.filter( item => (item.type != 'bun')).concat(action.item)
             }
         }
         case POST_CONSTRUCTOR_ITEMS_SUCCESS: {

@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useMemo, useReducer } from "react";
+import React, { useEffect, useMemo, useReducer } from "react";
+import { useDrop } from "react-dnd";
 import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,7 +7,10 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css"
 import { useDispatch, useSelector } from "react-redux";
-import { GET_CONSTRUCTOR_ITEMS } from "../../services/actions";
+import { 
+    GET_CONSTRUCTOR_ITEMS, 
+    ADD_INGREDIENT_TO_CONSTRUCTOR, 
+    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR } from "../../services/actions";
 
 export default function BurgerConstructor({ onClick }) {
     const dispatch = useDispatch();
@@ -15,11 +19,32 @@ export default function BurgerConstructor({ onClick }) {
     const [bunEl, setBunEl] = React.useState({});
     const currentOrder = [];
     currentOrder.push( useMemo(() => {return items.find(el=>el.type==='bun')}, [items] ));
-    useMemo(() => {
-        return items.forEach(el=>{
-        if(el.type!='bun') {currentOrder.push(el)}
-    })}, [items])
-    React.useEffect(()=> {
+    // useMemo(() => {
+    //     return items.forEach(el=>{
+    //     if(el.type!='bun') {currentOrder.push(el)}
+    // })}, [items])
+
+    const [ ,targetDrop] = useDrop({
+        accept: 'item',
+        drop(item){
+            item.type === 'bun' ? changeBunInConstructor(item) : addIngredientToConstructor(item)
+        }
+    })
+
+    const addIngredientToConstructor =(prod) => {
+        dispatch({
+            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+            item: prod
+        })
+    }
+    const changeBunInConstructor = (bun) => {
+        dispatch({
+            type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
+            item: bun
+        })
+    }
+
+    useEffect(()=> {
         if (items.length) setBunEl( items.find(el=>el.type==='bun') );
     }, [items.length]);
     const [state, dispatchPrice] = useReducer(reducer, {price: 0});
@@ -35,13 +60,13 @@ export default function BurgerConstructor({ onClick }) {
 
     useEffect(()=> {
         if(items.length){
-            currentOrder.forEach(item => {
+            ingredientsConstructor.forEach(item => {
                 dispatchPrice(item)
             })
-            dispatch({
-                type: GET_CONSTRUCTOR_ITEMS,
-                items: currentOrder
-            })
+            // dispatch({
+            //     type: GET_CONSTRUCTOR_ITEMS,
+            //     items: currentOrder
+            // })
         }
     }
     ,[items.length]
@@ -49,20 +74,21 @@ export default function BurgerConstructor({ onClick }) {
 
     const totalPrice = state.price;
     return(
-        <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'}>
-            {items.length ?  
-            <><div className={styles.constructor_element}>
-            <ConstructorElement
-                    type="top"
-                    isLocked={true}
-                    text={bunEl.name + " (верх)"}
-                    price={bunEl.price}
-                    thumbnail={bunEl.image}
-                /> 
+        <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'} ref={targetDrop}>
+            {items.length && ingredientsConstructor.length ?  
+            <>
+            <div className={styles.constructor_element} >
+                <ConstructorElement
+                        type="top"
+                        isLocked={true}
+                        text={bunEl.name + " (верх)"}
+                        price={bunEl.price}
+                        thumbnail={bunEl.image}
+                    /> 
             </div>
-            <ul className={styles.layers_list + " " + "pt-4 pb-4"}>
+            <ul className={styles.layers_list + " " + "pt-4 pb-4"} ref={targetDrop}>
                 {
-                    items
+                    ingredientsConstructor
                     .filter(prod => prod.type != 'bun')
                     .map(item => {
                         return(
@@ -91,7 +117,7 @@ export default function BurgerConstructor({ onClick }) {
                 </Button>
             </div>
             </>
-        : 'loading'
+        : 'Загрузка или перетащите сюда еду. Потом надо разделить'
     }
         </section>
     )
