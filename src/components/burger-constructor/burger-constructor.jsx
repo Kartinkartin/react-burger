@@ -71,7 +71,7 @@ export default function BurgerConstructor({ onClick }) {
             {items.length && ingredientsConstructor.length ?  
             <>
             { bunEl.name &&
-            <div className={styles.constructor_element} >
+            <div className={styles.constructor_element + " pb-4"} >
                 <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -80,7 +80,7 @@ export default function BurgerConstructor({ onClick }) {
                         thumbnail={bunEl.image}
                     /> 
             </div>}
-            <ul className={styles.layers_list + " " + "pt-4 pb-4"}>
+            <ul className={styles.layers_list}>
                 {   notBunsIngredients.length ?
                     notBunsIngredients
                     .map(item => {
@@ -92,7 +92,7 @@ export default function BurgerConstructor({ onClick }) {
                 }
             </ul>
             { bunEl.name &&
-            <div className={styles.constructor_element}>
+            <div className={styles.constructor_element + " pt-4"}>
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}

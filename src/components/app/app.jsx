@@ -8,11 +8,11 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetail from '../ingredient-detail/ingredient-detail';
-import { DataContext, OrderContext } from '../../services/appContext';
-import { config, getCards, checkRes, postOrderRequest } from '../api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApiItems, postOrder } from '../../services/actions';
-import { GET_INFO_CHOSEN_INGREDIENT, DELETE_INFO_CHOSEN_INGREDIENT } from '../../services/actions';
+import { GET_INFO_CHOSEN_INGREDIENT, 
+        DELETE_INFO_CHOSEN_INGREDIENT, 
+        RESET_ORDER_NUMBER } from '../../services/actions';
 
 
 
@@ -51,6 +51,9 @@ function App() {
     setOpeningDetails(false);
     dispatch({
       type: DELETE_INFO_CHOSEN_INGREDIENT
+    })
+    dispatch({
+      type: RESET_ORDER_NUMBER
     })
   }
 

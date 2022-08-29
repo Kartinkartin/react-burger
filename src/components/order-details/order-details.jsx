@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styles from "./order-details.module.css";
 import doneImage from '../../images/done.jpg';
 
 export default function OrderDetails({number}) {
     return(
         <>
-            <p className="text text_type_digits-large pb-8">
+            <p className={styles.number + " text text_type_digits-large pb-8"}>
                 {number}
             </p>
             <p className=" text text_type_main-medium">

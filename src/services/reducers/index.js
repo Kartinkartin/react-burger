@@ -10,6 +10,7 @@ import { GET_API_ITEMS_REQUEST,
         GET_INFO_CHOSEN_INGREDIENT,
         DELETE_INFO_CHOSEN_INGREDIENT,
         GET_ORDER_NUMBER,
+        RESET_ORDER_NUMBER,
         GET_CONSTRUCTOR_ITEMS, 
         ADD_INGREDIENT_TO_CONSTRUCTOR,
         ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
@@ -21,7 +22,7 @@ export const initialState = {
     counter: {},
     chosenIngredient: {},
     order: {
-        number: 0
+        number: ''
     }
 }
 
@@ -90,6 +91,15 @@ export const rootReducer = (state=initialState, action) => {
             return {
                 ...state,
                 chosenIngredient: {}
+            }
+        }
+        case RESET_ORDER_NUMBER: {
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    number: '',
+                }
             }
         }
         default: {
