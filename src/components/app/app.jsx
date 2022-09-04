@@ -25,7 +25,7 @@ function App() {
     dispatch(getApiItems())
   }, [dispatch])
 
-  const orderNum = useSelector(store=>store.order.number);
+  const orderNum = useSelector(store=>store.order.number).toString();
   const orderItems = useSelector(store => store.ingredientsConstructor)
 
   const [ openingOrder, setOpeningOrder ] = React.useState(false);

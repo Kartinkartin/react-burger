@@ -80,11 +80,7 @@ function MenuCategory({cards, type, refer, onClick}) {
                 useMemo(() => {return cards.filter(prod => prod.type === type)
                 .map(card => {
                     return(
-                        <>
-                        <Ingredient card={card} key={card._id} onClick={() => onClick(card)} >
-                        <Counter count={1} size="default" />
-                        </Ingredient>
-                        </>
+                        <Ingredient card={card} key={card._id} onClick={() => onClick(card)} />
                     )
                 })}, [cards])
             }

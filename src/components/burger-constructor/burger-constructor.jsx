@@ -48,7 +48,7 @@ export default function BurgerConstructor({ onClick }) {
     function reducer(state, item) {
         switch (item.type)
         {
-            case ('bun'): return ({price: state.price + (item.price*2)})
+            case ('bun'): return ({price: state.price + (item.price*2)})//здесь из стоимости надо удалять другую булку, а то они просто плюсуются при замене
             case ('main'): return ({price: state.price + item.price})
             case ('sauce'): return ({price: state.price + item.price})
             default: throw new Error();
@@ -62,7 +62,7 @@ export default function BurgerConstructor({ onClick }) {
             })
         }
     }
-    ,[ingredientsConstructor.length]
+    ,[ingredientsConstructor]
     )
 
     const totalPrice = state.price;
@@ -88,7 +88,7 @@ export default function BurgerConstructor({ onClick }) {
                             <Layer prod={item} key={item._id + Math.random().toString(7).slice(2, 7)} /> 
                         )
                     }) :
-                    <p>Добавь еды к булонькам!</p>
+                    <p>Добавь начинок к булонькам!</p>
                 }
             </ul>
             { bunEl.name &&
@@ -112,7 +112,7 @@ export default function BurgerConstructor({ onClick }) {
                 </Button>
             </div>
             </>
-        : 'Загрузка или перетащите сюда еду. Потом надо разделить'
+            : <p className={ styles.invite + " text text_type_main-default"}> Перетащи сюда ингредиенты для своего бургера </p>
     }
         </section>
     )
