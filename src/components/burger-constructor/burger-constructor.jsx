@@ -51,7 +51,9 @@ export default function BurgerConstructor({ onClick }) {
     function reducer(state, item) {
         switch (item.type)
         {
-            case ('bun'): return ({price: state.price + (item.price*2)})//здесь из стоимости надо удалять другую булку, а то они просто плюсуются при замене
+            case ('bun'): return ( bunEl.price ? 
+                {price: state.price - (bunEl.price*2) + (item.price*2)} : 
+                {price: state.price + (item.price*2)} )
             case ('main'): return ({price: state.price + item.price})
             case ('sauce'): return ({price: state.price + item.price})
             default: throw new Error();
