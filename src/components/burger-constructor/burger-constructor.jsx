@@ -8,7 +8,7 @@ import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css"
 import { useDispatch, useSelector } from "react-redux";
 import { 
-    GET_CONSTRUCTOR_ITEMS, 
+    //GET_CONSTRUCTOR_ITEMS, 
     ADD_INGREDIENT_TO_CONSTRUCTOR, 
     ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR } from "../../services/actions";
 
@@ -22,8 +22,11 @@ export default function BurgerConstructor({ onClick }) {
 
     const [ ,targetDrop] = useDrop({
         accept: 'item',
-        drop(item){
-            item.type === 'bun' ? changeBunInConstructor(item) : addIngredientToConstructor(item)
+        drop(item) {
+            item.type === 'bun' ? 
+            changeBunInConstructor(item) : 
+            addIngredientToConstructor(item);
+            dispatchPrice(item);
         }
     })
 
@@ -54,16 +57,6 @@ export default function BurgerConstructor({ onClick }) {
             default: throw new Error();
         }
     }
-
-    useEffect(()=> {
-        if(items.length){
-            ingredientsConstructor.forEach(item => {
-                dispatchPrice(item)
-            })
-        }
-    }
-    ,[ingredientsConstructor]
-    )
 
     const totalPrice = state.price;
     return(

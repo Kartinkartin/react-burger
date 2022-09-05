@@ -14,7 +14,8 @@ import { GET_API_ITEMS_REQUEST,
         GET_CONSTRUCTOR_ITEMS, 
         ADD_INGREDIENT_TO_CONSTRUCTOR,
         ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-        POST_CONSTRUCTOR_ITEMS_SUCCESS} from "../actions"
+        POST_CONSTRUCTOR_ITEMS_SUCCESS,
+        POST_CONSTRUCTOR_ITEMS_FAILED} from "../actions"
 
 export const initialState = {
     ingredientsApi: [],
@@ -26,7 +27,7 @@ export const initialState = {
     }
 }
 
-export const rootReducer = (state=initialState, action) => {
+const apiItemsReducer = (state=initialState, action) => { //про ингредиенты с сервера
     switch (action.type) {
         case GET_API_ITEMS_REQUEST: {
             return state
@@ -40,7 +41,68 @@ export const rootReducer = (state=initialState, action) => {
         case GET_API_ITEMS_FAILED: {
             return state
         }
-        case GET_CONSTRUCTOR_ITEMS: {
+    }
+};
+
+const constructorReducer = (state=initialState, action) => {
+    switch (action.type) {
+        case ADD_INGREDIENT_TO_CONSTRUCTOR: {
+            return {
+                ...state,
+                counter: checkExistence(state, action) ?
+                {
+                    ...state.counter,
+                    [action.item._id]:  state.counter[action.item._id] + 1
+                } : {
+                    ...state.counter,
+                    [action.item._id]: 1
+                } ,
+                ingredientsConstructor: state.ingredientsConstructor.concat(action.item),
+                
+            }
+        }
+        case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: {
+            return {
+                ...state,
+                ingredientsConstructor: 
+                    state.ingredientsConstructor.filter(item => item.type == 'bun').length ? 
+                    [action.item, ...state.ingredientsConstructor.slice(1)] :
+                    [action.item, ...state.ingredientsConstructor],
+                counter:  
+                {
+                    ...state.counter,
+                }
+                 //Замени булку в счетчике??? булка в счетчике не учитывается
+            }
+        }
+        case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
+            return {
+                ...state,
+                order: {
+                    ...state.order,
+                    number: action.number,
+                }
+            }
+        }
+    }
+};
+
+export const rootReducer = (state=initialState, action) => {
+    switch (action.type) {
+        case GET_API_ITEMS_REQUEST: {
+            return state
+        }
+        case GET_API_ITEMS_SUCCESS: {
+            return {
+                ...state,
+                ingredientsApi: action.items
+            }
+        }
+        case GET_API_ITEMS_FAILED: {
+            console.log(action.error);
+            return {...state}
+        }
+        case GET_CONSTRUCTOR_ITEMS: { //проверить, вроде лишний
             return {
                 ...state,
                 ingredientsConstructor: action.items
@@ -64,7 +126,10 @@ export const rootReducer = (state=initialState, action) => {
         case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: {
             return {
                 ...state,
-                ingredientsConstructor: [action.item, ...state.ingredientsConstructor.slice(1)],
+                ingredientsConstructor: 
+                    state.ingredientsConstructor.filter(item => item.type == 'bun').length ? 
+                    [action.item, ...state.ingredientsConstructor.slice(1)] :
+                    [action.item, ...state.ingredientsConstructor],
                 counter:  
                 {
                     ...state.counter,
@@ -79,6 +144,12 @@ export const rootReducer = (state=initialState, action) => {
                     ...state.order,
                     number: action.number,
                 }
+            }
+        }
+        case POST_CONSTRUCTOR_ITEMS_FAILED: {
+            console.log(action.error);
+            return {
+                ...state
             }
         }
         case GET_INFO_CHOSEN_INGREDIENT: {

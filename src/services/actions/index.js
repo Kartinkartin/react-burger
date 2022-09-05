@@ -29,7 +29,7 @@ export const RESET_ORDER_NUMBER = 'RESET_ORDER_NUMBER';
 export function getApiItems() {
     return function(dispatch) {
         dispatch({
-        type: GET_API_ITEMS_REQUEST
+        type: GET_API_ITEMS_REQUEST //модалка с ожиданием
         });
         getCardsRequest()
         .then(res => checkRes(res))
@@ -41,13 +41,15 @@ export function getApiItems() {
             });
         } else {
             dispatch({
-            type: GET_API_ITEMS_FAILED
+            type: GET_API_ITEMS_FAILED,
+            error: res
             });
         }
         })
         .catch(err => {
         dispatch({
-            type: GET_API_ITEMS_FAILED
+            type: GET_API_ITEMS_FAILED,
+            error: err
             });
         })
     };
@@ -56,7 +58,7 @@ export function getApiItems() {
 export const postOrder = (orderList) => {
     return function (dispatch) {
         dispatch({
-            type: POST_CONSTRUCTOR_ITEMS_REQUEST
+            type: POST_CONSTRUCTOR_ITEMS_REQUEST //модалка с ожиданием
         });
         postOrderRequest(orderList)
         .then(res => checkRes(res))
@@ -68,13 +70,15 @@ export const postOrder = (orderList) => {
                 });
             } else {
                 dispatch({
-                type: POST_CONSTRUCTOR_ITEMS_FAILED
+                type: POST_CONSTRUCTOR_ITEMS_FAILED,
+                error: res 
                 });
             }
             })
         .catch(err => {
             dispatch({
-                type: POST_CONSTRUCTOR_ITEMS_FAILED
+                type: POST_CONSTRUCTOR_ITEMS_FAILED,
+                error: err
             });
         })
     }
