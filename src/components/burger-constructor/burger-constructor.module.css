@@ -35,6 +35,19 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+}
+
+.delete_button {
+    background-color: rgb(240, 240, 240, 0);
+    border: none;
+    padding: 0;
+    height: 24px;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    
 }
 
 .order_box {

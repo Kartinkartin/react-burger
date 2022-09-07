@@ -25,7 +25,7 @@ export function Ingredient({ card, onClick }) {
                 <p className="text text_type_main-default pr-1">{card.price}</p>
                 <CurrencyIcon />
             </div>
-            { counter && <Counter count={counter} size="default" />}
+            { counter ? <Counter count={counter} size="default" />  :  <div count={counter}/> }
       </div>      
     )  
 }

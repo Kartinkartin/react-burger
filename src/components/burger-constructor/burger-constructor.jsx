@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useReducer } from "react";
 import { useDrop } from "react-dnd";
 import PropTypes from 'prop-types';
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,11 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { 
     //GET_CONSTRUCTOR_ITEMS, 
     ADD_INGREDIENT_TO_CONSTRUCTOR, 
-    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR } from "../../services/actions";
+    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
+    DELETE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions";
 
 export default function BurgerConstructor({ onClick }) {
     const dispatch = useDispatch();
-    const items = useSelector(store => store.ingredientsApi);
+    const itemsMenu = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store=> store.ingredientsConstructor);
     
     const [bunEl, setBunEl] = React.useState({});
@@ -42,6 +43,20 @@ export default function BurgerConstructor({ onClick }) {
             item: bun
         })
     }
+    const deleteItem = (e, index) => {
+        //console.log(e.target.closest('li'));
+        const id = notBunsIngredients[index]._id;
+        console.log(notBunsIngredients[index]);
+        console.log( ingredientsConstructor[0].type === 'bun' ? ingredientsConstructor[index+1]: ingredientsConstructor[index]);
+        notBunsIngredients.splice(index, 1);
+        console.log(notBunsIngredients);
+        dispatch({
+            type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+            ingredients: notBunsIngredients,
+            id: id,
+        })
+        debugger
+    };
 
     useEffect(()=> {
         if (ingredientsConstructor.length) setBunEl( ingredientsConstructor.find(el=>el.type==='bun') ? ingredientsConstructor.find(el=>el.type==='bun') : {});
@@ -63,7 +78,7 @@ export default function BurgerConstructor({ onClick }) {
     const totalPrice = state.price;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'} ref={targetDrop}>
-            {items.length && ingredientsConstructor.length ?  
+            {itemsMenu.length && ingredientsConstructor.length ?  
             <>
             { bunEl.name &&
             <div className={styles.constructor_element + " pb-4"} >
@@ -78,9 +93,9 @@ export default function BurgerConstructor({ onClick }) {
             <ul className={styles.layers_list}>
                 {   notBunsIngredients.length ?
                     notBunsIngredients
-                    .map(item => {
+                    .map((item, index) => {
                         return(
-                            <Layer prod={item} key={item._id + Math.random().toString(7).slice(2, 7)} /> 
+                            <Layer prod={item} index={index} key={item._id + Math.random().toString(7).slice(2, 7)} onDelete={deleteItem} /> 
                         )
                     }) :
                     <p>Добавь начинок к булонькам!</p>
@@ -116,15 +131,23 @@ export default function BurgerConstructor({ onClick }) {
 BurgerConstructor.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
-function Layer({ prod }) {
+function Layer({ prod, onDelete ,index }) {
+    const deleteProd = (e) => {
+        console.log(index);
+        onDelete(e, index);
+    }
     return(
-        <li className={styles.layer_element + " " + "pb-4"}>
+        <li className={styles.layer_element + " pb-4"} onClick={deleteProd}>
             <DragIcon />
             <ConstructorElement
                 text={prod.name}
                 price={prod.price}
                 thumbnail={prod.image}
+                
             />
+            <button className={styles.delete_button} >
+                <DeleteIcon type="primary" />
+            </button>
         </li>
     )
 }
