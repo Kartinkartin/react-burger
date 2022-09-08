@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useReducer } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState, useReducer } from "react";
 import { useDrop } from "react-dnd";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
 import { CurrencyIcon, DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css";
 import { Layer } from "../layer/layer";
 
@@ -13,6 +12,7 @@ import {
     //GET_CONSTRUCTOR_ITEMS, 
     ADD_INGREDIENT_TO_CONSTRUCTOR, 
     ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
+    SORT_INGREDIENTS_IN_CONSTRUCTOR,
     DELETE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions";
 
 export default function BurgerConstructor({ onClick }) {
@@ -20,15 +20,34 @@ export default function BurgerConstructor({ onClick }) {
     const itemsMenu = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store=> store.ingredientsConstructor);
     
-    const [bunEl, setBunEl] = React.useState({});
+    const [bunEl, setBunEl] = useState({});
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type != 'bun')
+    const [isSort, setIsSort] = useState(false) ;
+    const [droppedIndex, setdroppedIndex] = useState(false);
+    const [draggedIndex, setdraggedIndex] = useState(false)
 
+    const handleDrag = (draggedTargetIndex) => {
+        setIsSort(true);
+        setdraggedIndex(draggedTargetIndex)
+        console.log(`I'm in handleDrag. isSort value is ${isSort}`)
+    };
+    const handleDrop = (e, droppedTargetIndex) => {
+        e.preventDefault();
+        setdroppedIndex(droppedTargetIndex)
+        console.log(`I'm in handleDrop. droppedIndex value is ${droppedIndex}`)
+    };
+    
     const [ ,targetDrop] = useDrop({
         accept: 'item',
         drop(item) {
-            item.type === 'bun' ? 
-                changeBunInConstructor(item) : 
-                addIngredientToConstructor(item);
+            debugger
+            isSort ? 
+                sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
+                :
+                (item.type === 'bun' ? 
+                    changeBunInConstructor(item) : 
+                    addIngredientToConstructor(item)
+                );
             dispatchPrice(item);
         }
     })
@@ -45,19 +64,29 @@ export default function BurgerConstructor({ onClick }) {
             item: bun
         })
     }
-    const deleteItem = (e, index) => {
-        //console.log(e.target.closest('li'));
+    const sortIngredientsInConstructor = (item, droppedIndex, draggedIndex) => {
+        debugger
+        if(droppedIndex > draggedIndex) {
+            notBunsIngredients.splice(droppedIndex, 0, item)
+                            .splice(draggedIndex, 1)
+        }
+        if(droppedIndex < draggedIndex) {
+            notBunsIngredients.splice(draggedIndex, 1);
+            notBunsIngredients.splice(droppedIndex, 0, item)
+        } 
+        dispatch({
+            type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
+            ingredients: notBunsIngredients
+        })           
+    };
+    const handleDeleteItem = (e, index) => {
         const id = notBunsIngredients[index]._id;
-        // console.log(notBunsIngredients[index]);
-        // console.log( ingredientsConstructor[0].type === 'bun' ? ingredientsConstructor[index+1]: ingredientsConstructor[index]);
         notBunsIngredients.splice(index, 1);
-        //console.log(notBunsIngredients);
         dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
             ingredients: notBunsIngredients,
             id: id,
         })
-        debugger
     };
 
     useEffect(()=> {
@@ -76,7 +105,6 @@ export default function BurgerConstructor({ onClick }) {
             default: throw new Error();
         }
     }
-
     const totalPrice = state.price;
     return(
         <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'} ref={targetDrop}>
@@ -97,10 +125,10 @@ export default function BurgerConstructor({ onClick }) {
                     notBunsIngredients
                     .map((item, index) => {
                         return(
-                            <Layer prod={item} index={index} key={item._id + Math.random().toString(7).slice(2, 7)} onDelete={deleteItem} /> 
+                            <Layer prod={item} index={index} key={item._id + Math.random().toString(7).slice(2, 7)} handleDelete={handleDeleteItem} handleDrag={handleDrag} handleDrop={handleDrop}/> 
                         )
                     }) :
-                    <p>Добавь начинок к булонькам!</p>
+                    <p className={ styles.layers_text + " text text_type_main-default"}>Добавь начинок к булонькам!</p>
                 }
             </ul>
             { bunEl.name &&

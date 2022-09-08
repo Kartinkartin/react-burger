@@ -12,6 +12,7 @@ import { GET_API_ITEMS_REQUEST,
         GET_CONSTRUCTOR_ITEMS, 
         ADD_INGREDIENT_TO_CONSTRUCTOR,
         ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
+        SORT_INGREDIENTS_IN_CONSTRUCTOR,
         DELETE_INGREDIENT_FROM_CONSTRUCTOR,
         POST_CONSTRUCTOR_ITEMS_SUCCESS,
         POST_CONSTRUCTOR_ITEMS_FAILED} from "../actions"
@@ -22,7 +23,7 @@ export const initialState = {
     counter: {},
     chosenIngredient: {},
     order: {
-        number: ''
+        number: '',
     }
 }
 
@@ -72,9 +73,17 @@ export const rootReducer = (state=initialState, action) => {
                     [action.item, ...state.ingredientsConstructor],
             }
         }
+        case SORT_INGREDIENTS_IN_CONSTRUCTOR: {
+            debugger
+            return {
+                ...state,
+                ingredientsConstructor: state.ingredientsConstructor
+                                        .filter(item => item.type==='bun')
+                                        .concat(action.ingredients),
+            }
+        }
         case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {
             if (state.counter[action.id] === 1) {delete state.counter[action.id]};
-            debugger;
             return {
                 ...state,
                 ingredientsConstructor: state.ingredientsConstructor
