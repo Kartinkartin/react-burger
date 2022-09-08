@@ -1,12 +1,14 @@
 import React, { useEffect, useMemo, useReducer } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import PropTypes from 'prop-types';
 import { CurrencyIcon, DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from "./burger-constructor.module.css"
-import { useDispatch, useSelector } from "react-redux";
+import styles from "./burger-constructor.module.css";
+import { Layer } from "../layer/layer";
+
 import { 
     //GET_CONSTRUCTOR_ITEMS, 
     ADD_INGREDIENT_TO_CONSTRUCTOR, 
@@ -25,8 +27,8 @@ export default function BurgerConstructor({ onClick }) {
         accept: 'item',
         drop(item) {
             item.type === 'bun' ? 
-            changeBunInConstructor(item) : 
-            addIngredientToConstructor(item);
+                changeBunInConstructor(item) : 
+                addIngredientToConstructor(item);
             dispatchPrice(item);
         }
     })
@@ -46,10 +48,10 @@ export default function BurgerConstructor({ onClick }) {
     const deleteItem = (e, index) => {
         //console.log(e.target.closest('li'));
         const id = notBunsIngredients[index]._id;
-        console.log(notBunsIngredients[index]);
-        console.log( ingredientsConstructor[0].type === 'bun' ? ingredientsConstructor[index+1]: ingredientsConstructor[index]);
+        // console.log(notBunsIngredients[index]);
+        // console.log( ingredientsConstructor[0].type === 'bun' ? ingredientsConstructor[index+1]: ingredientsConstructor[index]);
         notBunsIngredients.splice(index, 1);
-        console.log(notBunsIngredients);
+        //console.log(notBunsIngredients);
         dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
             ingredients: notBunsIngredients,
@@ -130,28 +132,4 @@ export default function BurgerConstructor({ onClick }) {
 
 BurgerConstructor.propTypes = {
     onClick: PropTypes.func.isRequired,
-}
-function Layer({ prod, onDelete ,index }) {
-    const deleteProd = (e) => {
-        console.log(index);
-        onDelete(e, index);
-    }
-    return(
-        <li className={styles.layer_element + " pb-4"} onClick={deleteProd}>
-            <DragIcon />
-            <ConstructorElement
-                text={prod.name}
-                price={prod.price}
-                thumbnail={prod.image}
-                
-            />
-            <button className={styles.delete_button} >
-                <DeleteIcon type="primary" />
-            </button>
-        </li>
-    )
-}
-
-Layer.propTypes = {
-    prod: PropTypes.object.isRequired
 }
