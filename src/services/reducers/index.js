@@ -74,7 +74,6 @@ export const rootReducer = (state=initialState, action) => {
             }
         }
         case SORT_INGREDIENTS_IN_CONSTRUCTOR: {
-            debugger
             return {
                 ...state,
                 ingredientsConstructor: state.ingredientsConstructor

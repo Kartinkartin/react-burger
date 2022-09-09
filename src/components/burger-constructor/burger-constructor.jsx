@@ -29,32 +29,34 @@ export default function BurgerConstructor({ onClick }) {
     const handleDrag = (draggedTargetIndex) => {
         setIsSort(true);
         setdraggedIndex(draggedTargetIndex)
-        console.log(`I'm in handleDrag. isSort value is ${isSort}`)
     };
     const handleDrop = (e, droppedTargetIndex) => {
         e.preventDefault();
         setdroppedIndex(droppedTargetIndex)
-        console.log(`I'm in handleDrop. droppedIndex value is ${droppedIndex}`)
     };
     
     const [ ,targetDrop] = useDrop({
         accept: 'item',
         drop(item) {
-            debugger
             isSort ? 
                 sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
                 :
-                (item.type === 'bun' ? 
+                (
+                    (item.type === 'bun' ? 
                     changeBunInConstructor(item) : 
-                    addIngredientToConstructor(item)
+                    addIngredientToConstructor(item))
                 );
-            dispatchPrice(item);
+            
         }
     })
 
     const addIngredientToConstructor =(prod) => {
         dispatch({
             type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+            item: prod
+        });
+        dispatchPrice({
+            type: 'increment',
             item: prod
         })
     }
@@ -63,12 +65,15 @@ export default function BurgerConstructor({ onClick }) {
             type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
             item: bun
         })
+        dispatchPrice({
+            type: 'increment',
+            item: bun
+        })
     }
     const sortIngredientsInConstructor = (item, droppedIndex, draggedIndex) => {
-        debugger
         if(droppedIndex > draggedIndex) {
-            notBunsIngredients.splice(droppedIndex, 0, item)
-                            .splice(draggedIndex, 1)
+            notBunsIngredients.splice(droppedIndex+1, 0, item);
+            notBunsIngredients.splice(draggedIndex, 1)
         }
         if(droppedIndex < draggedIndex) {
             notBunsIngredients.splice(draggedIndex, 1);
@@ -77,15 +82,22 @@ export default function BurgerConstructor({ onClick }) {
         dispatch({
             type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
             ingredients: notBunsIngredients
-        })           
+        })    
+        setIsSort(false);
+        setdraggedIndex(false);
+        setdraggedIndex(false);
     };
     const handleDeleteItem = (e, index) => {
         const id = notBunsIngredients[index]._id;
-        notBunsIngredients.splice(index, 1);
+        const item = notBunsIngredients.splice(index, 1)[0];
         dispatch({
             type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
             ingredients: notBunsIngredients,
             id: id,
+        })
+        dispatchPrice({
+            type: 'decrement',
+            item: item
         })
     };
 
@@ -94,14 +106,32 @@ export default function BurgerConstructor({ onClick }) {
     }, [ingredientsConstructor.length, ingredientsConstructor]);
 
     const [state, dispatchPrice] = useReducer(reducer, {price: 0});
-    function reducer(state, item) {
-        switch (item.type)
+    function reducer(state, action) {
+        switch (action.item.type)
         {
             case ('bun'): return ( bunEl.price ? 
-                {price: state.price - (bunEl.price*2) + (item.price*2)} : 
-                {price: state.price + (item.price*2)} )
-            case ('main'): return ({price: state.price + item.price})
-            case ('sauce'): return ({price: state.price + item.price})
+                {price: state.price - (bunEl.price*2) + (action.item.price*2)} : 
+                {price: state.price + (action.item.price*2)} )
+            case ('main'): 
+                switch (action.type) {
+                    case ('increment'): {
+                        return ({price: state.price + action.item.price})
+                    }
+                    case ('decrement'): {
+                        return ({price: state.price - action.item.price})
+                    }
+                    default: throw new Error();
+                }
+            case ('sauce'): 
+            switch (action.type) {
+                case ('increment'): {
+                    return ({price: state.price + action.item.price})
+                }
+                case ('decrement'): {
+                    return ({price: state.price - action.item.price})
+                }
+                default: throw new Error();
+            }
             default: throw new Error();
         }
     }
