@@ -10,40 +10,27 @@ import { Ingredient } from "../ingredient/ingredient";
 
 export default function BurgerIngredients( { onClick } ) {
     const items = useSelector(store => store.ingredientsApi);
-    const counter = useSelector(store => store.counter);
-    const [current, setCurrent] = React.useState('one');
-    const sectionRef = useRef();
-    const tabsRef = useRef();
+    const [current, setCurrent] = React.useState('bun');
+    const containerRef = useRef();
     const bunRef = useRef();
     const mainRef = useRef();
     const sauceRef = useRef();
     const refs = [bunRef, mainRef, sauceRef];
-    let delta = 0;
-    useEffect(() => {
-        if(sectionRef.current) {
-            const section = sectionRef.current;
-            section.addEventListener("scroll", () => {
-                return delta = bunRef.current.getBoundingClientRect().top - tabsRef.current.getBoundingClientRect().top
-            });
-            
-        }
-    }, [sectionRef])
-    useEffect(()=> {
-        if(bunRef.current) {
-            const positions= refs.map(item => {
-                return Math.abs(item.current.getBoundingClientRect().top - tabsRef.current.getBoundingClientRect().top)
-            })
-            const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
-            const currentSection = currentTabRef.current.textContent;
-        setCurrent(currentSection === 'Булки' ? 'bun' :
-            currentSection === 'Соусы' ? 'sauce' : 'main' )
-        }
-    }, [bunRef.current, delta]) //от туть
+    
 
+    const HightlightTab = (e) => {
+        const positions= refs.map(item => {
+            return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
+        })
+        const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
+        const currentSection = currentTabRef.current.textContent;
+        setCurrent(currentSection === 'Булки' ? 'bun' :
+        currentSection === 'Соусы' ? 'sauce' : 'main' )
+    }
     return(
         <section className={styles.ingridients}>
             <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
-            <div style={{ display: 'flex' }} ref = {tabsRef}>
+            <div style={{ display: 'flex' }}>
                 <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
                     Булки
                 </Tab>
@@ -54,7 +41,7 @@ export default function BurgerIngredients( { onClick } ) {
                     Начинки
                 </Tab>
             </div>
-            <div className={styles.menu} ref={sectionRef}>
+            <div className={styles.menu} ref={containerRef} onScroll={HightlightTab}>
                 <MenuCategory cards={items} type='bun' refer={bunRef} onClick={onClick} />
                 <MenuCategory cards={items} type='sauce' refer={sauceRef} onClick={onClick} />
                 <MenuCategory cards={items} type='main' refer={mainRef} onClick={onClick} />
