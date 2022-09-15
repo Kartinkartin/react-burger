@@ -2,12 +2,8 @@ import { useSelector } from "react-redux"
 import { GET_API_ITEMS_REQUEST,
         GET_API_ITEMS_SUCCESS,
         GET_API_ITEMS_FAILED,
-        GET_CONSTRUCTOR_ITEMS_REQUEST,
-        GET_CONSTRUCTOR_ITEMS_SUCCESS,
-        GET_CONSTRUCTOR_ITEMS_FAILED,
         GET_INFO_CHOSEN_INGREDIENT,
         DELETE_INFO_CHOSEN_INGREDIENT,
-        GET_ORDER_NUMBER,
         RESET_ORDER_NUMBER,
         GET_CONSTRUCTOR_ITEMS, 
         ADD_INGREDIENT_TO_CONSTRUCTOR,
@@ -43,7 +39,7 @@ export const rootReducer = (state=initialState, action) => {
             console.log(action.error);
             return {...state}
         }
-        case GET_CONSTRUCTOR_ITEMS: { //проверить, вроде лишний
+        case GET_CONSTRUCTOR_ITEMS: { //он лишний, но его удаление тянет за собой кучу ошибок typeScript
             return {
                 ...state,
                 ingredientsConstructor: action.items

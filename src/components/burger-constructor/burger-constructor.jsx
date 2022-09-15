@@ -2,14 +2,13 @@ import React, { useEffect, useState, useReducer } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from 'prop-types';
-import { CurrencyIcon, DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css";
 import { Layer } from "../layer/layer";
 
 import { 
-    //GET_CONSTRUCTOR_ITEMS, 
     ADD_INGREDIENT_TO_CONSTRUCTOR, 
     ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
     SORT_INGREDIENTS_IN_CONSTRUCTOR,
