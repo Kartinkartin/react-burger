@@ -177,7 +177,7 @@ export default function BurgerConstructor({ onClick }) {
                     <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
                     <CurrencyIcon />
                 </div>
-                <Button type="primary" size="large" onClick={onClick}>
+                <Button type="primary" size="large" onClick={onClick} disabled={!bunEl.name}> 
                     Сделать заказ
                 </Button>
             </div>
