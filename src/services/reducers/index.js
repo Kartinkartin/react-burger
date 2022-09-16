@@ -39,12 +39,12 @@ export const rootReducer = (state=initialState, action) => {
             console.log(action.error);
             return {...state}
         }
-        case GET_CONSTRUCTOR_ITEMS: { //он лишний, но его удаление тянет за собой кучу ошибок typeScript
-            return {
-                ...state,
-                ingredientsConstructor: action.items
-            }
-        }
+        // case GET_CONSTRUCTOR_ITEMS: { //он лишний, но его удаление тянет за собой кучу ошибок typeScript
+        //     return {
+        //         ...state,
+        //         ingredientsConstructor: action.items
+        //     }
+        // }
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
                 ...state,
@@ -60,9 +60,21 @@ export const rootReducer = (state=initialState, action) => {
              
             }
         }
-        case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: {
+        case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: { 
+            const currentBun = state.ingredientsConstructor.filter(item => item.type == 'bun')[0];
             return {
                 ...state,
+                counter: 
+                    state.ingredientsConstructor.filter(item => item.type == 'bun').length ? 
+                    {
+                        ...state.counter,
+                        [action.item._id]: 1,
+                        [currentBun._id]: 0
+                    } :
+                    {
+                        ...state.counter,
+                        [action.item._id]: 1
+                    },
                 ingredientsConstructor: 
                     state.ingredientsConstructor.filter(item => item.type == 'bun').length ? 
                     [action.item, ...state.ingredientsConstructor.slice(1)] :
