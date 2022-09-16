@@ -14,7 +14,7 @@ export function Ingredient({ card, onClick }) {
             opacity: monitor.isDragging() ? 0.5 : 1,
         })
     })
-    const counter = useSelector(state => state.counter[card._id]);
+    const counter = useSelector(state => state.constructorItems.counter[card._id]);
     
     return(
         //представление в разделе ингредиентов, надо дополнить отображение для конструктора еще

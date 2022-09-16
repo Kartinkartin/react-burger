@@ -3,9 +3,6 @@ import { checkRes, getCardsRequest, postOrderRequest } from "../../components/ap
 export const GET_API_ITEMS_REQUEST = 'GET_API_ITEMS_REQUEST';
 export const GET_API_ITEMS_SUCCESS = 'GET_API_ITEMS_SUCCESS';
 export const GET_API_ITEMS_FAILED = 'GET_API_ITEMS_FAILED';
-
-export const GET_CONSTRUCTOR_ITEMS = 'GET_CONSTRUCTOR_ITEMS';
-
 export const POST_CONSTRUCTOR_ITEMS_REQUEST = 'POST_CONSTRUCTOR_ITEMS_REQUEST';
 export const POST_CONSTRUCTOR_ITEMS_SUCCESS = 'POST_CONSTRUCTOR_ITEMS_SUCCESS';
 export const POST_CONSTRUCTOR_ITEMS_FAILED = 'POST_CONSTRUCTOR_ITEMS_FAILED';
@@ -22,7 +19,7 @@ export const RESET_ORDER_NUMBER = 'RESET_ORDER_NUMBER';
 export function getApiItems() {
     return function(dispatch) {
         dispatch({
-        type: GET_API_ITEMS_REQUEST //модалка с ожиданием
+        type: GET_API_ITEMS_REQUEST //модалка с ожиданием?
         });
         getCardsRequest()
         .then(res => checkRes(res))
@@ -51,7 +48,7 @@ export function getApiItems() {
 export const postOrder = (orderList) => {
     return function (dispatch) {
         dispatch({
-            type: POST_CONSTRUCTOR_ITEMS_REQUEST //модалка с ожиданием
+            type: POST_CONSTRUCTOR_ITEMS_REQUEST //модалка с ожиданием?
         });
         postOrderRequest(orderList)
         .then(res => checkRes(res))

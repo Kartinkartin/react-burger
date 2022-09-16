@@ -17,7 +17,7 @@ import {
 export default function BurgerConstructor({ onClick }) {
     const dispatch = useDispatch();
     const itemsMenu = useSelector(store => store.ingredientsApi);
-    const ingredientsConstructor = useSelector(store=> store.ingredientsConstructor);
+    const ingredientsConstructor = useSelector(store=> store.constructorItems.ingredientsConstructor);
     
     const [bunEl, setBunEl] = useState({});
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type != 'bun')

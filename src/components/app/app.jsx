@@ -20,14 +20,13 @@ import { getApiItems,
 function App() {
 
   const dispatch = useDispatch();
-  const apiItems = useSelector(store => store.ingredientsApi);
 
   useEffect(() => {
     dispatch(getApiItems())
   }, [dispatch])
 
   const orderNum = useSelector(store=>store.order.number).toString();
-  const orderItems = useSelector(store => store.ingredientsConstructor)
+  const orderItems = useSelector(store => store.constructorItems.ingredientsConstructor)
 
   const [ openingOrder, setOpeningOrder ] = React.useState(false);
   const [ openingDetails, setOpeningDetails ] = React.useState(false);

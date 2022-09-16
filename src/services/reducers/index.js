@@ -1,11 +1,10 @@
-import { useSelector } from "react-redux"
+import { combineReducers } from "@reduxjs/toolkit"
 import { GET_API_ITEMS_REQUEST,
         GET_API_ITEMS_SUCCESS,
         GET_API_ITEMS_FAILED,
         GET_INFO_CHOSEN_INGREDIENT,
         DELETE_INFO_CHOSEN_INGREDIENT,
         RESET_ORDER_NUMBER,
-        GET_CONSTRUCTOR_ITEMS, 
         ADD_INGREDIENT_TO_CONSTRUCTOR,
         ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
         SORT_INGREDIENTS_IN_CONSTRUCTOR,
@@ -23,28 +22,30 @@ export const initialState = {
     }
 }
 
-
-export const rootReducer = (state=initialState, action) => {
+const InitialItemsReducer = (state=initialState.ingredientsApi, action) => {
     switch (action.type) {
         case GET_API_ITEMS_REQUEST: {
             return state
         }
         case GET_API_ITEMS_SUCCESS: {
-            return {
-                ...state,
-                ingredientsApi: action.items
-            }
+            return [
+                ...action.items
+            ]
         }
         case GET_API_ITEMS_FAILED: {
             console.log(action.error);
             return {...state}
         }
-        // case GET_CONSTRUCTOR_ITEMS: { //он лишний, но его удаление тянет за собой кучу ошибок typeScript
-        //     return {
-        //         ...state,
-        //         ingredientsConstructor: action.items
-        //     }
-        // }
+        default: {
+            return state
+        }
+    }
+}
+
+const constructorItemsReducer = (state={
+                                        ingredientsConstructor: initialState.ingredientsConstructor,
+                                        counter: initialState.counter}, action) => {
+    switch (action.type) {
         case ADD_INGREDIENT_TO_CONSTRUCTOR: {
             return {
                 ...state,
@@ -106,13 +107,18 @@ export const rootReducer = (state=initialState, action) => {
                 }
             }
         }
+        default: {
+            return state
+        }
+    }
+}
+
+const orderReducer = (state=initialState.order, action) => {
+    switch (action.type) {
         case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
-            return {
-                ...state,
-                order: {
-                    ...state.order,
-                    number: action.number,
-                }
+            return {  
+            ...state,
+            number: action.number,
             }
         }
         case POST_CONSTRUCTOR_ITEMS_FAILED: {
@@ -121,10 +127,23 @@ export const rootReducer = (state=initialState, action) => {
                 ...state
             }
         }
+        case RESET_ORDER_NUMBER: {
+            return {
+                ...state.order,
+                number: '',
+            }
+        }
+        default: {
+            return state
+        }
+    }
+}
+
+const chosenIngredientReducer = (state=initialState.chosenIngredient, action) => {
+    switch (action.type) {
         case GET_INFO_CHOSEN_INGREDIENT: {
             return {
-                ...state,
-                chosenIngredient: action.item
+                ...action.item
             }
         }
         case DELETE_INFO_CHOSEN_INGREDIENT: {
@@ -133,20 +152,19 @@ export const rootReducer = (state=initialState, action) => {
                 chosenIngredient: {}
             }
         }
-        case RESET_ORDER_NUMBER: {
-            return {
-                ...state,
-                order: {
-                    ...state.order,
-                    number: '',
-                }
-            }
-        }
+        
         default: {
             return state
         }
     }
 }
+
+export const rootReducer = combineReducers({
+    ingredientsApi: InitialItemsReducer,
+    constructorItems: constructorItemsReducer,
+    order: orderReducer,
+    chosenIngredient: chosenIngredientReducer
+})
 
 function checkExistence (state, action) {
     return state.ingredientsConstructor.map(item=>item._id).includes(action.item._id)
