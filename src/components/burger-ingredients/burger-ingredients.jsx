@@ -1,23 +1,37 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from 'prop-types';
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import { useSelector } from "react-redux";
-import { Ingredient } from "../ingredient/ingredient";
+import { SET_INFO_CHOSEN_INGREDIENT } from "../../services/actions";
+import MenuCategory from "../menu-category/menu-category";
+import Modal from '../modal/modal';
+import IngredientDetail from "../ingredient-detail/ingredient-detail";
 
-export default function BurgerIngredients( { onClick } ) {
+
+export default function BurgerIngredients( { props } ) {
+    const dispatch = useDispatch();
     const items = useSelector(store => store.ingredientsApi);
+    const [ openingDetails, setOpeningDetails, chosenItem, closePopup ] = props;
+    function openIngredientsDetail(card) {
+        dispatch({
+          type: SET_INFO_CHOSEN_INGREDIENT,
+          item: card
+        })
+        setOpeningDetails(true);
+      }
     const [current, setCurrent] = React.useState('bun');
     const containerRef = useRef();
     const bunRef = useRef();
     const mainRef = useRef();
     const sauceRef = useRef();
-    const refs = [bunRef, mainRef, sauceRef];
+    
     
 
-    const HightlightTab = (e) => {
+    const hightlightTab = () => {
+        const refs = [bunRef, mainRef, sauceRef];
         const positions= refs.map(item => {
             return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
         })
@@ -40,42 +54,19 @@ export default function BurgerIngredients( { onClick } ) {
                     Начинки
                 </Tab>
             </div>
-            <div className={styles.menu} ref={containerRef} onScroll={HightlightTab}>
-                <MenuCategory cards={items} type='bun' refer={bunRef} onClick={onClick} />
-                <MenuCategory cards={items} type='sauce' refer={sauceRef} onClick={onClick} />
-                <MenuCategory cards={items} type='main' refer={mainRef} onClick={onClick} />
+            <div className={styles.menu} ref={containerRef} onScroll={hightlightTab}>
+                <MenuCategory cards={items} type='bun' refer={bunRef} onClick={openIngredientsDetail} />
+                <MenuCategory cards={items} type='sauce' refer={sauceRef} onClick={openIngredientsDetail} />
+                <MenuCategory cards={items} type='main' refer={mainRef} onClick={openIngredientsDetail} />
             </div>
+            { openingDetails && 
+                <Modal title='Детали заказа' onClose={closePopup} element={chosenItem}>
+                    <IngredientDetail element={chosenItem} />
+                </Modal>
+      }
         </section>
     )
 }
 BurgerIngredients.propTypes = {
-    onClick: PropTypes.func.isRequired,
-}
-
-function MenuCategory({cards, type, refer, onClick}) {
-    const types = {
-        bun: 'Булки',
-        sauce: 'Соусы',
-        main: 'Начинки'
-    }
-    return (
-        <>
-        <h2 ref={refer} className={styles.title + " pt-10 pb-6 text text_type_main-medium"}>{types[type]}</h2>
-        <div className={styles.category + " " + "pl-4 pr-4"}>
-            {
-                useMemo(() => {return cards.filter(prod => prod.type === type)
-                .map(card => {
-                    return(
-                        <Ingredient card={card} key={card._id} onClick={() => onClick(card)} />
-                    )
-                })}, [cards])
-            }
-        </div>
-        </>
-    )
-}
-MenuCategory.propTypes = {
-    cards: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired,
-    onClick: PropTypes.func
+    props: PropTypes.array.isRequired,
 }

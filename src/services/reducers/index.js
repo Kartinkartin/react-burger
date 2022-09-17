@@ -2,7 +2,7 @@ import { combineReducers } from "@reduxjs/toolkit"
 import { GET_API_ITEMS_REQUEST,
         GET_API_ITEMS_SUCCESS,
         GET_API_ITEMS_FAILED,
-        GET_INFO_CHOSEN_INGREDIENT,
+        SET_INFO_CHOSEN_INGREDIENT,
         DELETE_INFO_CHOSEN_INGREDIENT,
         RESET_ORDER_NUMBER,
         ADD_INGREDIENT_TO_CONSTRUCTOR,
@@ -22,7 +22,7 @@ export const initialState = {
     }
 }
 
-const InitialItemsReducer = (state=initialState.ingredientsApi, action) => {
+const initialItemsReducer = (state=initialState.ingredientsApi, action) => {
     switch (action.type) {
         case GET_API_ITEMS_REQUEST: {
             return state
@@ -33,8 +33,8 @@ const InitialItemsReducer = (state=initialState.ingredientsApi, action) => {
             ]
         }
         case GET_API_ITEMS_FAILED: {
-            console.log(action.error);
-            return {...state}
+            console.error(action.error);
+            return state
         }
         default: {
             return state
@@ -62,22 +62,23 @@ const constructorItemsReducer = (state={
             }
         }
         case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: { 
-            const currentBun = state.ingredientsConstructor.filter(item => item.type == 'bun')[0];
+            const hasBun = state.ingredientsConstructor.some(item => item.type === 'bun');
+            const currentBun = state.ingredientsConstructor.filter(item => item.type === 'bun')[0];
             return {
                 ...state,
                 counter: 
-                    state.ingredientsConstructor.filter(item => item.type == 'bun').length ? 
+                    hasBun ? 
                     {
                         ...state.counter,
-                        [action.item._id]: 1,
+                        [action.item._id]: 2,
                         [currentBun._id]: 0
                     } :
                     {
                         ...state.counter,
-                        [action.item._id]: 1
+                        [action.item._id]: 2
                     },
                 ingredientsConstructor: 
-                    state.ingredientsConstructor.filter(item => item.type == 'bun').length ? 
+                    hasBun ? 
                     [action.item, ...state.ingredientsConstructor.slice(1)] :
                     [action.item, ...state.ingredientsConstructor],
             }
@@ -86,7 +87,7 @@ const constructorItemsReducer = (state={
             return {
                 ...state,
                 ingredientsConstructor: state.ingredientsConstructor
-                                        .filter(item => item.type==='bun')
+                                        .filter(item => item.type === 'bun')
                                         .concat(action.ingredients),
             }
         }
@@ -102,9 +103,8 @@ const constructorItemsReducer = (state={
                     ...state.counter,
                     [action.id]: state.counter[action.id] - 1
                 } : 
-                {
-                    ...state.counter
-                }
+                state.counter
+                
             }
         }
         default: {
@@ -122,10 +122,8 @@ const orderReducer = (state=initialState.order, action) => {
             }
         }
         case POST_CONSTRUCTOR_ITEMS_FAILED: {
-            console.log(action.error);
-            return {
-                ...state
-            }
+            console.error(action.error);
+            return state
         }
         case RESET_ORDER_NUMBER: {
             return {
@@ -141,16 +139,13 @@ const orderReducer = (state=initialState.order, action) => {
 
 const chosenIngredientReducer = (state=initialState.chosenIngredient, action) => {
     switch (action.type) {
-        case GET_INFO_CHOSEN_INGREDIENT: {
+        case SET_INFO_CHOSEN_INGREDIENT: {
             return {
                 ...action.item
             }
         }
         case DELETE_INFO_CHOSEN_INGREDIENT: {
-            return {
-                ...state,
-                chosenIngredient: {}
-            }
+            return { }
         }
         
         default: {
@@ -160,7 +155,7 @@ const chosenIngredientReducer = (state=initialState.chosenIngredient, action) =>
 }
 
 export const rootReducer = combineReducers({
-    ingredientsApi: InitialItemsReducer,
+    ingredientsApi: initialItemsReducer,
     constructorItems: constructorItemsReducer,
     order: orderReducer,
     chosenIngredient: chosenIngredientReducer

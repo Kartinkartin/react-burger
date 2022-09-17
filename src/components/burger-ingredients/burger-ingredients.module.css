@@ -19,19 +19,6 @@
 	background-color: #8585ad;
 }
 
-.category {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.title {
-    width: 100%;
-    margin: 0;
-    text-align: start;
-}
-
 .counter {
     height: 32px;
     width: 32px;

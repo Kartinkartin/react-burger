@@ -13,19 +13,11 @@ export async function getCardsRequest() {
   })
 }
 
-export function checkRes(res) {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка: ${res.status}`);
-}
-
-
-export async function postOrderRequest(orderList) {
-  const idList ={ "ingredients": orderList.map(item => item._id) }
+export async function postOrderRequest(orderListId) {
+  const order ={ ingredients: orderListId };
   return await fetch(`${config.baseUrl}/orders`, {
     headers: config.headers,
     method: 'POST',
-    body:JSON.stringify(idList)
+    body: JSON.stringify(order)
   })
 }

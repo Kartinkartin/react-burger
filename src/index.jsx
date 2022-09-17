@@ -8,13 +8,6 @@ import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import { rootReducer } from './services/reducers';
 
-// declare global {
-//   interface Window {
-//     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-//   }
-// }
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; 
-// const enhancer = composeEnhancers(applyMiddleware(thunk));
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -26,9 +19,6 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 
 const store = createStore(rootReducer, enhancer); 
  
-// const root = ReactDOM.createRoot(
-//   document.getElementById('root') as HTMLElement
-// );
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

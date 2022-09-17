@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export function Ingredient({ card, onClick }) {
     const [ { opacity } ,dragRef] = useDrag({
-        type: 'item', /*card.type*/
+        type: 'item',
         item: card,
         collect: monitor => ({
             opacity: monitor.isDragging() ? 0.5 : 1,
