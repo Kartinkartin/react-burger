@@ -11,8 +11,8 @@ export default function MenuCategory({cards, type, refer, onClick}) {
     }
     return (
         <>
-        <h2 ref={refer} className={styles.title + " pt-10 pb-6 text text_type_main-medium"}>{types[type]}</h2>
-        <div className={styles.category + " " + "pl-4 pr-4"}>
+        <h2 ref={refer} className={`${styles.title} pt-10 pb-6 text text_type_main-medium`}>{types[type]}</h2>
+        <div className={`${styles.category} pl-4 pr-4`}>
             {
                 useMemo(() => {return cards.filter(prod => prod.type === type)
                 .map(card => {

@@ -17,7 +17,6 @@ export function Ingredient({ card, onClick }) {
     const counter = useSelector(state => state.constructorItems.counter[card._id]);
     
     return(
-        //представление в разделе ингредиентов, надо дополнить отображение для конструктора еще
       <div className={styles.ingredient_available} key={card._id} onClick={onClick} ref={dragRef} style={ {opacity} } draggable >
             <img src={card.image} alt={card.name} />
             <p className="text text_type_main-default">{card.name}</p>

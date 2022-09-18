@@ -6,7 +6,7 @@ import doneImage from '../../images/done.jpg';
 export default function OrderDetails({number}) {
     return(
         <>
-            <p className={styles.number + " text text_type_digits-large pb-8"}>
+            <p className={`${styles.number} text text_type_digits-large pb-8`}>
                 {number}
             </p>
             <p className=" text text_type_main-medium">

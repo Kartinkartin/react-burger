@@ -1,9 +1,9 @@
 import { useDrag } from "react-dnd";
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './layer.module.css';
+import styles from './layer-element.module.css';
 import PropTypes from 'prop-types';
 
-export default function Layer(props) {
+export default function LayerElement(props) {
     const { prod, index, handleDelete, handleDrag, handleDrop } = props;
     const [ { opacity } ,dragRef] = useDrag({
        type: 'item',
@@ -13,7 +13,7 @@ export default function Layer(props) {
        })
     });
     return(
-        <li className={styles.layer_element + " pb-4"} 
+        <li className={`${styles.layer_element} pb-4`} 
             draggable 
             ref={dragRef} 
             onDrag={() => handleDrag(index)} 
@@ -30,7 +30,7 @@ export default function Layer(props) {
     )
 }
 
-Layer.propTypes = {
+LayerElement.propTypes = {
     prod: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     handleDelete: PropTypes.func.isRequired, 

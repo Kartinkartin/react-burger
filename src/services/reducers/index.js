@@ -162,5 +162,5 @@ export const rootReducer = combineReducers({
 })
 
 function checkExistence (state, action) {
-    return state.ingredientsConstructor.map(item=>item._id).includes(action.item._id)
+    return state.ingredientsConstructor.some(item => item._id === action.item._id)
 }

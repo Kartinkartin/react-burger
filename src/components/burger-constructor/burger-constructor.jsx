@@ -6,7 +6,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css";
-import Layer from "../layer/layer";
+import LayerElement from "../layer-element/layer-element";
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
 
@@ -23,7 +23,7 @@ export default function BurgerConstructor({ props }) {
     const ingredientsConstructor = useSelector(store=> store.constructorItems.ingredientsConstructor);
     const orderNum = useSelector(store=>store.order.number.toString());
     
-    const [bunEl, setBunEl] = useState({});
+    const [bunEl, setBunEl] = useState(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false) ;
     const [droppedIndex, setDroppedIndex] = useState(null);
@@ -67,7 +67,6 @@ export default function BurgerConstructor({ props }) {
             item: bun
         })
         dispatchPrice({
-            type: 'increment',
             item: bun
         })
     }
@@ -114,7 +113,7 @@ export default function BurgerConstructor({ props }) {
     function reducer(state, action) {
         switch (action.item.type)
         {
-            case ('bun'): return ( bunEl.price ? 
+            case ('bun'): return ( bunEl ? 
                 {price: state.price - (bunEl.price*2) + (action.item.price*2)} : 
                 {price: state.price + (action.item.price*2)} )
             case ('main'): //когда нет return или break, выполнение пойдет дальше
@@ -133,11 +132,11 @@ export default function BurgerConstructor({ props }) {
     }
     const totalPrice = state.price;
     return(
-        <section className={styles.constructor + ' ' + 'pt-25 pl-4 pr-4'} ref={targetDrop}>
+        <section className={`${styles.constructor} pt-25 pl-4 pr-4`} ref={targetDrop}>
             {itemsMenu.length && ingredientsConstructor.length ?  
             <>
-                { (bunEl.name) &&
-                <div className={styles.constructor_element + " pb-4"} >
+                { (bunEl) &&
+                <div className={`${styles.constructor_element} pb-4`} >
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -151,7 +150,7 @@ export default function BurgerConstructor({ props }) {
                         notBunsIngredients
                         .map((item, index) => {
                             return(
-                                <Layer 
+                                <LayerElement 
                                     prod={item} index={index} 
                                     key={item._id + Math.random().toString(7).slice(2, 7)} 
                                     handleDelete={handleDeleteItem} 
@@ -160,11 +159,11 @@ export default function BurgerConstructor({ props }) {
                                 /> 
                             )
                         }) :
-                        <p className={ styles.layers_text + " text text_type_main-default"}>Добавь начинок к булонькам!</p>
+                        <p className={ `${styles.layers_text} text text_type_main-default`}>Добавь начинок к булонькам!</p>
                     }
                 </ul>
-                { (bunEl.name) &&
-                <div className={styles.constructor_element + " pt-4"}>
+                { (bunEl) &&
+                <div className={`${styles.constructor_element} pt-4`}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
@@ -174,23 +173,23 @@ export default function BurgerConstructor({ props }) {
                     />
                 </div>}
 
-                <div className={styles.order_box + " " + "pt-10 pb-10"}>
-                    <div className={"styles.price_container pr-10"}>
+                <div className={`${styles.order_box} pt-10 pb-10`}>
+                    <div className={`${styles.price_container} pr-10`}>
                         <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bunEl.name}> 
+                    <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bunEl}> 
                         Сделать заказ
                     </Button>
                 </div>
             </>
             : 
-            <p className={ styles.invite + " text text_type_main-default"}> 
+            <p className={ `${styles.invite} text text_type_main-default`}> 
                 Перетащи сюда ингредиенты для своего бургера
             </p>
             }   
             { (openingOrder) && 
-                <Modal title=' ' onClose={closePopup} number={orderNum}>
+                <Modal onClose={closePopup} number={orderNum}>
                   <OrderDetails number={orderNum}/>
                 </Modal>
             }
