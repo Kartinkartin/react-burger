@@ -14,13 +14,16 @@ import {
     ADD_INGREDIENT_TO_CONSTRUCTOR, 
     ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
     SORT_INGREDIENTS_IN_CONSTRUCTOR,
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR } from "../../services/actions";
+    DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+    RESET_ORDER_NUMBER,
+    postOrder } from "../../services/actions";
 
-export default function BurgerConstructor({ props }) {
-    const [ openingOrder, setOpeningOrder, postOrder, orderItems, closePopup ] = props;
+export default function BurgerConstructor() {
     const dispatch = useDispatch();
     const itemsMenu = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store=> store.constructorItems.ingredientsConstructor);
+    
+    
     const orderNum = useSelector(store=>store.order.number.toString());
     
     const [bunEl, setBunEl] = useState(null);
@@ -28,6 +31,7 @@ export default function BurgerConstructor({ props }) {
     const [isSort, setIsSort] = useState(false) ;
     const [droppedIndex, setDroppedIndex] = useState(null);
     const [draggedIndex, setDraggedIndex] = useState(null);
+    const [ openingOrder, setOpeningOrder ] = React.useState(false);
 
     const handleDrag = (draggedTargetIndex) => {
         setIsSort(true);
@@ -101,12 +105,18 @@ export default function BurgerConstructor({ props }) {
         })
     };
     const openOrderDetails = () => {
-        dispatch(postOrder(orderItems));
+        dispatch(postOrder(ingredientsConstructor));
         setOpeningOrder(true);
+    }
+    function closePopup() {
+        setOpeningOrder(false);
+        dispatch({
+          type: RESET_ORDER_NUMBER
+        })
     }
 
     useEffect(()=> {
-        if (ingredientsConstructor.length) setBunEl(ingredientsConstructor.find(el=>el.type==='bun') || {});
+        if (ingredientsConstructor.length) setBunEl(ingredientsConstructor.find(el=>el.type==='bun') || null);
     }, [ingredientsConstructor]);
 
     const [state, dispatchPrice] = useReducer(reducer, {price: 0});
@@ -135,34 +145,36 @@ export default function BurgerConstructor({ props }) {
         <section className={`${styles.constructor} pt-25 pl-4 pr-4`} ref={targetDrop}>
             {itemsMenu.length && ingredientsConstructor.length ?  
             <>
-                { (bunEl) &&
-                <div className={`${styles.constructor_element} pb-4`} >
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={bunEl.name + " (верх)"}
-                        price={bunEl.price}
-                        thumbnail={bunEl.image}
-                    /> 
-                </div>}
+                { bunEl &&
+                    (<div className={`${styles.constructor_element} pb-4`} >
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={bunEl.name + " (верх)"}
+                            price={bunEl.price}
+                            thumbnail={bunEl.image}
+                        /> 
+                    </div>)
+                }
                 <ul className={styles.layers_list}>
                     { (notBunsIngredients.length) ?
-                        notBunsIngredients
+                        (notBunsIngredients
                         .map((item, index) => {
                             return(
                                 <LayerElement 
-                                    prod={item} index={index} 
+                                    prod={item} 
+                                    index={index} 
                                     key={item._id + Math.random().toString(7).slice(2, 7)} 
                                     handleDelete={handleDeleteItem} 
                                     handleDrag={handleDrag} 
                                     handleDrop={handleDrop}
                                 /> 
                             )
-                        }) :
-                        <p className={ `${styles.layers_text} text text_type_main-default`}>Добавь начинок к булонькам!</p>
+                        })) :
+                        (<p className={ `${styles.layers_text} text text_type_main-default`}>Добавь начинок к булонькам!</p>)
                     }
                 </ul>
-                { (bunEl) &&
+                { bunEl &&
                 <div className={`${styles.constructor_element} pt-4`}>
                     <ConstructorElement
                         type="bottom"
@@ -197,6 +209,3 @@ export default function BurgerConstructor({ props }) {
     )
 }
 
-BurgerConstructor.propTypes = {
-    props: PropTypes.array.isRequired
-}

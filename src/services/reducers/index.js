@@ -10,7 +10,8 @@ import { GET_API_ITEMS_REQUEST,
         SORT_INGREDIENTS_IN_CONSTRUCTOR,
         DELETE_INGREDIENT_FROM_CONSTRUCTOR,
         POST_CONSTRUCTOR_ITEMS_SUCCESS,
-        POST_CONSTRUCTOR_ITEMS_FAILED} from "../actions"
+        POST_CONSTRUCTOR_ITEMS_FAILED,
+        RESET_INGREDIENTS_IN_CONSTRUCTOR } from "../actions"
 
 export const initialState = {
     ingredientsApi: [],
@@ -63,7 +64,7 @@ const constructorItemsReducer = (state={
         }
         case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: { 
             const hasBun = state.ingredientsConstructor.some(item => item.type === 'bun');
-            const currentBun = state.ingredientsConstructor.filter(item => item.type === 'bun')[0];
+            const currentBun = hasBun ? state.ingredientsConstructor.find(item => item.type === 'bun') : null;
             return {
                 ...state,
                 counter: 
@@ -107,6 +108,12 @@ const constructorItemsReducer = (state={
                 
             }
         }
+        case RESET_INGREDIENTS_IN_CONSTRUCTOR: {
+            return {
+                ingredientsConstructor: initialState.ingredientsConstructor,
+                counter: initialState.counter
+            }
+        }
         default: {
             return state
         }
@@ -118,6 +125,7 @@ const orderReducer = (state=initialState.order, action) => {
         case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
             return {  
             ...state,
+
             number: action.number,
             }
         }
@@ -145,7 +153,7 @@ const chosenIngredientReducer = (state=initialState.chosenIngredient, action) =>
             }
         }
         case DELETE_INFO_CHOSEN_INGREDIENT: {
-            return { }
+            return initialState.chosenIngredient
         }
         
         default: {

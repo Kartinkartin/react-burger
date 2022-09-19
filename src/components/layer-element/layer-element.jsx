@@ -3,8 +3,7 @@ import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burg
 import styles from './layer-element.module.css';
 import PropTypes from 'prop-types';
 
-export default function LayerElement(props) {
-    const { prod, index, handleDelete, handleDrag, handleDrop } = props;
+export default function LayerElement({ prod, index, handleDelete, handleDrag, handleDrop }) {
     const [ { opacity } ,dragRef] = useDrag({
        type: 'item',
        item: prod,
