@@ -17,6 +17,7 @@ export default function BurgerIngredients( { props } ) {
     const items = useSelector(store => store.ingredientsApi);
     const [ openingDetails, setOpeningDetails ] = React.useState(false);
     const chosenItem = useSelector(store => store.chosenIngredient);
+    const loading = useSelector(store => store.loading);
     
     const [current, setCurrent] = React.useState('bun');
     const containerRef = useRef();
@@ -67,7 +68,7 @@ export default function BurgerIngredients( { props } ) {
                 <MenuCategory cards={items} type='main' refer={mainRef} onClick={openIngredientsDetail} />
             </div>
             { openingDetails && 
-                (<Modal title='Детали заказа' onClose={closePopup} element={chosenItem}>
+                (<Modal title='Детали заказа' onClose={closePopup} >
                     <IngredientDetail element={chosenItem} />
                 </Modal>)
             }

@@ -14,27 +14,36 @@ export const SET_INFO_CHOSEN_INGREDIENT = 'SET_INFO_CHOSEN_INGREDIENT';
 export const DELETE_INFO_CHOSEN_INGREDIENT = 'DELETE_INFO_CHOSEN_INGREDIENT';
 export const RESET_ORDER_NUMBER = 'RESET_ORDER_NUMBER';
 export const RESET_INGREDIENTS_IN_CONSTRUCTOR = 'RESET_INGREDIENTS_IN_CONSTRUCTOR';
+export const SET_LOADING_MODE = 'SET_LOADING_MODE';
+export const RESET_LOADING_MODE = 'RESET_LOADING_MODE';
+
 
 
 
 export function getApiItems() {
     return function(dispatch) {
         dispatch({
-            type: GET_API_ITEMS_REQUEST //модалка с ожиданием?
+            type: GET_API_ITEMS_REQUEST
         });
+        dispatch({
+            type: SET_LOADING_MODE // модалка с ожиданием
+        })
         getCardsRequest()
         .then(res => {
-        if (res && res.success) {
             dispatch({
-                type: GET_API_ITEMS_SUCCESS,
-                items: res.data
-            });
-        } else {
-            dispatch({
-                type: GET_API_ITEMS_FAILED,
-                error: res
-            });
-        }
+                type: RESET_LOADING_MODE
+            })
+            if (res && res.success) {
+                dispatch({
+                    type: GET_API_ITEMS_SUCCESS,
+                    items: res.data
+                });
+            } else {
+                dispatch({
+                    type: GET_API_ITEMS_FAILED,
+                    error: res
+                });
+            }
         })
         .catch(err => {
             dispatch({
@@ -50,8 +59,11 @@ export const postOrder = (orderList) => {
     orderListId.push(orderList[0]._id);
     return function (dispatch) {
         dispatch({
-            type: POST_CONSTRUCTOR_ITEMS_REQUEST //модалка с ожиданием?
+            type: POST_CONSTRUCTOR_ITEMS_REQUEST
         });
+        dispatch({
+            type: SET_LOADING_MODE
+        })
         postOrderRequest(orderListId)
         .then(res => {
             if (res && res.success) {
@@ -68,7 +80,10 @@ export const postOrder = (orderList) => {
                     error: res 
                 });
             }
+            dispatch({
+                type: RESET_LOADING_MODE
             })
+        })
         .catch(err => {
             dispatch({
                 type: POST_CONSTRUCTOR_ITEMS_FAILED,

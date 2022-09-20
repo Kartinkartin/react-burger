@@ -5,6 +5,7 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
+import Modal from '../modal/modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getApiItems } from '../../services/actions';
 
@@ -13,6 +14,7 @@ import { getApiItems } from '../../services/actions';
 function App() {
 
   const dispatch = useDispatch();
+  const loading = useSelector(store => store.loading);
 
   useEffect(() => {
     dispatch(getApiItems())
@@ -27,6 +29,9 @@ function App() {
           <BurgerConstructor />
         </div>
       </DndProvider>
+      { loading &&
+        (<Modal title='LOADING...' onClose={() => {}} />)
+      }
     </main>
   );
 }

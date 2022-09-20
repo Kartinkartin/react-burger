@@ -201,7 +201,7 @@ export default function BurgerConstructor() {
             </p>
             }   
             { (openingOrder) && 
-                <Modal onClose={closePopup} number={orderNum}>
+                <Modal onClose={closePopup} >
                   <OrderDetails number={orderNum}/>
                 </Modal>
             }

@@ -11,7 +11,9 @@ import { GET_API_ITEMS_REQUEST,
         DELETE_INGREDIENT_FROM_CONSTRUCTOR,
         POST_CONSTRUCTOR_ITEMS_SUCCESS,
         POST_CONSTRUCTOR_ITEMS_FAILED,
-        RESET_INGREDIENTS_IN_CONSTRUCTOR } from "../actions"
+        RESET_INGREDIENTS_IN_CONSTRUCTOR,
+        SET_LOADING_MODE,
+        RESET_LOADING_MODE } from "../actions"
 
 export const initialState = {
     ingredientsApi: [],
@@ -20,7 +22,8 @@ export const initialState = {
     chosenIngredient: {},
     order: {
         number: '',
-    }
+    },
+    loading: false
 }
 
 const initialItemsReducer = (state=initialState.ingredientsApi, action) => {
@@ -125,7 +128,6 @@ const orderReducer = (state=initialState.order, action) => {
         case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
             return {  
             ...state,
-
             number: action.number,
             }
         }
@@ -162,11 +164,24 @@ const chosenIngredientReducer = (state=initialState.chosenIngredient, action) =>
     }
 }
 
+const loadingReducer = (state=initialState.loading, action) => {
+    switch (action.type) {
+        case SET_LOADING_MODE: {
+            return true
+        }
+        case RESET_LOADING_MODE: {
+            return false
+        }
+        default: return state 
+    }
+}
+
 export const rootReducer = combineReducers({
     ingredientsApi: initialItemsReducer,
     constructorItems: constructorItemsReducer,
     order: orderReducer,
-    chosenIngredient: chosenIngredientReducer
+    chosenIngredient: chosenIngredientReducer,
+    loading: loadingReducer
 })
 
 function checkExistence (state, action) {
