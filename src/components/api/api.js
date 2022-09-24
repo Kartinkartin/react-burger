@@ -13,18 +13,18 @@ export const config = {
 }
 
 export async function getCardsRequest() {
-  return (await fetch(`${config.baseUrl}/ingredients`,{
+  return (await fetch(`${config.baseUrl}/ingredients`, {
     headers: config.headers
   })
-  .then(checkRes))
+    .then(checkRes))
 }
 
 export async function postOrderRequest(orderListId) {
-  const order ={ ingredients: orderListId };
+  const order = { ingredients: orderListId };
   return (await fetch(`${config.baseUrl}/orders`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(order)
   })
-  .then(checkRes))
+    .then(checkRes))
 }

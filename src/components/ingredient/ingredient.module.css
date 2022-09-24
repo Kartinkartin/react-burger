@@ -7,9 +7,10 @@
     position: relative;
     cursor: pointer;
 }
+
 .price_container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    
+
 }

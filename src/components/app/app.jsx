@@ -29,8 +29,8 @@ function App() {
           <BurgerConstructor />
         </div>
       </DndProvider>
-      { loading &&
-        (<Modal title='LOADING...' onClose={() => {}} />)
+      {loading &&
+        (<Modal title='LOADING...' onClose={() => { }} />)
       }
     </main>
   );

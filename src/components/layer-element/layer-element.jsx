@@ -4,20 +4,20 @@ import styles from './layer-element.module.css';
 import PropTypes from 'prop-types';
 
 export default function LayerElement({ prod, index, handleDelete, handleDrag, handleDrop }) {
-    const [ { opacity } ,dragRef] = useDrag({
-       type: 'item',
-       item: prod,
-       collect: monitor => ({
-           opacity: monitor.isDragging() ? 0.5 : 1,
-       })
+    const [{ opacity }, dragRef] = useDrag({
+        type: 'item',
+        item: prod,
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.5 : 1,
+        })
     });
-    return(
-        <li className={`${styles.layer_element} pb-4`} 
-            draggable 
-            ref={dragRef} 
-            onDrag={() => handleDrag(index)} 
-            onDrop={(e) => handleDrop(e, index)} 
-            style={ {opacity} }>
+    return (
+        <li className={`${styles.layer_element} pb-4`}
+            draggable
+            ref={dragRef}
+            onDrag={() => handleDrag(index)}
+            onDrop={(e) => handleDrop(e, index)}
+            style={{ opacity }}>
             <DragIcon />
             <ConstructorElement
                 text={prod.name}
@@ -32,7 +32,7 @@ export default function LayerElement({ prod, index, handleDelete, handleDrag, ha
 LayerElement.propTypes = {
     prod: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
-    handleDelete: PropTypes.func.isRequired, 
-    handleDrag: PropTypes.func.isRequired, 
+    handleDelete: PropTypes.func.isRequired,
+    handleDrag: PropTypes.func.isRequired,
     handleDrop: PropTypes.func.isRequired
 }
