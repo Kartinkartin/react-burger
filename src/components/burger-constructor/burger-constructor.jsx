@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useReducer } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from 'prop-types';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -75,17 +74,11 @@ export default function BurgerConstructor() {
         })
     }
     const sortIngredientsInConstructor = (item, droppedIndex, draggedIndex) => {
-        if(droppedIndex > draggedIndex) {
-            notBunsIngredients.splice(droppedIndex+1, 0, item);
-            notBunsIngredients.splice(draggedIndex, 1)
-        }
-        if(droppedIndex < draggedIndex) {
-            notBunsIngredients.splice(draggedIndex, 1);
-            notBunsIngredients.splice(droppedIndex, 0, item)
-        } 
         dispatch({
             type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
-            ingredients: notBunsIngredients
+            draggedIndex: draggedIndex,
+            droppedIndex: droppedIndex,
+            item: item
         })    
         setIsSort(false);
         setDraggedIndex(null);

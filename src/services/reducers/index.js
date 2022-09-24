@@ -71,7 +71,7 @@ const constructorItemsReducer = (state={
             return {
                 ...state,
                 counter: 
-                    hasBun ? 
+                    (hasBun && currentBun._id !== action.item._id) ? 
                     {
                         ...state.counter,
                         [action.item._id]: 2,
@@ -88,11 +88,16 @@ const constructorItemsReducer = (state={
             }
         }
         case SORT_INGREDIENTS_IN_CONSTRUCTOR: {
+            if(action.droppedIndex > action.draggedIndex) {
+                state.ingredientsConstructor.splice(action.droppedIndex+1, 0, action.item);
+                state.ingredientsConstructor.splice(action.draggedIndex, 1)
+            }
+            if(action.droppedIndex < action.draggedIndex) {
+                state.ingredientsConstructor.splice(action.draggedIndex, 1);
+                state.ingredientsConstructor.splice(action.droppedIndex, 0, action.item)
+            }
             return {
-                ...state,
-                ingredientsConstructor: state.ingredientsConstructor
-                                        .filter(item => item.type === 'bun')
-                                        .concat(action.ingredients),
+                ...state
             }
         }
         case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {

@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import PropTypes from 'prop-types';
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -17,7 +16,7 @@ export default function BurgerIngredients( { props } ) {
     const items = useSelector(store => store.ingredientsApi);
     const [ openingDetails, setOpeningDetails ] = React.useState(false);
     const chosenItem = useSelector(store => store.chosenIngredient);
-    const loading = useSelector(store => store.loading);
+    
     
     const [current, setCurrent] = React.useState('bun');
     const containerRef = useRef();
@@ -31,9 +30,8 @@ export default function BurgerIngredients( { props } ) {
             return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
         })
         const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
-        const currentSection = currentTabRef.current.textContent;
-        setCurrent(currentSection === 'Булки' ? 'bun' :
-        currentSection === 'Соусы' ? 'sauce' : 'main' )
+        const currentSection = currentTabRef.current.dataset.type; // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
+        setCurrent(currentSection)
     }
     function openIngredientsDetail(card) {
         dispatch({
@@ -63,9 +61,9 @@ export default function BurgerIngredients( { props } ) {
                 </Tab>
             </div>
             <div className={styles.menu} ref={containerRef} onScroll={hightlightTab}>
-                <MenuCategory cards={items} type='bun' refer={bunRef} onClick={openIngredientsDetail} />
-                <MenuCategory cards={items} type='sauce' refer={sauceRef} onClick={openIngredientsDetail} />
-                <MenuCategory cards={items} type='main' refer={mainRef} onClick={openIngredientsDetail} />
+                <MenuCategory cards={items} type='bun' refer={bunRef} onClick={openIngredientsDetail} headerKey='bun' />
+                <MenuCategory cards={items} type='sauce' refer={sauceRef} onClick={openIngredientsDetail} headerKey='sauce' />
+                <MenuCategory cards={items} type='main' refer={mainRef} onClick={openIngredientsDetail} headerKey='main' />
             </div>
             { openingDetails && 
                 (<Modal title='Детали заказа' onClose={closePopup} >
