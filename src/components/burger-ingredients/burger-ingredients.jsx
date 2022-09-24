@@ -1,84 +1,84 @@
-import React, { useContext, useMemo } from "react";
-import PropTypes from 'prop-types';
+import React, { useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import { DataContext } from "../../services/appContext";
+import {
+    SET_INFO_CHOSEN_INGREDIENT,
+    DELETE_INFO_CHOSEN_INGREDIENT
+} from "../../services/actions/chosenIngredient";
+import MenuCategory from "../menu-category/menu-category";
+import Modal from '../modal/modal';
+import IngredientDetail from "../ingredient-detail/ingredient-detail";
 
-export default function BurgerIngredients( { onClick } ) {
-    const [current, setCurrent] = React.useState('one');
-    const {cards} = useContext(DataContext);
-    const cardsData = cards;
 
-    return(
+export default function BurgerIngredients() {
+    const dispatch = useDispatch();
+    const items = useSelector(store => store.ingredientsApi);
+    const [openingDetails, setOpeningDetails] = React.useState(false);
+    const chosenItem = useSelector(store => store.chosenIngredient);
+    
+
+    const [current, setCurrent] = React.useState('bun');
+    const containerRef = useRef();
+    const bunRef = useRef();
+    const mainRef = useRef();
+    const sauceRef = useRef();
+
+    const hightlightTab = () => {
+        const refs = [bunRef, mainRef, sauceRef];
+        const positions = refs.map(item => {
+            return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
+        })
+        const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
+        const currentSection = currentTabRef.current.dataset.type; // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
+        setCurrent(currentSection)
+    }
+    const handlerScroll = (value) => {
+        setCurrent(value);
+        if (value === 'bun') { bunRef.current.scrollIntoView() }
+        else if (value === 'sauce') { sauceRef.current.scrollIntoView() }
+        else { mainRef.current.scrollIntoView() }
+    }
+
+    function openIngredientsDetail(card) {
+        dispatch({
+            type: SET_INFO_CHOSEN_INGREDIENT,
+            item: card
+        })
+        setOpeningDetails(true);
+    }
+    function closePopup() {
+        setOpeningDetails(false);
+        dispatch({
+            type: DELETE_INFO_CHOSEN_INGREDIENT
+        })
+    }
+    return (
         <section className={styles.ingridients}>
             <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
             <div style={{ display: 'flex' }}>
-                <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+                <Tab value="bun" active={current === 'bun'} onClick={handlerScroll}>
                     Булки
                 </Tab>
-                <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+                <Tab value="sauce" active={current === 'sauce'} onClick={handlerScroll}>
                     Соусы
                 </Tab>
-                <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+                <Tab value="main" active={current === 'main'} onClick={handlerScroll}>
                     Начинки
                 </Tab>
             </div>
-            <div className={styles.menu}>
-                <MenuCategory cards={cardsData} type='bun' onClick={onClick} />
-                <MenuCategory cards={cardsData} type='sauce' onClick={onClick} />
-                <MenuCategory cards={cardsData} type='main' onClick={onClick} />
+            <div className={styles.menu} ref={containerRef} onScroll={hightlightTab}>
+                <MenuCategory cards={items} type='bun' refer={bunRef} onClick={openIngredientsDetail} headerKey='bun' />
+                <MenuCategory cards={items} type='sauce' refer={sauceRef} onClick={openIngredientsDetail} headerKey='sauce' />
+                <MenuCategory cards={items} type='main' refer={mainRef} onClick={openIngredientsDetail} headerKey='main' />
             </div>
+            {openingDetails &&
+                (<Modal title='Детали заказа' onClose={closePopup} >
+                    <IngredientDetail element={chosenItem} />
+                </Modal>)
+            }
         </section>
     )
-}
-BurgerIngredients.propTypes = {
-    onClick: PropTypes.func.isRequired,
-}
-
-function MenuCategory({cards, type, onClick}) {
-    const types = {
-        bun: 'Булки',
-        sauce: 'Соусы',
-        main: 'Начинки'
-    }
-    return (
-        <>
-        <h2 className={styles.title + " pt-10 pb-6 text text_type_main-medium"}>{types[type]}</h2>
-        <div className={styles.category + " " + "pl-4 pr-4"}>
-            {
-                useMemo(() => {return cards.filter(prod => prod.type === type)
-                .map(card => {
-                    return(
-                        <Card card={card} key={card._id} onClick={() => onClick(card)} />
-                    )
-                })}, [cards])
-            }
-        </div>
-        </>
-    )
-}
-MenuCategory.propTypes = {
-    cards: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired,
-    onClick: PropTypes.func
-}
-
-function Card({ card, onClick }) {
-    return(
-      <div className={styles.card} key={card._id} onClick={onClick} >
-            <img src={card.image} alt={card.name} />
-            <p className="text text_type_main-default">{card.name}</p>
-            <div className={styles.price_container}>
-                <p className="text text_type_main-default pr-1">{card.price}</p>
-                <CurrencyIcon />
-            </div>
-      </div>      
-    )  
-}
-Card.propTypes = {
-    card: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired
 }

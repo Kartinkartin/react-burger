@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from "./ingredient-detail.module.css";
 
 export default function IngredientDetail({ element }) {
-    return(
+    return (
         <>
             <img src={element.image} className={styles.image} />
             <p className=" text text_type_main-medium pt-4 pb-8">
