@@ -7,11 +7,6 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
 
-export const SET_LOADING_MODE = 'SET_LOADING_MODE';
-export const RESET_LOADING_MODE = 'RESET_LOADING_MODE';
-
-
-
 
 export function getApiItems() {
     return function (dispatch) {
