@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
     ConstructorPage,
     LoginPage,
@@ -9,7 +10,14 @@ import {
 
 function App() {
     return(
-        <ConstructorPage />
+        <Router>
+            <Switch>
+                <Route path="/" exact={true}>
+                    <ConstructorPage />
+                </Route>
+            </Switch>
+        </Router>
+        
     )
 }
 export default App;
