@@ -6,6 +6,7 @@ import {
     POST_CONSTRUCTOR_ITEMS_SUCCESS,
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
+import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
 
 
 export function getApiItems() {

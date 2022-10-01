@@ -8,6 +8,8 @@ import {
 } from "./pages";
 
 function App() {
-
+    return(
+        <ConstructorPage />
+    )
 }
 export default App;
