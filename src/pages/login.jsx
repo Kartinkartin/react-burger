@@ -20,7 +20,7 @@ export const LoginPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Вход
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}>
+                    <form className={`${styles.form_container} pt-6 pb-20`}>
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'email-input'}
@@ -46,7 +46,7 @@ export const LoginPage = () => {
                         <Button type="primary" size="medium" disabled={!inputEmailValue && !inputPassValue}>
                             Войти
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Вы новый пользователь? <Link className={styles.link} to='/register'>
                             Зарегистрироваться

@@ -16,7 +16,7 @@ export const RecoveryPassPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Восстановление пароля
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}>
+                    <form className={`${styles.form_container} pt-6 pb-20`}>
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'email-input'}
@@ -33,7 +33,7 @@ export const RecoveryPassPage = () => {
                             disabled={!inputEmailValue} >
                             Восстановить
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Вспомнили пароль? <Link className={styles.link} to='/login'>
                             Войти

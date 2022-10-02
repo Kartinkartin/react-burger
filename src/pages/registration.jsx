@@ -22,7 +22,7 @@ export const RegistrationPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Регистрация
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}>
+                    <form className={`${styles.form_container} pt-6 pb-20`}>
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'name-input'}
@@ -58,7 +58,7 @@ export const RegistrationPage = () => {
                         <Button type="primary" size="medium" disabled={!inputNameValue && !inputEmailValue && !inputPassValue}>
                             Зарегистрироваться
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Уже зарегистрированы? <Link className={styles.link} to='/login'>
                             Войти

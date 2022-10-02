@@ -21,6 +21,9 @@ function App() {
                 <Route path="/forgot-password" exact={true} >
                     <RecoveryPassPage />
                 </Route>
+                <Route path="/reset-password" exact={true} >
+                    <ResetPassPage />
+                </Route>
                 <Route path="/" exact={true}> {/*потом не забудь поменять путь '/' */}
                     <ConstructorPage />
                 </Route>
