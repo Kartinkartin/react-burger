@@ -18,6 +18,9 @@ function App() {
                 <Route path="/register" exact={true} >
                     <RegistrationPage />
                 </Route>
+                <Route path="/forgot-password" exact={true} >
+                    <RecoveryPassPage />
+                </Route>
                 <Route path="/" exact={true}> {/*потом не забудь поменять путь '/' */}
                     <ConstructorPage />
                 </Route>
