@@ -13,7 +13,6 @@
 
 .container{
     width: 480px;
-    height: 430px;
     margin: 0 auto;
 }
 
@@ -27,17 +26,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 1px solid red;
 }
 
-.inputs_container {
+.input_container {
     margin: 0 auto;
-    height: 152px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    border: 1px solid grey;
 }
 
 .text {

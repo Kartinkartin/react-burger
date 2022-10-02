@@ -21,7 +21,7 @@ export const LoginPage = () => {
                         Вход
                     </h1>
                     <div className={`${styles.form_container} pt-6 pb-20`}>
-                        <div className={`${styles.inputs_container} pb-6`}>
+                        <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'email-input'}
                                 type={'email'}
@@ -30,6 +30,8 @@ export const LoginPage = () => {
                                 value={inputEmailValue}
                                 onChange={e => setInputEmailValue(e.target.value)}
                             />
+                        </div>
+                        <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'pass-input'}
                                 type={'password'}
@@ -41,7 +43,7 @@ export const LoginPage = () => {
                                 onIconClick={onIconClick}
                             />
                         </div>
-                        <Button type="primary" size="small" disabled={!inputEmailValue && !inputPassValue}>
+                        <Button type="primary" size="medium" disabled={!inputEmailValue && !inputPassValue}>
                             Войти
                         </Button>
                     </div>
