@@ -16,7 +16,16 @@
     align-items: center;
     box-sizing: border-box;
     cursor: pointer;
+    text-decoration: none;
+    color: #8585AD
 }
+
+/* .button:active {
+    color: #F2F2F3;
+}
+.button:visited {
+    color: #F2F2F3;
+} */
 
 .logo {
     margin-left: 115px;

@@ -1,11 +1,14 @@
-import { BurgerIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import styles from "../app-header/app-header.module.css";
-import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Box } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Typography } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Link } from "react-router-dom";
+import {
+    ListIcon,
+    Logo,
+    ProfileIcon,
+    BurgerIcon,
+    Box,
+    Typography
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 
 export default function AppHeader() {
@@ -22,10 +25,10 @@ export default function AppHeader() {
             <div className={styles.logo}>
                 <Logo />
             </div>
-            <div className={styles.button}>
+            <Link className={styles.button} to='/profile'>
                 <ProfileIcon />
                 <p className="text text_type_main-default ml-2">Личный кабинет</p>
-            </div>
+            </Link>
         </header>
     )
 }
