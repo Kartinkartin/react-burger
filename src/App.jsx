@@ -12,7 +12,13 @@ function App() {
     return(
         <Router>
             <Switch>
-                <Route path="/" exact={true}>
+                <Route path="/login" exact={true} >
+                    <LoginPage />
+                </Route>
+                <Route path="/register" exact={true} >
+                    <RegistrationPage />
+                </Route>
+                <Route path="/" exact={true}> {/*потом не забудь поменять путь '/' */}
                     <ConstructorPage />
                 </Route>
             </Switch>

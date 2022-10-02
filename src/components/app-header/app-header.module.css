@@ -5,8 +5,8 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding-left: 100px;
+    /* justify-content: center; */
+    /* padding-left: 100px; */
 }
 
 .button {
@@ -15,9 +15,10 @@
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .logo {
-    margin-left: 112px;
-    margin-right: 290px;
+    margin-left: 115px;
+    margin-right: 310px;
 }
