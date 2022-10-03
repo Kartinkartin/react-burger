@@ -28,3 +28,12 @@ export async function postOrderRequest(orderListId) {
   })
     .then(checkRes))
 }
+
+export async function resetPassRequest(emailObj) {
+  return (await fetch(`${config.baseUrl}/password-reset`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify(emailObj)
+  })
+    .then(checkRes))
+}

@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
-import { Input, Button, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { resetPass } from '../services/actions';
+import { FORGOT_PASSWORD } from '../services/actions/login';
+
 
 
 export const RecoveryPassPage = () => {
+    const dispatch = useDispatch();
     const [inputEmailValue, setInputEmailValue] = useState('');
+    const onClick = (e) => {
+        // e.PreventDefault();
+        dispatch({
+            type: FORGOT_PASSWORD
+        })
+    }
 
     return (
         <main className={styles.page}>
@@ -30,7 +41,8 @@ export const RecoveryPassPage = () => {
                         <Button
                             type="primary"
                             size="medium"
-                            disabled={!inputEmailValue} >
+                            disabled={!inputEmailValue} 
+                            onClick={onClick} >
                             Восстановить
                         </Button>
                     </form>

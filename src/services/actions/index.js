@@ -1,4 +1,4 @@
-import { getCardsRequest, postOrderRequest } from "../../components/api/api";
+import { getCardsRequest, postOrderRequest, resetPassRequest } from "../../components/api/api";
 import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
 import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
 import {
@@ -7,9 +7,10 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
 import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
+import { FORGOT_PASSWORD } from "./login";
 
 
-export function getApiItems() {
+export function getApiItems() { //усилитель для получения всего набора, см. ConstructorPage
     return function (dispatch) {
         dispatch({
             type: GET_API_ITEMS_REQUEST
@@ -43,7 +44,7 @@ export function getApiItems() {
     };
 }
 
-export const postOrder = (orderList) => {
+export const postOrder = (orderList) => { //усилитель для отправки заказа, см. ConstructorPage
     const orderListId = orderList.map(item => item._id);
     orderListId.push(orderList[0]._id);
     return function (dispatch) {
@@ -80,4 +81,16 @@ export const postOrder = (orderList) => {
                 });
             })
     }
+}
+
+export const resetPass = () => (dispatch) => {
+    const emailObj = {
+        email: ''
+    }
+    resetPassRequest(emailObj)
+    .then(res => {
+        if (res && res.success) {
+            console.log('я сделяль из resetPass')
+        }
+    })
 }
