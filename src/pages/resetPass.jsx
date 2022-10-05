@@ -24,7 +24,7 @@ export const ResetPassPage = () => {
     };
     const onClick =() => {
         newPassData.password = inputPassValue;
-        newPassData.token = inputCodeValue
+        newPassData.token = inputCodeValue;
         newPassRequest(newPassData)
     }
 

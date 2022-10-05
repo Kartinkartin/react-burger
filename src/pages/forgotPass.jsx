@@ -10,7 +10,7 @@ import { resetPassRequest } from '../components/api/api';
 
 
 
-export const RecoveryPassPage = () => {
+export const ForgotPassPage = () => {
     const dispatch = useDispatch();
     const [inputEmailValue, setInputEmailValue] = useState('');
     const onClick = () => {

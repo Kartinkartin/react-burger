@@ -3,7 +3,7 @@ import {
     ConstructorPage,
     LoginPage,
     ProfilePage,
-    RecoveryPassPage,
+    ForgotPassPage,
     RegistrationPage,
     ResetPassPage
 } from "./pages";
@@ -19,7 +19,7 @@ function App() {
                     <RegistrationPage />
                 </Route>
                 <Route path="/forgot-password" exact={true} >
-                    <RecoveryPassPage />
+                    <ForgotPassPage />
                 </Route>
                 <Route path="/reset-password" exact={true} >
                     <ResetPassPage />
