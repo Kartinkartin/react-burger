@@ -5,7 +5,7 @@ function checkRes(res) {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const config = {
+const config = {
   baseUrl: 'https://norma.nomoreparties.space/api',
   headers: {
     'Content-Type': 'application/json'
@@ -57,6 +57,36 @@ export async function registerUserRequest(userData) {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(userData)
+  })
+    .then(checkRes))
+}
+
+export async function loginUserRequest(userData) {
+  debugger
+  return (await fetch(`${config.baseUrl}/auth/login`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify({})
+  })
+    .then(checkRes))
+}
+
+export async function logoutUserRequest(userData) {
+  debugger
+  return (await fetch(`${config.baseUrl}/auth/logout`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify({})
+  })
+    .then(checkRes))
+}
+
+export async function refreshTokenRequest(userData) {
+  debugger
+  return (await fetch(`${config.baseUrl}/auth/login`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify({})
   })
     .then(checkRes))
 }

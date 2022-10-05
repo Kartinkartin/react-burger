@@ -105,11 +105,13 @@ export const registerUser = (userData) => {
         debugger
         registerUserRequest(userData)
             .then(res => {
-                dispatch({
-                    type: REGISTER_USER,
-                    user: res.user
-                })
+                // dispatch({     ПОТОМ ПЕРЕВЕСТИ НА СТРАНИЦУ ЛОГИН И ОТТУДА СОХРАНЯТЬ ДАННЫЕ
+                //     type: REGISTER_USER,
+                //     user: res.user,
+                //     token: res.accessToken
+                // })
             }
             )
+            .catch(err => console.log(err))
     }
 }

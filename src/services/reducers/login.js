@@ -3,7 +3,8 @@ import { FORGOT_PASSWORD, REGISTER_USER } from "../actions/login";
 const initialState = {
     "email": "", 
     "password": "", 
-    "name": "" 
+    "name": "",
+    "token": "" 
 };
 
 export const loginReducer = (state = initialState, action) => {
@@ -13,7 +14,8 @@ export const loginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 'email': action.user.email,
-                'name': action.user.name
+                'name': action.user.name,
+                'token': action.token
             }
         }
         case FORGOT_PASSWORD: {
