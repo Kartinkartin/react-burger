@@ -3,16 +3,31 @@ import { Link } from 'react-router-dom';
 import styles from './registration.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { registerUser } from '../services/actions';
+import { registerUserRequest } from '../components/api/api';
 
 export const RegistrationPage = () => {
     const [inputNameValue, setInputNameValue] = useState('');
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
-    
+    const newUserData = {
+        email: '',
+        password: '',
+        name: ''
+    };
+
     const [passIcon, setPassIcon] = useState('ShowIcon')
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
+
+    const handleRegister= () => {
+        newUserData.email = inputEmailValue;
+        newUserData.password = inputPassValue;
+        newUserData.name = inputNameValue; 
+        registerUserRequest(newUserData); //ничего со стейтом делать не надо? училитель остался в экшеновском индексе
+
+    }
 
     return (
         <main className={styles.page}>
@@ -22,7 +37,7 @@ export const RegistrationPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Регистрация
                     </h1>
-                    <form className={`${styles.form_container} pt-6 pb-20`}>
+                    <div className={`${styles.form_container} pt-6 pb-20`}> {/* попробуй поотм вернуть тег форм без обновления страницы*/}
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'name-input'}
@@ -55,10 +70,14 @@ export const RegistrationPage = () => {
                                 onIconClick={onIconClick}
                             />
                         </div>
-                        <Button type="primary" size="medium" disabled={!inputNameValue && !inputEmailValue && !inputPassValue}>
+                        <Button
+                            type="primary"
+                            size="medium"
+                            disabled={!inputNameValue && !inputEmailValue && !inputPassValue}
+                            onClick={handleRegister} >
                             Зарегистрироваться
                         </Button>
-                    </form>
+                    </div>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Уже зарегистрированы? <Link className={styles.link} to='/login'>
                             Войти

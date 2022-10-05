@@ -1,4 +1,4 @@
-import { getCardsRequest, postOrderRequest, resetPassRequest } from "../../components/api/api";
+import { getCardsRequest, postOrderRequest, resetPassRequest, registerUserRequest } from "../../components/api/api";
 import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
 import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
 import {
@@ -7,7 +7,7 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
 import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
-import { FORGOT_PASSWORD } from "./login";
+import { FORGOT_PASSWORD, REGISTER_USER } from "./login";
 
 
 export function getApiItems() { //усилитель для получения всего набора, см. ConstructorPage
@@ -83,14 +83,33 @@ export const postOrder = (orderList) => { //усилитель для отпра
     }
 }
 
-export const resetPass = () => (dispatch) => {
+export const resetPass = () => {  // призван в этот мир, чтоб сбросить пароль и переадресовать страницу, почту забери и передавай из inputa recoveryPass
     const emailObj = {
-        email: ''
+        "email": ""
     }
-    resetPassRequest(emailObj)
-    .then(res => {
-        if (res && res.success) {
-            console.log('я сделяль из resetPass')
-        }
-    })
+    debugger
+    // сюда диспатчей напихать, аще нипонятна, впереди туман, лошшшадкааа Т.Т
+    resetPassRequest()
+        .then(res => {
+            if (res && res.success) {
+                console.log('я сделяль из resetPass')
+            }
+        })
+
+
+}
+
+export const registerUser = (userData) => {
+    debugger
+    return function (dispatch) {
+        debugger
+        registerUserRequest(userData)
+            .then(res => {
+                dispatch({
+                    type: REGISTER_USER,
+                    user: res.user
+                })
+            }
+            )
+    }
 }

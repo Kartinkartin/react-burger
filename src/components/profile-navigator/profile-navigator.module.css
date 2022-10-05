@@ -11,6 +11,12 @@
     color: #8585AD;
 }
 
+.link_active {
+    text-decoration: none;
+    height: 64px;
+    color: #F2F2F3
+}
+
 .current_page {
     color: #F2F2F3;
 }

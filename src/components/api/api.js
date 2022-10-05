@@ -29,11 +29,34 @@ export async function postOrderRequest(orderListId) {
     .then(checkRes))
 }
 
-export async function resetPassRequest(emailObj) {
+export async function resetPassRequest(email) {
+  debugger
   return (await fetch(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
-    body: JSON.stringify(emailObj)
+    body: JSON.stringify({
+      "email": email
+    })
+    // потом тело запроса надо поменять
+  })
+    .then(checkRes))
+}
+
+export async function newPassRequest(newPassData) {
+  return (await fetch(`${config.baseUrl}/password-reset/reset`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify(newPassData)
+  })
+    .then(checkRes))
+}
+
+export async function registerUserRequest(userData) {
+  debugger
+  return (await fetch(`${config.baseUrl}/auth/register`, {
+    headers: config.headers,
+    method: 'POST',
+    body: JSON.stringify(userData)
   })
     .then(checkRes))
 }
