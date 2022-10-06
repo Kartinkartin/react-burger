@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { loginUser } from '../services/actions';
+
 
 export const LoginPage = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
-    const [passIcon, setPassIcon] = useState('ShowIcon')
-    const onIconClick=()=> {
-        passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
-    } ;
+    const [passIcon, setPassIcon] = useState('ShowIcon');
+    const loginData = {
+        "email": "", 
+        "password": "" 
+    };
 
+    const onIconClick = () => {
+        passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
+    };
+    const onClick = () => {
+        loginData.email = inputEmailValue;
+        loginData.password = inputPassValue;
+        dispatch(loginUser(loginData, history));
+    }
     return (
         <main className={styles.page}>
             <AppHeader />
@@ -20,7 +34,7 @@ export const LoginPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Вход
                     </h1>
-                    <form className={`${styles.form_container} pt-6 pb-20`}>
+                    <div className={`${styles.form_container} pt-6 pb-20`}>
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'email-input'}
@@ -43,10 +57,14 @@ export const LoginPage = () => {
                                 onIconClick={onIconClick}
                             />
                         </div>
-                        <Button type="primary" size="medium" disabled={!inputEmailValue && !inputPassValue}>
+                        <Button
+                            type="primary"
+                            size="medium"
+                            disabled={!inputEmailValue && !inputPassValue}
+                            onClick={onClick} >
                             Войти
                         </Button>
-                    </form>
+                    </div>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Вы новый пользователь? <Link className={styles.link} to='/register'>
                             Зарегистрироваться

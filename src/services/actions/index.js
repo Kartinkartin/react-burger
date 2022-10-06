@@ -1,4 +1,4 @@
-import { getCardsRequest, postOrderRequest, resetPassRequest, registerUserRequest } from "../../components/api/api";
+import { getCardsRequest, postOrderRequest, resetPassRequest, registerUserRequest, loginUserRequest } from "../../components/api/api";
 import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
 import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
 import {
@@ -7,7 +7,7 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
 import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
-import { FORGOT_PASSWORD, REGISTER_USER } from "./login";
+import { SET_USER } from "./login";
 
 
 export function getApiItems() { //усилитель для получения всего набора, см. ConstructorPage
@@ -99,7 +99,7 @@ export const resetPass = () => {  // призван в этот мир, чтоб
 
 }
 
-export const registerUser = (userData) => {
+export const registerUser = (userData) => { //возможно лишний
     debugger
     return function (dispatch) {
         debugger
@@ -113,5 +113,26 @@ export const registerUser = (userData) => {
             }
             )
             .catch(err => console.log(err))
+    }
+}
+
+export const loginUser = (userData, history) => {
+    let accessToken;
+    return function (dispatch) {
+        loginUserRequest(userData)
+            .then(res => {
+                if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
+                else accessToken = res.accessToken
+                dispatch({
+                    type: SET_USER,
+                    user: res.user,
+                    token: accessToken
+                })
+                document.cookie = `refreshToken=${res.refreshToken}`;
+            }
+            )
+            .then(res => history.replace({ pathname: '/' }))
+            .catch(err => console.log(err)) //как-нибудь сказать, что наврали с паролем
+            
     }
 }

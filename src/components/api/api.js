@@ -61,12 +61,11 @@ export async function registerUserRequest(userData) {
     .then(checkRes))
 }
 
-export async function loginUserRequest(userData) {
-  debugger
+export async function loginUserRequest(loginData) {
   return (await fetch(`${config.baseUrl}/auth/login`, {
     headers: config.headers,
     method: 'POST',
-    body: JSON.stringify({})
+    body: JSON.stringify(loginData)
   })
     .then(checkRes))
 }

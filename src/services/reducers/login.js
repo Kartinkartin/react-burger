@@ -1,4 +1,4 @@
-import { FORGOT_PASSWORD, REGISTER_USER } from "../actions/login";
+import { FORGOT_PASSWORD, SET_USER } from "../actions/login";
 
 const initialState = {
     "email": "", 
@@ -9,8 +9,7 @@ const initialState = {
 
 export const loginReducer = (state = initialState, action) => {
     switch (action.type) {
-        case REGISTER_USER: {
-            debugger;
+        case SET_USER: {
             return {
                 ...state,
                 'email': action.user.email,
@@ -18,7 +17,7 @@ export const loginReducer = (state = initialState, action) => {
                 'token': action.token
             }
         }
-        case FORGOT_PASSWORD: {
+        case FORGOT_PASSWORD: { //тож мож лишний
             return {
                 ...state,
                 'email': action.email

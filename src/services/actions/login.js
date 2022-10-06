@@ -1,2 +1,2 @@
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
-export const REGISTER_USER = 'REGISTER_USER';
+export const SET_USER = 'SET_USER';
