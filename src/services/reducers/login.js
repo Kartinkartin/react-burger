@@ -1,8 +1,7 @@
-import { FORGOT_PASSWORD, SET_USER } from "../actions/login";
+import { RESET_USER, SET_USER } from "../actions/login";
 
 const initialState = {
-    "email": "", 
-    "password": "", 
+    "email": "",
     "name": "",
     "token": "" 
 };
@@ -17,11 +16,8 @@ export const loginReducer = (state = initialState, action) => {
                 'token': action.token
             }
         }
-        case FORGOT_PASSWORD: { //тож мож лишний
-            return {
-                ...state,
-                'email': action.email
-            }
+        case RESET_USER: {
+            return initialState
         }
         default: return state
     }

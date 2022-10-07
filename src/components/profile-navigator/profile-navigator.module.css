@@ -12,11 +12,15 @@
 }
 
 .link_active {
-    text-decoration: none;
-    height: 64px;
     color: #F2F2F3
 }
 
-.current_page {
-    color: #F2F2F3;
+.button {
+    background-color: rgb(240, 240, 240, 0);
+    border: none;
+    color: #8585AD;
+    text-align: left;
+    height: 64px;
+    padding-bottom: 64px;
+    cursor: pointer;
 }

@@ -1,4 +1,4 @@
-import { getCardsRequest, postOrderRequest, resetPassRequest, registerUserRequest, loginUserRequest } from "../../components/api/api";
+import { getCardsRequest, postOrderRequest, resetPassRequest, registerUserRequest, loginUserRequest, logoutUserRequest } from "../../components/api/api";
 import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
 import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
 import {
@@ -7,7 +7,7 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
 import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
-import { SET_USER } from "./login";
+import { SET_USER, RESET_USER } from "./login";
 
 
 export function getApiItems() { //усилитель для получения всего набора, см. ConstructorPage
@@ -116,7 +116,7 @@ export const registerUser = (userData) => { //возможно лишний
     }
 }
 
-export const loginUser = (userData, history) => {
+export const loginUser = (userData, history) => {  //внутри коммент
     let accessToken;
     return function (dispatch) {
         loginUserRequest(userData)
@@ -132,6 +132,25 @@ export const loginUser = (userData, history) => {
             }
             )
             .then(res => history.replace({ pathname: '/' }))
+            .catch(err => console.log(err)) //как-нибудь сказать, что наврали с паролем
+            
+    }
+}
+
+export const logoutUser = (token, history) => {
+    let logoutData = {
+        "token": token
+    };
+    return function (dispatch) {
+        logoutUserRequest(logoutData)
+            .then(res => {
+                dispatch({
+                    type: RESET_USER,
+                })
+                document.cookie = "name=refreshToken; expires=-1";
+            }
+            )
+            .then(res => history.replace({ pathname: '/login' }))
             .catch(err => console.log(err)) //как-нибудь сказать, что наврали с паролем
             
     }

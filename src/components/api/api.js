@@ -30,14 +30,12 @@ export async function postOrderRequest(orderListId) {
 }
 
 export async function resetPassRequest(email) {
-  debugger
   return (await fetch(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify({
       "email": email
     })
-    // потом тело запроса надо поменять
   })
     .then(checkRes))
 }
@@ -52,7 +50,6 @@ export async function newPassRequest(newPassData) {
 }
 
 export async function registerUserRequest(userData) {
-  debugger
   return (await fetch(`${config.baseUrl}/auth/register`, {
     headers: config.headers,
     method: 'POST',
@@ -70,12 +67,12 @@ export async function loginUserRequest(loginData) {
     .then(checkRes))
 }
 
-export async function logoutUserRequest(userData) {
+export async function logoutUserRequest(logoutData) {
   debugger
   return (await fetch(`${config.baseUrl}/auth/logout`, {
     headers: config.headers,
     method: 'POST',
-    body: JSON.stringify({})
+    body: JSON.stringify(logoutData)
   })
     .then(checkRes))
 }
