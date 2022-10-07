@@ -116,17 +116,18 @@ export const registerUser = (userData) => { //возможно лишний
     }
 }
 
-export const loginUser = (userData, history) => {  //внутри коммент
+export const loginUser = (loginData, history) => {  //внутри коммент
     let accessToken;
+    debugger
     return function (dispatch) {
-        loginUserRequest(userData)
+        loginUserRequest(loginData)
             .then(res => {
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken
                 dispatch({
                     type: SET_USER,
-                    user: res.user,
-                    token: accessToken
+                    user: { ...res.user, 'password': loginData.password},
+                    token: accessToken,
                 })
                 document.cookie = `refreshToken=${res.refreshToken}`;
             }
@@ -147,7 +148,7 @@ export const logoutUser = (token, history) => {
                 dispatch({
                     type: RESET_USER,
                 })
-                document.cookie = "name=refreshToken; expires=-1";
+                document.cookie = `refreshToken=${token}; max-age=-1`;
             }
             )
             .then(res => history.replace({ pathname: '/login' }))

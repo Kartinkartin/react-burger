@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { EmailInput, Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 
-export default function FormProfile() {
-    const [inputNameValue, setInputNameValue] = useState('');
-    const [inputEmailValue, setInputEmailValue] = useState('');
-    const [inputPassValue, setInputPassValue] = useState('');
+export default function FormProfile({ userData }) {
+    debugger
+    const [inputNameValue, setInputNameValue] = useState(userData.name);
+    const [inputEmailValue, setInputEmailValue] = useState(userData.email);
+    const [inputPassValue, setInputPassValue] = useState(userData.pass);
     
     const onIconClick = () => {};
-
+    debugger
     return (
-        <form className={`${styles.form_container}`}>
+        <div className={`${styles.form_container}`}>
             <div className={`${styles.input_container} pb-6`}>
                 <Input
                     name={'name-input'}
@@ -25,7 +26,7 @@ export default function FormProfile() {
                 />
             </div>
             <div className={`${styles.input_container} pb-6`}>
-                <Input
+                <EmailInput
                     name={'email-input'}
                     type={'email'}
                     placeholder={'E-mail'}
@@ -48,6 +49,6 @@ export default function FormProfile() {
                     onIconClick={onIconClick}
                 />
             </div>
-        </form>
+        </div>
     )
 }
