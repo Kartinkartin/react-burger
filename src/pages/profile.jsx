@@ -15,11 +15,10 @@ export const ProfilePage = () => {
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
     const history = useHistory();
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль из store добавится в передаче пропсов
     let data = null;
     const refreshToken = document.cookie.includes('refreshToken') ? document.cookie.split('=')[1] : null;
     useEffect(() => {
-        debugger
         getUserRequest(accessToken)
             .then(res => {
                 data = res.user;
@@ -30,7 +29,6 @@ export const ProfilePage = () => {
             dispatch(refreshUser(refreshToken)) : // перезаписываю accessToken в store
             history.replace({ pathname: '/login' })
         })
-        debugger
     }, [data])
     
     

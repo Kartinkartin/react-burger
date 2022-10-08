@@ -1,31 +1,40 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { EmailInput, Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
-import { changeUserDataRequest } from '../api/api';
+import { changeUserData } from '../../services/actions';
 
 
 export default function FormProfile({ userData }) {
-    debugger
+    const dispatch = useDispatch();
     const [inputNameValue, setInputNameValue] = useState(userData.name);
     const [inputEmailValue, setInputEmailValue] = useState(userData.email);
     const [inputPassValue, setInputPassValue] = useState(userData.pass);
-    const newData={};
+    const newData = {};
     const token = useSelector(store => store.login.token)
 
-    const onSave = () => {
-        if (
-            inputNameValue !== userData.name || 
-            inputEmailValue !== userData.email ||
-            inputPassValue !== userData.pass) {
-                changeUserDataRequest(token, newData)
-            }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (inputNameValue !== userData.name) { newData.name = inputNameValue }
+        if (inputEmailValue !== userData.email) { newData.email = inputEmailValue }
+        if (inputPassValue !== userData.pass) { newData.password = inputPassValue }
+        if (Boolean(newData)) {
+            dispatch(changeUserData(token, newData))
+        }
     }
 
-     const onIconClick = () => { };
-    debugger
+    const handleReset = (e) => {
+        e.preventDefault();
+        setInputNameValue(userData.name);
+        setInputEmailValue(userData.email);
+        setInputPassValue(userData.pass);
+    }
+
+    const onIconClick = () => { };
     return (
-        <div className={`${styles.form_container}`}>
+        <form
+            className={`${styles.form_container}`}
+            onSubmit={handleSubmit} >
             <div className={`${styles.input_container} pb-6`}>
                 <Input
                     name={'name-input'}
@@ -61,9 +70,9 @@ export default function FormProfile({ userData }) {
                 />
             </div>
             <div className={styles.button_container}>
-                <Button type="primary" size="medium" >Отменить</Button>
-                <Button type="primary" size="medium" onClick={onSave}>Сохранить</Button>
+                <Button type="primary" size="medium" onClick={handleReset} htmlType='reset' >Отменить</Button>
+                <Button type="primary" size="medium" htmlType='submit'>Сохранить</Button>
             </div>
-        </div>
+        </form>
     )
 }

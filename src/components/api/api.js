@@ -105,6 +105,7 @@ export async function getUserRequest(token) {
     .then(checkRes))
 }
 
+// изменение данных профиля пользователя, пароль тоже меняется
 export async function changeUserDataRequest(token, userData) {
   return (await fetch(`${config.baseUrl}/auth/user`, {
     headers: {
@@ -112,9 +113,7 @@ export async function changeUserDataRequest(token, userData) {
       authorization: `Bearer ${token}`
     },
     method: 'PATCH',
-    body: JSON.stringify({
-
-    })
+    body: JSON.stringify(userData)
   })
     .then(checkRes))
 }

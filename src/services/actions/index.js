@@ -5,7 +5,8 @@ import {
     registerUserRequest,
     loginUserRequest,
     logoutUserRequest,
-    refreshTokenRequest
+    refreshTokenRequest,
+    changeUserDataRequest
 } from "../../components/api/api";
 import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
 import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
@@ -15,7 +16,12 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
 import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
-import { SET_USER, RESET_USER, REFRESH_USER } from "./login";
+import {
+    SET_USER,
+    RESET_USER,
+    REFRESH_USER,
+    CHANGE_USER_DATA
+} from "./login";
 
 
 export function getApiItems() { //усилитель для получения всего набора, см. ConstructorPage
@@ -126,7 +132,6 @@ export const registerUser = (userData) => { //возможно лишний
 
 export const loginUser = (loginData, history) => {  //внутри коммент
     let accessToken;
-    debugger
     return function (dispatch) {
         loginUserRequest(loginData)
             .then(res => {
@@ -169,7 +174,6 @@ export const refreshUser = (token) => {
     let refreshData = {
         "token": token
     };
-    debugger;
     let accessToken = null;
     return function (dispatch) {
         refreshTokenRequest(refreshData)
@@ -179,9 +183,24 @@ export const refreshUser = (token) => {
                 else accessToken = res.accessToken;
                 dispatch({
                     type: REFRESH_USER,
-                    action: accessToken
+                    token: accessToken
                 })
                 document.cookie = `refreshToken=${res.refreshToken}`;
+            }
+            )
+            .catch(err => console.log(err)) //как-нибудь сказать
+
+    }
+}
+
+export const changeUserData = (token, newData) => {
+    return function (dispatch) {
+        changeUserDataRequest(token, newData)
+            .then(res => {
+                dispatch({
+                    type: CHANGE_USER_DATA,
+                    changed: { ...newData }
+                })
             }
             )
             .catch(err => console.log(err)) //как-нибудь сказать

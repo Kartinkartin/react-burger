@@ -1,10 +1,10 @@
-import { RESET_USER, SET_USER, REFRESH_USER } from "../actions/login";
+import { RESET_USER, SET_USER, REFRESH_USER, CHANGE_USER_DATA } from "../actions/login";
 
 const initialState = {
     "email": "",
     "name": "",
     "password": "",
-    "token": "" 
+    "token": ""
 };
 
 export const loginReducer = (state = initialState, action) => {
@@ -16,7 +16,7 @@ export const loginReducer = (state = initialState, action) => {
                 'name': action.user.name,
                 'password': action.user.password,
                 'token': action.token
-                
+
             }
         }
         case RESET_USER: {
@@ -26,6 +26,14 @@ export const loginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 'token': action.token
+            }
+        }
+        case CHANGE_USER_DATA: {
+            return {
+                ...state,
+                "email": action.changed.email ? action.changed.email : state.email,
+                "name": action.changed.name ? action.changed.name : state.name,
+                "password": action.changed.password ? action.changed.password : state.password
             }
         }
         default: return state
