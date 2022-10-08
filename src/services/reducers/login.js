@@ -1,4 +1,4 @@
-import { RESET_USER, SET_USER } from "../actions/login";
+import { RESET_USER, SET_USER, REFRESH_USER } from "../actions/login";
 
 const initialState = {
     "email": "",
@@ -21,6 +21,12 @@ export const loginReducer = (state = initialState, action) => {
         }
         case RESET_USER: {
             return initialState
+        }
+        case REFRESH_USER: {
+            return {
+                ...state,
+                'token': action.token
+            }
         }
         default: return state
     }

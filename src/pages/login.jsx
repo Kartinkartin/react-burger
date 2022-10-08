@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
-import { Input, Button, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, EmailInput, PasswordInput, Button, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../services/actions';
 
 
@@ -21,7 +21,9 @@ export const LoginPage = () => {
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
-    const onClick = () => {
+
+    const handleLogin = (e) => {
+        e.preventDefault();
         loginData.email = inputEmailValue;
         loginData.password = inputPassValue;
         dispatch(loginUser(loginData, history));
@@ -34,9 +36,9 @@ export const LoginPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Вход
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}>
+                    <form className={`${styles.form_container} pt-6 pb-20`} onSubmit={handleLogin}>
                         <div className={`${styles.input_container} pb-6`}>
-                            <Input
+                            <EmailInput
                                 name={'email-input'}
                                 type={'email'}
                                 placeholder={'E-mail'}
@@ -46,7 +48,7 @@ export const LoginPage = () => {
                             />
                         </div>
                         <div className={`${styles.input_container} pb-6`}>
-                            <Input
+                            <PasswordInput
                                 name={'pass-input'}
                                 type={'password'}
                                 placeholder={'Пароль'}
@@ -60,11 +62,11 @@ export const LoginPage = () => {
                         <Button
                             type="primary"
                             size="medium"
-                            disabled={!inputEmailValue && !inputPassValue}
-                            onClick={onClick} >
+                            disabled={!inputEmailValue || !inputPassValue}
+                            htmlType="submit" >
                             Войти
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Вы новый пользователь? <Link className={styles.link} to='/register'>
                             Зарегистрироваться

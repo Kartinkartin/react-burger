@@ -82,17 +82,18 @@ export async function logoutUserRequest(logoutData) {
     .then(checkRes))
 }
 
-export async function refreshTokenRequest() {
+// обновление токена
+export async function refreshTokenRequest(tokenData) {
   debugger
-  return (await fetch(`${config.baseUrl}/auth/login`, {
+  return (await fetch(`${config.baseUrl}/auth/token`, {
     headers: config.headers,
     method: 'POST',
-    body: JSON.stringify({})
+    body: JSON.stringify(tokenData)
   })
     .then(checkRes))
 }
 
-
+// получение информации профиля пользователя
 export async function getUserRequest(token) {
   return (await fetch(`${config.baseUrl}/auth/user`, {
     headers: {
@@ -100,6 +101,20 @@ export async function getUserRequest(token) {
       authorization: `Bearer ${token}`
     },
     method: 'GET',
+  })
+    .then(checkRes))
+}
+
+export async function changeUserDataRequest(token, userData) {
+  return (await fetch(`${config.baseUrl}/auth/user`, {
+    headers: {
+      ...config.headers,
+      authorization: `Bearer ${token}`
+    },
+    method: 'PATCH',
+    body: JSON.stringify({
+
+    })
   })
     .then(checkRes))
 }
