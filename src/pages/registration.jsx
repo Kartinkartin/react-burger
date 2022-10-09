@@ -20,10 +20,11 @@ export const RegistrationPage = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
 
-    const handleRegister= () => {
+    const handleRegister = (e) => {
+        e.preventDefault();
         newUserData.email = inputEmailValue;
         newUserData.password = inputPassValue;
-        newUserData.name = inputNameValue; 
+        newUserData.name = inputNameValue;
         registerUserRequest(newUserData);
 
     }
@@ -36,7 +37,9 @@ export const RegistrationPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Регистрация
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}> {/* попробуй поотм вернуть тег форм без обновления страницы*/}
+                    <form
+                        className={`${styles.form_container} pt-6 pb-20`}
+                        onSubmit={handleRegister} >
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'name-input'}
@@ -72,11 +75,10 @@ export const RegistrationPage = () => {
                         <Button
                             type="primary"
                             size="medium"
-                            disabled={!inputNameValue && !inputEmailValue && !inputPassValue}
-                            onClick={handleRegister} >
+                            disabled={!inputNameValue && !inputEmailValue && !inputPassValue} >
                             Зарегистрироваться
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Уже зарегистрированы? <Link className={styles.link} to='/login'>
                             Войти

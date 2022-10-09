@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,6 +7,7 @@ import { newPassRequest } from '../components/api/api';
 
 
 export const ResetPassPage = () => {
+    const history = useHistory();
     const [inputPassValue, setInputPassValue] = useState('');
     const [passIcon, setPassIcon] = useState('ShowIcon');
     const [inputCodeValue, setInputCodeValue] = useState('');
@@ -18,10 +19,12 @@ export const ResetPassPage = () => {
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
-    const onClick =() => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
         newPassData.password = inputPassValue;
         newPassData.token = inputCodeValue;
         newPassRequest(newPassData)
+        .then(res => history.replace({ pathname: '/login' }))
     }
 
     return (
@@ -32,7 +35,9 @@ export const ResetPassPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Восстановление пароля
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}> {/* переделай потом на форм и не обновляй страницу*/}
+                    <form
+                        className={`${styles.form_container} pt-6 pb-20`}
+                        onSubmit={handleSubmit} >
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'pass-input'}
@@ -59,10 +64,10 @@ export const ResetPassPage = () => {
                             type="primary"
                             size="medium"
                             disabled={!inputPassValue || !inputCodeValue}
-                            onClick={onClick}>
+                            htmlType='submit'>
                             Войти
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Вспомнили пароль? <Link className={styles.link} to='/login'>
                             Войти

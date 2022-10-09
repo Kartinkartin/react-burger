@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ProtectedRoute } from './components/protected-route/protected-route';
 import {
     ConstructorPage,
     LoginPage,

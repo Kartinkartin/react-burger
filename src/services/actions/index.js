@@ -1,7 +1,6 @@
 import {
     getCardsRequest,
     postOrderRequest,
-    registerUserRequest,
     loginUserRequest,
     logoutUserRequest,
     refreshTokenRequest,
@@ -90,23 +89,6 @@ export const postOrder = (orderList) => {
                     error: err
                 });
             })
-    }
-}
-
-export const registerUser = (userData) => { //мщжно удалить?
-    debugger
-    return function (dispatch) {
-        debugger
-        registerUserRequest(userData)
-            .then(res => {
-                // dispatch({     ПОТОМ ПЕРЕВЕСТИ НА СТРАНИЦУ ЛОГИН И ОТТУДА СОХРАНЯТЬ ДАННЫЕ
-                //     type: REGISTER_USER,
-                //     user: res.user,
-                //     token: res.accessToken
-                // })
-            }
-            )
-            .catch(err => console.log(err))
     }
 }
 

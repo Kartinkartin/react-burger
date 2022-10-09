@@ -14,12 +14,14 @@ export default function FormProfile({ userData }) {
     const token = useSelector(store => store.login.token)
 
     const handleSubmit = (e) => {
+        debugger
         e.preventDefault();
         if (inputNameValue !== userData.name) { newData.name = inputNameValue }
         if (inputEmailValue !== userData.email) { newData.email = inputEmailValue }
         if (inputPassValue !== userData.pass) { newData.password = inputPassValue }
-        if (Boolean(newData)) {
-            dispatch(changeUserData(token, newData))
+        for ( let key in newData) {
+            dispatch(changeUserData(token, newData));
+            break
         }
     }
 
