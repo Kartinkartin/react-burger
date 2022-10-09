@@ -13,7 +13,7 @@ import IngredientDetail from "../ingredient-detail/ingredient-detail";
 
 export default function BurgerIngredients() {
     const dispatch = useDispatch();
-    const items = useSelector(store => store.ingredientsApi);
+    const items = useSelector(store => store.ingredientsApi); // загрузка в App
     const [openingDetails, setOpeningDetails] = React.useState(false);
     const chosenItem = useSelector(store => store.chosenIngredient);
     

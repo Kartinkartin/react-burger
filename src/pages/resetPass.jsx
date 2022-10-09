@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,6 +8,7 @@ import { newPassRequest } from '../components/api/api';
 
 export const ResetPassPage = () => {
     const history = useHistory();
+    const location = useLocation();
     const [inputPassValue, setInputPassValue] = useState('');
     const [passIcon, setPassIcon] = useState('ShowIcon');
     const [inputCodeValue, setInputCodeValue] = useState('');
@@ -26,7 +27,7 @@ export const ResetPassPage = () => {
         newPassRequest(newPassData)
         .then(res => history.replace({ pathname: '/login' }))
     }
-
+    debugger;
     return (
         <main className={styles.page}>
             <AppHeader />

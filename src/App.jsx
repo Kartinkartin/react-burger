@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import {
@@ -13,22 +15,22 @@ function App() {
     return(
         <Router>
             <Switch>
-                <Route path="/login" exact={true} >
+                <ProtectedRoute path="/login" exact={true} >
                     <LoginPage />
-                </Route>
-                <Route path="/register" exact={true} >
+                </ProtectedRoute>
+                <ProtectedRoute path="/register" exact={true} >
                     <RegistrationPage />
-                </Route>
-                <Route path="/forgot-password" exact={true} >
+                </ProtectedRoute>
+                <ProtectedRoute path="/forgot-password" exact={true} >
                     <ForgotPassPage />
-                </Route>
-                <Route path="/reset-password" exact={true} >
+                </ProtectedRoute>
+                <ProtectedRoute path="/reset-password" exact={true} >
                     <ResetPassPage />
-                </Route>
-                <Route path="/profile" exact={true} >
+                </ProtectedRoute>
+                <ProtectedRoute path="/profile" exact={true} >
                     <ProfilePage />
-                </Route>
-                <Route path="/" exact={true}> {/*потом не забудь поменять путь '/' */}
+                </ProtectedRoute>
+                <Route path="/" exact={true}>
                     <ConstructorPage />
                 </Route>
             </Switch>

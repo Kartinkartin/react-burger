@@ -8,7 +8,7 @@ import styles from './profile-navigator.module.css';
 export default function ProfileNavigator() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const refreshToken = document.cookie.split('=')[1]
+    const refreshToken = document.cookie.split('; ')[0].split('=')[1]
     const onClick = () => {
         dispatch(logoutUser(refreshToken, history))
     }

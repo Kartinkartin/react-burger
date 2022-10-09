@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, Redirect } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -28,6 +28,15 @@ export const LoginPage = () => {
         loginData.password = inputPassValue;
         dispatch(loginUser(loginData, history));
     }
+
+    // проверка и переадресация, если пользователь авторизован
+    const wasLogged = document.cookie ? true : false;
+    if(wasLogged) {
+        return (
+            <Redirect to={{ pathname: '/' }} />
+        )
+    }
+    
     return (
         <main className={styles.page}>
             <AppHeader />

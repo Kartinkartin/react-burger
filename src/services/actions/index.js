@@ -104,7 +104,8 @@ export const loginUser = (loginData, history) => {  //внутри коммен�
                     user: { ...res.user, 'password': loginData.password },
                     token: accessToken,
                 })
-                document.cookie = `refreshToken=${res.refreshToken}`;
+                document.cookie = `refreshToken=${res.refreshToken}`; 
+                document.cookie = `password=${loginData.password}`;
             }
             )
             .then(res => history.replace({ pathname: '/' }))
@@ -123,7 +124,11 @@ export const logoutUser = (token, history) => {
                 dispatch({
                     type: RESET_USER,
                 })
-                document.cookie = `refreshToken=${token}; max-age=-1`;
+                const oldTokenCookie = document.cookie.split('; ')[0];
+                const oldPassCookie = document.cookie.split('; ')[1];
+                document.cookie = `${oldTokenCookie}; max-age=-1`;
+                document.cookie = `${oldPassCookie}; max-age=-1`;
+
             }
             )
             .then(res => history.replace({ pathname: '/login' }))

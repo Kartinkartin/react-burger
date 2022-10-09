@@ -10,9 +10,8 @@ import Modal from '../components/modal/modal';
 import { getApiItems } from '../services/actions';
 
 export const ConstructorPage = () => {
-    const dispatch = useDispatch();
     const loading = useSelector(store => store.loading);
-
+    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getApiItems())
     }, [dispatch])

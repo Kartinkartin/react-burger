@@ -10,7 +10,7 @@ import { refreshUser } from '../services/actions';
 
 export const ProfilePage = () => {
     const password = useSelector(store => store.login.password);
-    const isLogin = password ? true : false;
+    const isLogin = document.cookie ? true : false;
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
     const history = useHistory();
@@ -28,7 +28,7 @@ export const ProfilePage = () => {
             dispatch(refreshUser(refreshToken)) : // перезаписываю accessToken в store
             history.replace({ pathname: '/login' })
         })
-    }, [data])
+    }, [data, accessToken])
     
     
     return (

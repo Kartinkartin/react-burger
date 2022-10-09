@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,6 +15,14 @@ export const ForgotPassPage = () => {
         e.preventDefault();
         resetPassRequest(inputEmailValue)
         .then(res => history.replace({ pathname: '/reset-password' }))
+    }
+
+    // проверка и переадресация, если пользователь авторизован
+    const wasLogged = document.cookie ? true : false;
+    if(wasLogged) {
+        return (
+            <Redirect to={{ pathname: '/' }} />
+        )
     }
 
     return (
