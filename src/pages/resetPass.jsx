@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { newPassRequest } from '../components/api/api';
 
 
-export const ResetPassPage = () => {
+export const ResetPassPage = ({ state }) => {
     const history = useHistory();
     const location = useLocation();
     const [inputPassValue, setInputPassValue] = useState('');
@@ -25,57 +25,64 @@ export const ResetPassPage = () => {
         newPassData.password = inputPassValue;
         newPassData.token = inputCodeValue;
         newPassRequest(newPassData)
-        .then(res => history.replace({ pathname: '/login' }))
+            .then(res => history.replace({ pathname: '/login' }))
     }
-    debugger;
-    return (
-        <main className={styles.page}>
-            <AppHeader />
-            <div className={styles.main}>
-                <div className={styles.container}>
-                    <h1 className={`${styles.header} text text_type_main-medium`}>
-                        Восстановление пароля
-                    </h1>
-                    <form
-                        className={`${styles.form_container} pt-6 pb-20`}
-                        onSubmit={handleSubmit} >
-                        <div className={`${styles.input_container} pb-6`}>
-                            <Input
-                                name={'pass-input'}
-                                type={'password'}
-                                placeholder={'Введите новый пароль'}
-                                size={'default'}
-                                value={inputPassValue}
-                                onChange={e => setInputPassValue(e.target.value)}
-                                icon={passIcon}
-                                onIconClick={onIconClick}
-                            />
-                        </div>
-                        <div className={`${styles.input_container} pb-6`}>
-                            <Input
-                                name={'code-input'}
-                                type={'text'}
-                                placeholder={'Введите код из письма'}
-                                size={'default'}
-                                value={inputCodeValue}
-                                onChange={e => setInputCodeValue(e.target.value)}
-                            />
-                        </div>
-                        <Button
-                            type="primary"
-                            size="medium"
-                            disabled={!inputPassValue || !inputCodeValue}
-                            htmlType='submit'>
-                            Войти
-                        </Button>
-                    </form>
-                    <p className={`${styles.text} text text_type_main-default pb-4`}>
-                        Вспомнили пароль? <Link className={styles.link} to='/login'>
-                            Войти
-                        </Link>
-                    </p>
+
+    // проверка адреса предыдущей страницы, если ResetPassPage открыта не с ForgotPassPage, то переадресует на ForgotPassPage
+    if (location.state?.from?.pathname === '/forgot-password') {
+        return (
+            <main className={styles.page}>
+                <AppHeader />
+                <div className={styles.main}>
+                    <div className={styles.container}>
+                        <h1 className={`${styles.header} text text_type_main-medium`}>
+                            Восстановление пароля
+                        </h1>
+                        <form
+                            className={`${styles.form_container} pt-6 pb-20`}
+                            onSubmit={handleSubmit} >
+                            <div className={`${styles.input_container} pb-6`}>
+                                <Input
+                                    name={'pass-input'}
+                                    type={'password'}
+                                    placeholder={'Введите новый пароль'}
+                                    size={'default'}
+                                    value={inputPassValue}
+                                    onChange={e => setInputPassValue(e.target.value)}
+                                    icon={passIcon}
+                                    onIconClick={onIconClick}
+                                />
+                            </div>
+                            <div className={`${styles.input_container} pb-6`}>
+                                <Input
+                                    name={'code-input'}
+                                    type={'text'}
+                                    placeholder={'Введите код из письма'}
+                                    size={'default'}
+                                    value={inputCodeValue}
+                                    onChange={e => setInputCodeValue(e.target.value)}
+                                />
+                            </div>
+                            <Button
+                                type="primary"
+                                size="medium"
+                                disabled={!inputPassValue || !inputCodeValue}
+                                htmlType='submit'>
+                                Войти
+                            </Button>
+                        </form>
+                        <p className={`${styles.text} text text_type_main-default pb-4`}>
+                            Вспомнили пароль? <Link className={styles.link} to='/login'>
+                                Войти
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </main>
-    );
+            </main>
+        );
+    }
+
+    return (
+        <Redirect to={{ pathname: '/forgot-password' }} />
+    )
 }

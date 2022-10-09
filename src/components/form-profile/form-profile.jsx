@@ -14,7 +14,6 @@ export default function FormProfile({ userData }) {
     const token = useSelector(store => store.login.token)
 
     const handleSubmit = (e) => {
-        debugger
         e.preventDefault();
         if (inputNameValue !== userData.name) { newData.name = inputNameValue }
         if (inputEmailValue !== userData.email) { newData.email = inputEmailValue }

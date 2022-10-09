@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation, Link, Redirect } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,19 +8,28 @@ import { resetPassRequest } from '../components/api/api';
 
 
 export const ForgotPassPage = () => {
-    const history = useHistory();
+    const location = useLocation();
     const [inputEmailValue, setInputEmailValue] = useState('');
+    const [wasReset, setReset] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
-        resetPassRequest(inputEmailValue)
-        .then(res => history.replace({ pathname: '/reset-password' }))
+        return resetPassRequest(inputEmailValue)
+            .then(res =>
+                setReset(true)
+            )
     }
 
     // проверка и переадресация, если пользователь авторизован
     const wasLogged = document.cookie ? true : false;
-    if(wasLogged) {
+    if (wasLogged) {
         return (
             <Redirect to={{ pathname: '/' }} />
+        )
+    }
+
+    if (wasReset) {
+        return(
+            <Redirect to={{ pathname: '/reset-password', state: {from: location} }} />
         )
     }
 

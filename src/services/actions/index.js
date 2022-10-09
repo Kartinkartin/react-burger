@@ -128,7 +128,6 @@ export const logoutUser = (token, history) => {
                 const oldPassCookie = document.cookie.split('; ')[1];
                 document.cookie = `${oldTokenCookie}; max-age=-1`;
                 document.cookie = `${oldPassCookie}; max-age=-1`;
-
             }
             )
             .then(res => history.replace({ pathname: '/login' }))
