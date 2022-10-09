@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { resetPass } from '../services/actions';
-import { FORGOT_PASSWORD } from '../services/actions/login';
 import { resetPassRequest } from '../components/api/api';
 
 
 
 export const ForgotPassPage = () => {
-    const dispatch = useDispatch();
     const [inputEmailValue, setInputEmailValue] = useState('');
-    const onClick = () => {
-        resetPassRequest(inputEmailValue) //потом почту сюда передавай
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        resetPassRequest(inputEmailValue)
     }
 
     return (
@@ -25,7 +22,9 @@ export const ForgotPassPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Восстановление пароля
                     </h1>
-                    <div className={`${styles.form_container} pt-6 pb-20`}> {/*замени потом на тег form и не обновляй страницу */}
+                    <form
+                        className={`${styles.form_container} pt-6 pb-20`}
+                        onSubmit={handleSubmit}>
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
                                 name={'email-input'}
@@ -40,10 +39,10 @@ export const ForgotPassPage = () => {
                             type="primary"
                             size="medium"
                             disabled={!inputEmailValue}
-                            onClick={onClick} >
+                            htmlType='submit' >
                             Восстановить
                         </Button>
-                    </div>
+                    </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
                         Вспомнили пароль? <Link className={styles.link} to='/login'>
                             Войти

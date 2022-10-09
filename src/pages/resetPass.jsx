@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import AppHeader from "../components/app-header/app-header";
-import { Input, Button, ShowIcon, HideIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { GET_USER } from '../services/actions/login';
-import { setUser } from '../services/actions';
+import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { newPassRequest } from '../components/api/api';
 
 
 export const ResetPassPage = () => {
-    const dispatch = useDispatch();
     const [inputPassValue, setInputPassValue] = useState('');
     const [passIcon, setPassIcon] = useState('ShowIcon');
     const [inputCodeValue, setInputCodeValue] = useState('');

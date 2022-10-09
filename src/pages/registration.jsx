@@ -3,12 +3,9 @@ import { Link } from 'react-router-dom';
 import styles from './registration.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { registerUser } from '../services/actions';
 import { registerUserRequest } from '../components/api/api';
-import { useDispatch } from 'react-redux';
 
 export const RegistrationPage = () => {
-    const dispatch = useDispatch();
     const [inputNameValue, setInputNameValue] = useState('');
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
@@ -27,7 +24,7 @@ export const RegistrationPage = () => {
         newUserData.email = inputEmailValue;
         newUserData.password = inputPassValue;
         newUserData.name = inputNameValue; 
-        dispatch(registerUser(newUserData));
+        registerUserRequest(newUserData);
 
     }
 

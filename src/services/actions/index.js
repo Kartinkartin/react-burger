@@ -1,7 +1,6 @@
 import {
     getCardsRequest,
     postOrderRequest,
-    resetPassRequest,
     registerUserRequest,
     loginUserRequest,
     logoutUserRequest,
@@ -11,7 +10,6 @@ import {
 import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
 import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
 import {
-    POST_CONSTRUCTOR_ITEMS_REQUEST,
     POST_CONSTRUCTOR_ITEMS_SUCCESS,
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
@@ -23,8 +21,8 @@ import {
     CHANGE_USER_DATA
 } from "./login";
 
-
-export function getApiItems() { //усилитель для получения всего набора, см. ConstructorPage
+// усилитель для получения всего набора, см. ConstructorPage
+export function getApiItems() { 
     return function (dispatch) {
         dispatch({
             type: GET_API_ITEMS_REQUEST
@@ -58,13 +56,11 @@ export function getApiItems() { //усилитель для получения �
     };
 }
 
-export const postOrder = (orderList) => { //усилитель для отправки заказа, см. ConstructorPage
+// усилитель для отправки заказа, см. ConstructorPage
+export const postOrder = (orderList) => { 
     const orderListId = orderList.map(item => item._id);
     orderListId.push(orderList[0]._id);
     return function (dispatch) {
-        dispatch({
-            type: POST_CONSTRUCTOR_ITEMS_REQUEST
-        });
         dispatch({
             type: SET_LOADING_MODE
         })
@@ -97,23 +93,7 @@ export const postOrder = (orderList) => { //усилитель для отпра
     }
 }
 
-export const resetPass = () => {  // призван в этот мир, чтоб сбросить пароль и переадресовать страницу, почту забери и передавай из inputa recoveryPass
-    const emailObj = {
-        "email": ""
-    }
-    debugger
-    // сюда диспатчей напихать, аще нипонятна, впереди туман, лошшшадкааа Т.Т
-    resetPassRequest()
-        .then(res => {
-            if (res && res.success) {
-                console.log('я сделяль из resetPass')
-            }
-        })
-
-
-}
-
-export const registerUser = (userData) => { //возможно лишний
+export const registerUser = (userData) => { //мщжно удалить?
     debugger
     return function (dispatch) {
         debugger

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styles from './profile.module.css';
 import AppHeader from "../components/app-header/app-header";
 import FormProfile from '../components/form-profile/form-profile';
 import ProfileNavigator from '../components/profile-navigator/profile-navigator';
-import { getUserRequest, refreshTokenRequest } from '../components/api/api';
-import { useDispatch, useSelector } from 'react-redux';
-import { SET_USER } from '../services/actions/login';
+import { getUserRequest } from '../components/api/api';
 import { refreshUser } from '../services/actions';
 
 export const ProfilePage = () => {
@@ -15,7 +14,7 @@ export const ProfilePage = () => {
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
     const history = useHistory();
-    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль из store добавится в передаче пропсов
+    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль из store добавится при передаче пропсов
     let data = null;
     const refreshToken = document.cookie.includes('refreshToken') ? document.cookie.split('=')[1] : null;
     useEffect(() => {

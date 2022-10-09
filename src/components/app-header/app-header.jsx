@@ -5,9 +5,7 @@ import {
     ListIcon,
     Logo,
     ProfileIcon,
-    BurgerIcon,
-    Box,
-    Typography
+    BurgerIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
