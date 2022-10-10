@@ -8,22 +8,28 @@ import {
     ProfilePage,
     ForgotPassPage,
     RegistrationPage,
-    ResetPassPage
+    ResetPassPage,
+    IngredientDetailPage,
+    NotFoundPage
 } from "./pages";
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
+import { getApiItems } from './services/actions';
 
 function App() {
     // В Router обернуто в index, чтобы читался location
     const location = useLocation();
     let background = location.state?.background;
-    const chosenItem = useSelector(store => store.chosenIngredient);
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getApiItems())
+    }, [dispatch])
 
 
     return (
         <div>
-            <Switch >
+            <Switch location={background || location}>
                 <ProtectedRoute path="/login" exact={true} >
                     <LoginPage />
                 </ProtectedRoute>
@@ -42,14 +48,24 @@ function App() {
                 <Route path="/" exact={true}>
                     <ConstructorPage />
                 </Route>
-                <Route path="/ingredients" exact={true} 
-                children={()=>{
-                    return (
-                        chosenItem.name ? <IngredientDetail element={chosenItem} /> : null
-                    )
-                }}>
+
+                <Route path={`/ingredients/:id`} children={<IngredientDetail />} />
+
+                <Route path="*"  >
+                    <NotFoundPage />
                 </Route>
             </Switch>
+            {background && (
+                <Route
+                    path="/ingredients/:id"
+                    children={
+                        <Modal  >
+                            <IngredientDetail />
+                        </Modal>
+                    }
+                />
+                )
+            }
         </div>
     )
 }

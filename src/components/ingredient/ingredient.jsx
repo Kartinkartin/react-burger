@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from "prop-types";
 import styles from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,6 +8,7 @@ import { useSelector } from "react-redux";
 
 
 export function Ingredient({ card, onClick }) {
+    const location = useLocation();
     const [{ opacity }, dragRef] = useDrag({
         type: 'item',
         item: card,
@@ -17,6 +19,9 @@ export function Ingredient({ card, onClick }) {
     const counter = useSelector(state => state.constructorItems.counter[card._id]);
 
     return (
+        <Link to={`/ingredients/${card._id}`} 
+        state={{background: location}}
+        className={`${styles.link}`}>
         <div className={styles.ingredient_available} key={card._id} onClick={onClick} ref={dragRef} style={{ opacity }} draggable >
             <img src={card.image} alt={card.name} />
             <p className="text text_type_main-default">{card.name}</p>
@@ -26,6 +31,7 @@ export function Ingredient({ card, onClick }) {
             </div>
             {Boolean(counter) && <Counter count={counter} size="default" />}
         </div>
+        </Link>
     )
 }
 Ingredient.propTypes = {

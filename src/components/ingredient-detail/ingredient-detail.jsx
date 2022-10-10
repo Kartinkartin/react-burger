@@ -6,7 +6,7 @@ export default function IngredientDetail({ element }) {
     return (
         <>
             <img src={element.image} className={styles.image} />
-            <p className=" text text_type_main-medium pt-4 pb-8">
+            <p className={`${styles.title} text text_type_main-medium pt-4 pb-8`}>
                 {element.name}
             </p>
             <ul className={styles.description + " " + "pr-15 pl-15"}>

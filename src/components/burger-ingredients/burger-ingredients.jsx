@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import {
@@ -13,6 +14,7 @@ import IngredientDetail from "../ingredient-detail/ingredient-detail";
 
 export default function BurgerIngredients() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const items = useSelector(store => store.ingredientsApi); // загрузка в App
     const [openingDetails, setOpeningDetails] = React.useState(false);
     const chosenItem = useSelector(store => store.chosenIngredient);
@@ -47,6 +49,7 @@ export default function BurgerIngredients() {
         })
         setOpeningDetails(true);
     }
+
     function closePopup() {
         setOpeningDetails(false);
         dispatch({
