@@ -173,3 +173,12 @@ export const changeUserData = (token, newData) => {
 
     }
 }
+
+export const getCookie = (cookieName) => {
+    let foundCookie = document.cookie.split('; ')
+        .filter((str) => str.includes(cookieName))[0]
+        .split('=')[1]
+    return (
+        foundCookie
+    )
+}

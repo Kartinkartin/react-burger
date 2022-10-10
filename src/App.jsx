@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import {
     ConstructorPage,
@@ -10,11 +10,20 @@ import {
     RegistrationPage,
     ResetPassPage
 } from "./pages";
+import Modal from './components/modal/modal';
+import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 
 function App() {
-    return(
-        <Router>
-            <Switch>
+    // В Router обернуто в index, чтобы читался location
+    const location = useLocation();
+    let background = location.state?.background;
+    const chosenItem = useSelector(store => store.chosenIngredient);
+
+
+
+    return (
+        <div>
+            <Switch >
                 <ProtectedRoute path="/login" exact={true} >
                     <LoginPage />
                 </ProtectedRoute>
@@ -33,9 +42,15 @@ function App() {
                 <Route path="/" exact={true}>
                     <ConstructorPage />
                 </Route>
+                <Route path="/ingredients" exact={true} 
+                children={()=>{
+                    return (
+                        chosenItem.name ? <IngredientDetail element={chosenItem} /> : null
+                    )
+                }}>
+                </Route>
             </Switch>
-        </Router>
-        
+        </div>
     )
 }
 export default App;

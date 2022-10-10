@@ -6,17 +6,17 @@ import AppHeader from "../components/app-header/app-header";
 import FormProfile from '../components/form-profile/form-profile';
 import ProfileNavigator from '../components/profile-navigator/profile-navigator';
 import { getUserRequest } from '../components/api/api';
-import { refreshUser } from '../services/actions';
+import { refreshUser, getCookie } from '../services/actions';
 
 export const ProfilePage = () => {
-    const password = useSelector(store => store.login.password);
+    const password = document.cookie.includes('password') ? getCookie('password') : null;
     const isLogin = document.cookie ? true : false;
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
     const history = useHistory();
     const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль из store добавится при передаче пропсов
     let data = null;
-    const refreshToken = document.cookie.includes('refreshToken') ? document.cookie.split('=')[1] : null;
+    const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : null;
     useEffect(() => {
         getUserRequest(accessToken)
             .then(res => {
