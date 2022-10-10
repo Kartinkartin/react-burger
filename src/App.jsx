@@ -17,7 +17,7 @@ import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { getApiItems } from './services/actions';
 
 function App() {
-    // В Router обернуто в index, чтобы читался location
+    // В <Router> обернуто в index, чтобы здесь читался location
     const location = useLocation();
     let background = location.state?.background;
 
@@ -48,18 +48,18 @@ function App() {
                 <Route path="/" exact={true}>
                     <ConstructorPage />
                 </Route>
-
-                <Route path={`/ingredients/:id`} children={<IngredientDetail />} />
-
+                <Route path={`/ingredients/:id`} >
+                <IngredientDetailPage />
+                </Route>
                 <Route path="*"  >
                     <NotFoundPage />
                 </Route>
             </Switch>
             {background && (
                 <Route
-                    path="/ingredients/:id"
+                    path={`/ingredients/:id`}
                     children={
-                        <Modal  >
+                        <Modal title='Детали заказа' onClose={()=>{}}>
                             <IngredientDetail />
                         </Modal>
                     }
