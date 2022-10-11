@@ -2,7 +2,8 @@ function checkRes(res) {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
+  // return Promise.reject(`Ошибка: ${res.status}`);
+  return Promise.reject([`Ошибка ${res.status}`, res.json()]);
 }
 
 const config = {
@@ -84,7 +85,6 @@ export async function logoutUserRequest(logoutData) {
 
 // обновление токена
 export async function refreshTokenRequest(tokenData) {
-  debugger
   return (await fetch(`${config.baseUrl}/auth/token`, {
     headers: config.headers,
     method: 'POST',

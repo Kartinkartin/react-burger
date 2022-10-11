@@ -5,12 +5,14 @@ import { constructorItemsReducer } from "./constructorItems";
 import { orderReducer } from "./order";
 import { loadingReducer } from "./loading";
 import { loginReducer } from "./login";
+import { errorReducer } from "./error";
 
 export const rootReducer = combineReducers({
     ingredientsApi: initialItemsReducer,
     constructorItems: constructorItemsReducer,
     order: orderReducer,
     loading: loadingReducer,
-    login: loginReducer
+    login: loginReducer,
+    error: errorReducer
 })
 

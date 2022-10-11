@@ -19,9 +19,10 @@ import {
     REFRESH_USER,
     CHANGE_USER_DATA
 } from "./login";
+import { SET_ERROR } from "./error";
 
-// усилитель для получения всего набора, см. ConstructorPage
-export function getApiItems() { 
+// action creator для получения всего набора, см. ConstructorPage
+export function getApiItems() {
     return function (dispatch) {
         dispatch({
             type: GET_API_ITEMS_REQUEST
@@ -55,8 +56,8 @@ export function getApiItems() {
     };
 }
 
-// усилитель для отправки заказа, см. ConstructorPage
-export const postOrder = (orderList) => { 
+// action creator для отправки заказа, см. ConstructorPage
+export const postOrder = (orderList) => {
     const orderListId = orderList.map(item => item._id);
     orderListId.push(orderList[0]._id);
     return function (dispatch) {
@@ -92,7 +93,7 @@ export const postOrder = (orderList) => {
     }
 }
 
-export const loginUser = (loginData, history) => {  //внутри коммент
+export const loginUser = (loginData, history) => {
     let accessToken;
     return function (dispatch) {
         loginUserRequest(loginData)
@@ -104,12 +105,24 @@ export const loginUser = (loginData, history) => {  //внутри коммен�
                     user: { ...res.user, 'password': loginData.password },
                     token: accessToken,
                 })
-                document.cookie = `refreshToken=${res.refreshToken}`; 
+                document.cookie = `refreshToken=${res.refreshToken}`;
                 document.cookie = `password=${loginData.password}`;
             }
             )
             .then(res => history.replace({ pathname: '/' }))
-            .catch(err => console.log(err)) //как-нибудь сказать, что наврали с паролем
+            .catch(err => {
+                console.log(err[0])
+                err[1]
+                    .then(res => { console.log(res); return res })
+                    .then(res => {
+                        dispatch({
+                            type: SET_ERROR,
+                            code: err[0],
+                            message: res.message
+                        })
+                    }
+                    )
+            })
 
     }
 }
@@ -131,7 +144,9 @@ export const logoutUser = (token, history) => {
             }
             )
             .then(res => history.replace({ pathname: '/login' }))
-            .catch(err => console.log(err)) //как-нибудь сказать, что наврали с паролем
+            .catch(res => {
+                console.log(res)
+            }) //как-нибудь сказать, что наши полномочия все.
 
     }
 }
@@ -154,8 +169,7 @@ export const refreshUser = (token) => {
                 document.cookie = `refreshToken=${res.refreshToken}`;
             }
             )
-            .catch(err => console.log(err)) //как-нибудь сказать
-
+            .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
     }
 }
 
@@ -169,7 +183,7 @@ export const changeUserData = (token, newData) => {
                 })
             }
             )
-            .catch(err => console.log(err)) //как-нибудь сказать
+            .catch(err => console.log(err)) //честно, ни одной идеи нет. но я что-то могу и показала это в логине
 
     }
 }

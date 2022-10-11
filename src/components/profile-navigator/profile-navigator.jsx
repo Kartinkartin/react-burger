@@ -5,10 +5,9 @@ import { NavLink } from 'react-router-dom';
 import { logoutUser } from '../../services/actions';
 import styles from './profile-navigator.module.css';
 
-export default function ProfileNavigator() {
+export default function ProfileNavigator({ refreshToken }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const refreshToken = document.cookie.split('; ')[0].split('=')[1]
     const onClick = () => {
         dispatch(logoutUser(refreshToken, history))
     }

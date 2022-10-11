@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import {
@@ -15,6 +15,7 @@ import {
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { getApiItems } from './services/actions';
+import { RESET_ERROR } from './services/actions/error'; 
 
 function App() {
     const history = useHistory();
@@ -23,10 +24,17 @@ function App() {
     let background = location.state?.background;
 
     const dispatch = useDispatch();
-    function closeModal(background) {       
+    const error = useSelector(store => store.error)
+
+    function closeIngredientModal(background) {
         history.replace({ pathname: background.pathname })
     }
-    
+    function closeErrorModal() {
+        dispatch({
+            type: RESET_ERROR
+        })
+    }
+
     useEffect(() => {
         dispatch(getApiItems())
     }, [dispatch])
@@ -53,7 +61,7 @@ function App() {
                     <ConstructorPage />
                 </Route>
                 <Route path={`/ingredients/:id`} >
-                <IngredientDetailPage />
+                    <IngredientDetailPage />
                 </Route>
                 <Route path="*"  >
                     <NotFoundPage />
@@ -63,12 +71,22 @@ function App() {
                 <Route
                     path={`/ingredients/:id`}
                     children={
-                        <Modal title='Детали заказа' onClose={() => closeModal(background)}>
+                        <Modal
+                            title='Детали заказа'
+                            onClose={() => closeIngredientModal(background)}>
                             <IngredientDetail />
                         </Modal>
                     }
                 />
-                )
+            )
+            }
+            {error.code || error.message &&
+                <Modal title='Горе не беда, но ... ' onClose={closeErrorModal}>
+                    <p className='text text_type_main-default'>
+                        {`${error.code}: ${error.message}`}
+                    </p>
+                </Modal>
+
             }
         </div>
     )

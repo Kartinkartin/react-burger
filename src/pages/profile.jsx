@@ -9,14 +9,17 @@ import { getUserRequest } from '../components/api/api';
 import { refreshUser, getCookie } from '../services/actions';
 
 export const ProfilePage = () => {
-    const password = document.cookie.includes('password') ? getCookie('password') : null;
+    const history = useHistory();
+
     const isLogin = document.cookie ? true : false;
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
-    const history = useHistory();
+    const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : null;
+    const password = document.cookie.includes('password') ? getCookie('password') : null;
+
     const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль из store добавится при передаче пропсов
     let data = null;
-    const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : null;
+
     useEffect(() => {
         getUserRequest(accessToken)
             .then(res => {
@@ -36,8 +39,8 @@ export const ProfilePage = () => {
             <AppHeader />
             {user && 
             (<div className={styles.main}>
-                <ProfileNavigator />
-                <FormProfile userData={ {...user, pass: password} } />
+                <ProfileNavigator refreshToken={refreshToken} />
+                <FormProfile userData={ {...user, pass: password} }  />
             </div>)}
         </main>
     )

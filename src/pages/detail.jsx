@@ -10,7 +10,6 @@ export const IngredientDetailPage = () => {
     const chosenId = location.pathname.split('/')[2]; 
     const allElements = useSelector(store => store.ingredientsApi)
     const chosenElement = allElements.filter(el => el._id === chosenId)
-    debugger;
     return (
         <main className={styles.page}>
             <AppHeader />
