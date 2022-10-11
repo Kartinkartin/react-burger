@@ -1,13 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from "prop-types";
 import styles from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
 
 
-export function Ingredient({ card, onClick }) {
+
+export function Ingredient({ card }) {
     const location = useLocation();
     const [{ opacity }, dragRef] = useDrag({
         type: 'item',
@@ -22,7 +23,7 @@ export function Ingredient({ card, onClick }) {
         <Link
             to={{ pathname: `/ingredients/${card._id}`, state: { background: location } }}
             className={`${styles.link}`}>
-            <div className={styles.ingredient_available} key={card._id} onClick={onClick} ref={dragRef} style={{ opacity }} draggable >
+            <div className={styles.ingredient_available} key={card._id} ref={dragRef} style={{ opacity }} draggable >
                 <img src={card.image} alt={card.name} />
                 <p className="text text_type_main-default">{card.name}</p>
                 <div className={styles.price_container}>
@@ -36,5 +37,4 @@ export function Ingredient({ card, onClick }) {
 }
 Ingredient.propTypes = {
     card: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired
 }

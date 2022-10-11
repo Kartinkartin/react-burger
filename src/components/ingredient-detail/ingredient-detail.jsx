@@ -1,14 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styles from "./ingredient-detail.module.css";
 
 export default function IngredientDetail() {
     const { id } = useParams();
     const elements = useSelector(store => store.ingredientsApi);
     const element = elements.find(el => el._id === id);
-    const location = useLocation();
-    debugger;
     return (
         element && (
             <>

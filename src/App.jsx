@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Switch, Route, useHistory, useLocation, Redirect } from 'react-router-dom';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import {
     ConstructorPage,
@@ -17,15 +17,19 @@ import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { getApiItems } from './services/actions';
 
 function App() {
+    const history = useHistory();
     // В <Router> обернуто в index, чтобы здесь читался location
     const location = useLocation();
     let background = location.state?.background;
 
     const dispatch = useDispatch();
+    function closeModal(background) {       
+        history.replace({ pathname: background.pathname })
+    }
+    
     useEffect(() => {
         dispatch(getApiItems())
     }, [dispatch])
-
 
     return (
         <div>
@@ -59,7 +63,7 @@ function App() {
                 <Route
                     path={`/ingredients/:id`}
                     children={
-                        <Modal title='Детали заказа' onClose={()=>{}}>
+                        <Modal title='Детали заказа' onClose={() => closeModal(background)}>
                             <IngredientDetail />
                         </Modal>
                     }

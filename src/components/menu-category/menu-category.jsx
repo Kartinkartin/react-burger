@@ -8,7 +8,7 @@ const types = {
     sauce: 'Соусы',
     main: 'Начинки'
 }
-export default function MenuCategory({ cards, type, refer, onClick, headerKey }) {
+export default function MenuCategory({ cards, type, refer, headerKey }) {
     const typeArray = useMemo(() => { return cards.filter(prod => prod.type === type) }, [cards])
     return (
         <>
@@ -19,7 +19,7 @@ export default function MenuCategory({ cards, type, refer, onClick, headerKey })
                 {
                     typeArray.map(card => {
                         return (
-                            <Ingredient card={card} key={card._id} onClick={() => onClick(card)} />
+                            <Ingredient card={card} key={card._id} />
                         )
                     })
                 }
@@ -31,6 +31,5 @@ MenuCategory.propTypes = {
     cards: PropTypes.array.isRequired,
     type: PropTypes.string.isRequired,
     refer: PropTypes.object.isRequired,
-    onClick: PropTypes.func.isRequired,
     headerKey: PropTypes.string.isRequired
 }
