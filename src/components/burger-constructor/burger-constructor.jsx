@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useReducer, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -16,24 +17,24 @@ import {
     DELETE_INGREDIENT_FROM_CONSTRUCTOR
 } from "../../services/actions/constructorItems";
 import { RESET_ORDER_NUMBER } from "../../services/actions/order";
-import { postOrder } from "../../services/actions";
+import { getCookie, postOrder, refreshUser } from "../../services/actions";
 
 
 
 export default function BurgerConstructor() {
+    const history = useHistory();
     const dispatch = useDispatch();
     const itemsMenu = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store => store.constructorItems.ingredientsConstructor);
-
-
     const orderNum = useSelector(store => store.order.number.toString());
-
+    const accessToken = useSelector(store => store.login.token);
     const [bunEl, setBunEl] = useState(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
     const [droppedIndex, setDroppedIndex] = useState(null);
     const [draggedIndex, setDraggedIndex] = useState(null);
     const [openingOrder, setOpeningOrder] = React.useState(false);
+    const wasLogged = document.cookie.includes('refreshToken');
 
     const handleDrag = (draggedTargetIndex) => {
         setIsSort(true);
@@ -62,17 +63,10 @@ export default function BurgerConstructor() {
             type: ADD_INGREDIENT_TO_CONSTRUCTOR,
             item: prod
         });
-        dispatchPrice({
-            type: 'increment',
-            item: prod
-        })
     }
     const changeBunInConstructor = (bun) => {
         dispatch({
             type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-            item: bun
-        })
-        dispatchPrice({
             item: bun
         })
     }
@@ -95,14 +89,23 @@ export default function BurgerConstructor() {
             ingredients: notBunsIngredients,
             id: id,
         })
-        dispatchPrice({
-            type: 'decrement',
-            item: item
-        })
     };
-    const makeOrder = () => {
-        dispatch(postOrder(ingredientsConstructor));
-        setOpeningOrder(true);
+    
+    const makeOrder = async () => {
+        if (wasLogged) {
+            const tokenDate = new Date(getCookie('date'));
+                if ((new Date() - tokenDate > 20 * 60 * 1000) || !accessToken ) {
+                const refreshToken = getCookie('refreshToken');
+                await dispatch(refreshUser(refreshToken));
+                await dispatch(postOrder(ingredientsConstructor, accessToken))
+                // я знаю, что тут беда, reducer работает позже, чем оба диспатча. нет идеи, как положить в стор accessToken первее. на этого наставника надежды у меня вообще нет(
+            }
+            else {dispatch(postOrder(ingredientsConstructor, accessToken))}
+            setOpeningOrder(true);
+        }
+        else {
+            history.replace({ pathname: '/login' })
+        }
     }
     function closePopup() {
         setOpeningOrder(false);
@@ -112,30 +115,19 @@ export default function BurgerConstructor() {
     }
 
     useEffect(() => {
-        if (ingredientsConstructor.length) setBunEl(ingredientsConstructor.find(el => el.type === 'bun') || null);
-    }, [ingredientsConstructor]);
-
-    const [state, dispatchPrice] = useReducer(reducer, { price: 0 });
-    function reducer(state, action) {
-        switch (action.item.type) {
-            case ('bun'): return (bunEl ?
-                { price: state.price - (bunEl.price * 2) + (action.item.price * 2) } :
-                { price: state.price + (action.item.price * 2) })
-            case ('main'): //когда нет return или break, выполнение пойдет дальше
-            case ('sauce'):
-                switch (action.type) {
-                    case ('increment'): {
-                        return ({ price: state.price + action.item.price })
-                    }
-                    case ('decrement'): {
-                        return ({ price: state.price - action.item.price })
-                    }
-                    default: throw new Error();
-                }
-            default: throw new Error();
+        if (ingredientsConstructor.length) {
+            setBunEl(ingredientsConstructor.find(el => el.type === 'bun') || null);
         }
-    }
-    const totalPrice = state.price;
+
+    }, [ingredientsConstructor]);
+    
+    const totalPrice = useMemo(() => {
+        return ingredientsConstructor.reduce((price, current) => {
+            if (current.type == 'bun') { return price + 2 * current.price }
+            else { return price + current.price }
+        }, 0)
+    }, [ingredientsConstructor])
+
     return (
         <section className={`${styles.constructor} pt-25 pl-4 pr-4`} ref={targetDrop}>
             {itemsMenu.length && ingredientsConstructor.length ?
@@ -185,7 +177,12 @@ export default function BurgerConstructor() {
                             <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
                             <CurrencyIcon type="primary" />
                         </div>
-                        <Button type="primary" size="large" onClick={makeOrder} disabled={!bunEl}>
+                        <Button
+                            type="primary"
+                            size="large"
+                            onClick={makeOrder}
+                            disabled={!bunEl}
+                            htmlType='button' >
                             Сделать заказ
                         </Button>
                     </div>

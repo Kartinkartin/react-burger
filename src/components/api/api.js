@@ -2,7 +2,6 @@ function checkRes(res) {
   if (res.ok) {
     return res.json();
   }
-  // return Promise.reject(`Ошибка: ${res.status}`);
   return Promise.reject([`Ошибка ${res.status}`, res.json()]);
 }
 
@@ -21,10 +20,13 @@ export async function getCardsRequest() {
 }
 
 // отправка заказа на сервер
-export async function postOrderRequest(orderListId) {
+export async function postOrderRequest(orderListId, token) {
   const order = { ingredients: orderListId };
   return (await fetch(`${config.baseUrl}/orders`, {
-    headers: config.headers,
+    headers: {
+      ...config.headers, 
+      authorization: `Bearer ${token}`
+    },
     method: 'POST',
     body: JSON.stringify(order)
   })

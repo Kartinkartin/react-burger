@@ -57,14 +57,14 @@ export function getApiItems() {
 }
 
 // action creator для отправки заказа, см. ConstructorPage
-export const postOrder = (orderList) => {
+export const postOrder = (orderList, token) => {
     const orderListId = orderList.map(item => item._id);
     orderListId.push(orderList[0]._id);
-    return function (dispatch) {
+    return async function (dispatch) {
         dispatch({
             type: SET_LOADING_MODE
         })
-        postOrderRequest(orderListId)
+        await postOrderRequest(orderListId, token)
             .then(res => {
                 if (res && res.success) {
                     dispatch({
@@ -107,6 +107,7 @@ export const loginUser = (loginData, history) => {
                 })
                 document.cookie = `refreshToken=${res.refreshToken}`;
                 document.cookie = `password=${loginData.password}`;
+                document.cookie = `date=${new Date()}`
             }
             )
             .then(res => history.replace({ pathname: '/' }))
@@ -137,10 +138,12 @@ export const logoutUser = (token, history) => {
                 dispatch({
                     type: RESET_USER,
                 })
-                const oldTokenCookie = document.cookie.split('; ')[0];
-                const oldPassCookie = document.cookie.split('; ')[1];
-                document.cookie = `${oldTokenCookie}; max-age=-1`;
-                document.cookie = `${oldPassCookie}; max-age=-1`;
+                const oldTokenCookie = getCookie('refreshToken');
+                const oldPassCookie = getCookie('password');
+                const oldDate = getCookie('date')
+                document.cookie = `refreshToken=${oldTokenCookie}; max-age=-1`;
+                document.cookie = `password=${oldPassCookie}; max-age=-1`;
+                document.cookie = `date=${oldDate}; max-age=-1`;
             }
             )
             .then(res => history.replace({ pathname: '/login' }))
@@ -156,20 +159,24 @@ export const refreshUser = (token) => {
         "token": token
     };
     let accessToken = null;
-    return function (dispatch) {
-        refreshTokenRequest(refreshData)
-            .then(res => {
+    return async function (dispatch) {
+        await refreshTokenRequest(refreshData)
+            .then(async res => {
                 document.cookie = `refreshToken=${token}; max-age=-1`;
+                document.cookie = `date=${getCookie('date')}; max-age=-1`;
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken;
-                dispatch({
+                await dispatch({
                     type: REFRESH_USER,
                     token: accessToken
                 })
                 document.cookie = `refreshToken=${res.refreshToken}`;
+                document.cookie = `date=${new Date()}`;
+                return Promise.resolve();
             }
             )
             .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
+            .finally(() => {return Promise.resolve()})
     }
 }
 
