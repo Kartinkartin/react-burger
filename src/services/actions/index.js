@@ -172,11 +172,9 @@ export const refreshUser = (token) => {
                 })
                 document.cookie = `refreshToken=${res.refreshToken}`;
                 document.cookie = `date=${new Date()}`;
-                return Promise.resolve();
             }
             )
             .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
-            .finally(() => {return Promise.resolve()})
     }
 }
 
