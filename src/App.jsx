@@ -14,12 +14,10 @@ import {
 } from "./pages";
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
-import { getApiItems } from './services/actions';
-import { RESET_ERROR } from './services/actions/error'; 
+import { deleteError, getApiItems } from './services/actions';
 
 function App() {
     const history = useHistory();
-    // В <Router> обернуто в index, чтобы здесь читался location
     const location = useLocation();
     let background = location.state?.background;
 
@@ -30,15 +28,14 @@ function App() {
         history.replace({ pathname: background.pathname })
     }
     function closeErrorModal() {
-        dispatch({
-            type: RESET_ERROR
-        })
+        dispatch(deleteError())
     }
 
     useEffect(() => {
         dispatch(getApiItems())
     }, [dispatch])
 
+    // В <Router> обернуто в index, чтобы здесь читался location
     return (
         <div>
             <Switch location={background || location}>

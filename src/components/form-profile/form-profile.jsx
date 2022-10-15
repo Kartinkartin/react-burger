@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { EmailInput, Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
+import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
 
@@ -16,19 +17,19 @@ export default function FormProfile({ userData }) {
 
     const onChange = (e, handleChange) => {
         handleChange(e.target.value);
-        if(!dirty) setDirty(true);
+        if (!dirty) setDirty(true);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (inputNameValue !== userData.name) { newData.name = inputNameValue }
-        if (inputEmailValue !== userData.email) { newData.email = inputEmailValue }
-        if (inputPassValue) { newData.password = inputPassValue }
-        for (let key in newData) {
-            dispatch(changeUserData(token, newData));
-            setDirty(false)
-            break
-        }
+        const newData = {
+            name: inputNameValue,
+            email: inputEmailValue,
+            password: inputPassValue
+        };
+
+        dispatch(changeUserData(token, newData));
+        setDirty(false)
     }
 
     const handleReset = (e) => {
@@ -96,4 +97,8 @@ export default function FormProfile({ userData }) {
             </div>
         </form>
     )
+}
+
+FormProfile.propTypes = {
+    userData: PropTypes.object.isRequired
 }

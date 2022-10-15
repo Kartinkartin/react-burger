@@ -6,12 +6,23 @@ import {
     refreshTokenRequest,
     changeUserDataRequest
 } from "../../components/api/api";
-import { GET_API_ITEMS_REQUEST, GET_API_ITEMS_SUCCESS, GET_API_ITEMS_FAILED } from "./ingredientsApi";
-import { RESET_INGREDIENTS_IN_CONSTRUCTOR } from "./constructorItems";
+import {
+    GET_API_ITEMS_REQUEST,
+    GET_API_ITEMS_SUCCESS,
+    GET_API_ITEMS_FAILED
+} from "./ingredientsApi";
+import {
+    ADD_INGREDIENT_TO_CONSTRUCTOR,
+    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
+    DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+    SORT_INGREDIENTS_IN_CONSTRUCTOR,
+    RESET_INGREDIENTS_IN_CONSTRUCTOR
+} from "./constructorItems";
 import {
     POST_CONSTRUCTOR_ITEMS_SUCCESS,
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
+import { RESET_ORDER_NUMBER } from "./order";
 import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
 import {
     SET_USER,
@@ -19,7 +30,8 @@ import {
     REFRESH_USER,
     CHANGE_USER_DATA
 } from "./login";
-import { SET_ERROR } from "./error";
+import { SET_ERROR, RESET_ERROR } from "./error";
+import { getCookie, setCookie } from "../utils/cookie";
 
 // action creator для получения всего набора, см. ConstructorPage
 export function getApiItems() {
@@ -54,6 +66,39 @@ export function getApiItems() {
                 });
             })
     };
+}
+
+export const addIngredient = (prod) => (dispatch) => {
+    dispatch({
+        type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+        item: prod
+    });
+}
+export const addOrChangeBun = (bun) => (dispatch) => {
+    dispatch({
+        type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
+        item: bun
+    })
+}
+export const sortIngredients = (item, droppedIndex, draggedIndex) => (dispatch) => {
+    dispatch({
+        type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
+        draggedIndex: draggedIndex,
+        droppedIndex: droppedIndex,
+        item: item
+    })
+}
+export const deleteIngredient = (notBunsIngredients, id) => (dispatch) => {
+    dispatch({
+        type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+        ingredients: notBunsIngredients,
+        id: id,
+    })
+}
+export const resetOrderNum = () => (dispatch) => {
+    dispatch({
+        type: RESET_ORDER_NUMBER
+    })
 }
 
 // action creator для отправки заказа, см. ConstructorPage
@@ -105,8 +150,8 @@ export const loginUser = (loginData, history) => {
                     user: { ...res.user, 'password': loginData.password },
                     token: accessToken,
                 })
-                document.cookie = `date=${new Date()}`;
-                document.cookie = `refreshToken=${res.refreshToken}`;
+                setCookie('date', new Date());
+                setCookie('refreshToken', res.refreshToken);
             }
             )
             .then(res => {
@@ -141,8 +186,8 @@ export const logoutUser = (token, history) => {
                 })
                 const oldTokenCookie = getCookie('refreshToken');
                 const oldDate = getCookie('date')
-                document.cookie = `refreshToken=${oldTokenCookie}; max-age=-1`;
-                document.cookie = `date=${oldDate}; max-age=-1`;
+                setCookie('refreshToken', oldTokenCookie, 'delete');
+                setCookie('date', oldDate, 'delete')
             }
             )
             .then(res => history.replace({ pathname: '/login' }))
@@ -153,6 +198,7 @@ export const logoutUser = (token, history) => {
     }
 }
 
+// action creator обновляет просроченный accessToken, отправляет в запросе refreshToken 
 export const refreshUser = (token) => {
     let refreshData = {
         "token": token
@@ -161,22 +207,23 @@ export const refreshUser = (token) => {
     return async function (dispatch) {
         await refreshTokenRequest(refreshData)
             .then(async res => {
-                document.cookie = `refreshToken=${token}; max-age=-1`;
-                document.cookie = `date=${getCookie('date')}; max-age=-1`;
+                const oldDate = getCookie('date');
+                setCookie('refreshToken', token, 'delete');
+                setCookie('date', oldDate, 'delete');
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken;
                 await dispatch({
                     type: REFRESH_USER,
                     token: accessToken
                 })
-                document.cookie = `refreshToken=${res.refreshToken}`;
-                document.cookie = `date=${new Date()}`;
-            }
-            )
+                setCookie('refreshToken', res.refreshToken);
+                setCookie('date', new Date());
+            })
             .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
     }
 }
 
+// action creator обновляет данные пользователя, см. Profile
 export const changeUserData = (token, newData) => {
     return function (dispatch) {
         changeUserDataRequest(token, newData)
@@ -192,11 +239,8 @@ export const changeUserData = (token, newData) => {
     }
 }
 
-export const getCookie = (cookieName) => {
-    let foundCookie = document.cookie.split('; ')
-        .filter((str) => str.includes(cookieName))[0]
-        .split('=')[1]
-    return (
-        foundCookie
-    )
+export const deleteError = () => (dispatch) => {
+    dispatch({
+        type: RESET_ERROR
+    })
 }

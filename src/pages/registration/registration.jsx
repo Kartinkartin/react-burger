@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './registration.module.css';
 import AppHeader from "../../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,26 +9,23 @@ export const RegistrationPage = () => {
     const [inputNameValue, setInputNameValue] = useState('');
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
-    const newUserData = {
-        email: '',
-        password: '',
-        name: ''
-    };
+    const [passIcon, setPassIcon] = useState('ShowIcon');
 
-    const [passIcon, setPassIcon] = useState('ShowIcon')
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
-
     const handleRegister = (e) => {
         e.preventDefault();
+        const newUserData = {
+            email: '',
+            password: '',
+            name: ''
+        };
         newUserData.email = inputEmailValue;
         newUserData.password = inputPassValue;
         newUserData.name = inputNameValue;
         registerUserRequest(newUserData);
-
     }
-
 
     return (
         <main className={styles.page}>

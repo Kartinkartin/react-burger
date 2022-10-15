@@ -6,7 +6,8 @@ import AppHeader from "../../components/app-header/app-header";
 import FormProfile from '../../components/form-profile/form-profile';
 import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
 import { getUserRequest } from '../../components/api/api';
-import { refreshUser, getCookie } from '../../services/actions';
+import { refreshUser } from '../../services/actions';
+import { getCookie } from '../../services/utils/cookie'; 
 
 export const ProfilePage = () => {
     const history = useHistory();
@@ -39,7 +40,7 @@ export const ProfilePage = () => {
             {user && 
             (<div className={styles.main}>
                 <ProfileNavigator refreshToken={refreshToken} />
-                <FormProfile userData={ {...user } }  />
+                <FormProfile userData={ { ...user } }  />
             </div>)}
         </main>
     )

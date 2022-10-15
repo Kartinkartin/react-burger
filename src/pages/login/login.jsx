@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, Link, useLocation } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../../components/app-header/app-header";
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,10 +8,8 @@ import { loginUser } from '../../services/actions';
 
 
 export const LoginPage = () => {
-    debugger;
     const dispatch = useDispatch();
     const history = useHistory();
-    const location = useLocation();
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
     const [passIcon, setPassIcon] = useState('ShowIcon');

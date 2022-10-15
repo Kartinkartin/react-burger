@@ -12,17 +12,17 @@ const config = {
   }
 }
 // получение всех начальных ингредиентов
-export async function getCardsRequest() {
-  return (await fetch(`${config.baseUrl}/ingredients`, {
+export function getCardsRequest() {
+  return (fetch(`${config.baseUrl}/ingredients`, {
     headers: config.headers
   })
     .then(checkRes))
 }
 
 // отправка заказа на сервер
-export async function postOrderRequest(orderListId, token) {
+export function postOrderRequest(orderListId, token) {
   const order = { ingredients: orderListId };
-  return (await fetch(`${config.baseUrl}/orders`, {
+  return (fetch(`${config.baseUrl}/orders`, {
     headers: {
       ...config.headers, 
       authorization: `Bearer ${token}`
@@ -34,8 +34,8 @@ export async function postOrderRequest(orderListId, token) {
 }
 
 // сброс пароля
-export async function resetPassRequest(email) {
-  return (await fetch(`${config.baseUrl}/password-reset`, {
+export function resetPassRequest(email) {
+  return (fetch(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify({
@@ -46,8 +46,8 @@ export async function resetPassRequest(email) {
 }
 
 // создание нового пароля
-export async function newPassRequest(newPassData) {
-  return (await fetch(`${config.baseUrl}/password-reset/reset`, {
+export function newPassRequest(newPassData) {
+  return (fetch(`${config.baseUrl}/password-reset/reset`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(newPassData)
@@ -56,8 +56,8 @@ export async function newPassRequest(newPassData) {
 }
 
 // регистрация нового пользователя
-export async function registerUserRequest(userData) {
-  return (await fetch(`${config.baseUrl}/auth/register`, {
+export function registerUserRequest(userData) {
+  return (fetch(`${config.baseUrl}/auth/register`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(userData)
@@ -66,8 +66,8 @@ export async function registerUserRequest(userData) {
 }
 
 // авторизация пользователя
-export async function loginUserRequest(loginData) {
-  return (await fetch(`${config.baseUrl}/auth/login`, {
+export function loginUserRequest(loginData) {
+  return (fetch(`${config.baseUrl}/auth/login`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(loginData)
@@ -76,8 +76,8 @@ export async function loginUserRequest(loginData) {
 }
 
 // выход из аккаунта
-export async function logoutUserRequest(logoutData) {
-  return (await fetch(`${config.baseUrl}/auth/logout`, {
+export function logoutUserRequest(logoutData) {
+  return (fetch(`${config.baseUrl}/auth/logout`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(logoutData)
@@ -86,8 +86,8 @@ export async function logoutUserRequest(logoutData) {
 }
 
 // обновление токена
-export async function refreshTokenRequest(tokenData) {
-  return (await fetch(`${config.baseUrl}/auth/token`, {
+export function refreshTokenRequest(tokenData) {
+  return (fetch(`${config.baseUrl}/auth/token`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(tokenData)
@@ -96,8 +96,8 @@ export async function refreshTokenRequest(tokenData) {
 }
 
 // получение информации профиля пользователя
-export async function getUserRequest(token) {
-  return (await fetch(`${config.baseUrl}/auth/user`, {
+export function getUserRequest(token) {
+  return (fetch(`${config.baseUrl}/auth/user`, {
     headers: {
       ...config.headers,
       authorization: `Bearer ${token}`
@@ -108,8 +108,8 @@ export async function getUserRequest(token) {
 }
 
 // изменение данных профиля пользователя, пароль тоже меняется
-export async function changeUserDataRequest(token, userData) {
-  return (await fetch(`${config.baseUrl}/auth/user`, {
+export function changeUserDataRequest(token, userData) {
+  return (fetch(`${config.baseUrl}/auth/user`, {
     headers: {
       ...config.headers,
       authorization: `Bearer ${token}`

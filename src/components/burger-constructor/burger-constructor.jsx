@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
@@ -10,14 +10,16 @@ import styles from "./burger-constructor.module.css";
 import LayerElement from "../layer-element/layer-element";
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
-import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-    SORT_INGREDIENTS_IN_CONSTRUCTOR,
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR
-} from "../../services/actions/constructorItems";
-import { RESET_ORDER_NUMBER } from "../../services/actions/order";
-import { getCookie, postOrder, refreshUser } from "../../services/actions";
+import { 
+    addIngredient, 
+    addOrChangeBun, 
+    deleteIngredient, 
+    postOrder, 
+    refreshUser, 
+    resetOrderNum, 
+    sortIngredients 
+} from "../../services/actions";
+import { getCookie } from "../../services/utils/cookie"; 
 
 
 
@@ -51,32 +53,15 @@ export default function BurgerConstructor() {
             if (isSort) sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
             else {
                 item.type === 'bun' ?
-                    changeBunInConstructor(item) :
-                    addIngredientToConstructor(item)
+                    dispatch(addOrChangeBun(item)) :
+                    dispatch(addIngredient(item))
             };
 
         }
     })
 
-    const addIngredientToConstructor = (prod) => {
-        dispatch({
-            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-            item: prod
-        });
-    }
-    const changeBunInConstructor = (bun) => {
-        dispatch({
-            type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-            item: bun
-        })
-    }
     const sortIngredientsInConstructor = (item, droppedIndex, draggedIndex) => {
-        dispatch({
-            type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
-            draggedIndex: draggedIndex,
-            droppedIndex: droppedIndex,
-            item: item
-        })
+        dispatch(sortIngredients(item, droppedIndex, draggedIndex));
         setIsSort(false);
         setDraggedIndex(null);
         setDroppedIndex(null);
@@ -84,11 +69,7 @@ export default function BurgerConstructor() {
     const handleDeleteItem = (e, index) => {
         const id = notBunsIngredients[index]._id;
         const item = notBunsIngredients.splice(index, 1)[0];
-        dispatch({
-            type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-            ingredients: notBunsIngredients,
-            id: id,
-        })
+        dispatch(deleteIngredient(notBunsIngredients, id))
     };
     
     const makeOrder = async () => {
@@ -97,7 +78,7 @@ export default function BurgerConstructor() {
             const tokenDate = new Date(getCookie('date'));
             if ((new Date() - tokenDate > tokenLifeTime) || !accessToken ) {
                 const refreshToken = getCookie('refreshToken');
-                await dispatch(postOrder(ingredientsConstructor, accessToken))
+                await dispatch(refreshUser(refreshToken));
                 // я знаю, что тут беда, reducer на изменение store работает позже, чем оба диспатча. нет идеи, как положить в стор accessToken первее. Поэтому после обновления страницы, уходит запрос с еще пуcnым токеном из store. на этого наставника надежды у меня вообще нет(
             }           
             dispatch(postOrder(ingredientsConstructor, accessToken))
@@ -109,9 +90,7 @@ export default function BurgerConstructor() {
     }
     function closePopup() {
         setOpeningOrder(false);
-        dispatch({
-            type: RESET_ORDER_NUMBER
-        })
+        dispatch(resetOrderNum())
     }
 
     useEffect(() => {
