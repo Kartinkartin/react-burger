@@ -5,8 +5,6 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    /* justify-content: center; */
-    /* padding-left: 100px; */
 }
 
 .button {
@@ -20,12 +18,9 @@
     color: #8585AD
 }
 
-/* .button:active {
+.active {
     color: #F2F2F3;
 }
-.button:visited {
-    color: #F2F2F3;
-} */
 
 .logo {
     margin-left: 115px;

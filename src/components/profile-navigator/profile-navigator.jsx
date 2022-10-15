@@ -1,15 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import { logoutUser } from '../../services/actions';
 import styles from './profile-navigator.module.css';
 
 export default function ProfileNavigator({ refreshToken }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const onClick = () => {
-        dispatch(logoutUser(refreshToken, history))
+    const onClick = async () => { 
+        await dispatch(logoutUser(refreshToken, history))
+        // await чтобы не рисовался профиль и не ругалась типизация уже сброшенного refreshToken
     }
     return (
         <nav className={`${styles.nav_container} mr-6`}>
@@ -34,4 +35,8 @@ export default function ProfileNavigator({ refreshToken }) {
             </button>
         </nav>
     )
+}
+
+ProfileNavigator.propTypes = {
+    refreshToken: PropTypes.string.isRequired,
 }
