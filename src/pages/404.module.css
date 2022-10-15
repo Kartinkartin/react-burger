@@ -1,3 +1,7 @@
+.page {
+    padding-top: 41px;
+}
+
 .main {
     margin: 0 auto;
     display: flex;

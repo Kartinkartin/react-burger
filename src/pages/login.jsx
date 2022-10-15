@@ -30,7 +30,7 @@ export const LoginPage = () => {
     }
 
     // проверка и переадресация, если пользователь авторизован
-    const wasLogged = document.cookie ? true : false;
+    const wasLogged = document.cookie.includes('refreshToken') ? true : false;
     if(wasLogged) {
         return (
             <Redirect to={{ pathname: '/' }} />

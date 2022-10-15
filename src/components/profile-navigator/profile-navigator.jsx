@@ -8,7 +8,7 @@ import styles from './profile-navigator.module.css';
 export default function ProfileNavigator({ refreshToken }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const onClick = async () => { 
+    const onClick = async () => {
         await dispatch(logoutUser(refreshToken, history))
         // await чтобы не рисовался профиль и не ругалась типизация уже сброшенного refreshToken
     }
@@ -33,6 +33,9 @@ export default function ProfileNavigator({ refreshToken }) {
                 onClick={onClick} >
                 Выход
             </button>
+            <p className={`${styles.text} text text_type_main-default pt-20`} >
+                В этом разделе вы можете изменить свои персональные данные
+            </p>
         </nav>
     )
 }

@@ -15,7 +15,8 @@ export default function AppHeader() {
             <NavLink
                 className={`${styles.button} pr-10`}
                 activeClassName={styles.active}
-                to='/'>
+                to='/'
+                exact={true}>
                 <BurgerIcon />
                 <p className="text text_type_main-default ml-2">Конструктор</p>
             </NavLink>
@@ -32,7 +33,8 @@ export default function AppHeader() {
             <NavLink
                 className={styles.button}
                 activeClassName={styles.active}
-                to='/profile'>
+                to='/profile'
+                exact={true}>
                 <ProfileIcon />
                 <p className="text text_type_main-default ml-2">Личный кабинет</p>
             </NavLink>

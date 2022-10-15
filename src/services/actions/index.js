@@ -105,9 +105,8 @@ export const loginUser = (loginData, history) => {
                     user: { ...res.user, 'password': loginData.password },
                     token: accessToken,
                 })
+                document.cookie = `date=${new Date()}`;
                 document.cookie = `refreshToken=${res.refreshToken}`;
-                document.cookie = `password=${loginData.password}`;
-                document.cookie = `date=${new Date()}`
             }
             )
             .then(res => history.replace({ pathname: '/' }))
@@ -139,10 +138,8 @@ export const logoutUser = (token, history) => {
                     type: RESET_USER,
                 })
                 const oldTokenCookie = getCookie('refreshToken');
-                const oldPassCookie = getCookie('password');
                 const oldDate = getCookie('date')
                 document.cookie = `refreshToken=${oldTokenCookie}; max-age=-1`;
-                document.cookie = `password=${oldPassCookie}; max-age=-1`;
                 document.cookie = `date=${oldDate}; max-age=-1`;
             }
             )

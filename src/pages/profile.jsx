@@ -14,10 +14,9 @@ export const ProfilePage = () => {
     const isLogin = document.cookie ? true : false;
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
-    const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : null;
-    const password = document.cookie.includes('password') ? getCookie('password') : null;
+    const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
-    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль из store добавится при передаче пропсов
+    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка
     let data = null;
 
     useEffect(() => {
@@ -40,7 +39,7 @@ export const ProfilePage = () => {
             {user && 
             (<div className={styles.main}>
                 <ProfileNavigator refreshToken={refreshToken} />
-                <FormProfile userData={ {...user, pass: password} }  />
+                <FormProfile userData={ {...user } }  />
             </div>)}
         </main>
     )
