@@ -109,7 +109,9 @@ export const loginUser = (loginData, history) => {
                 document.cookie = `refreshToken=${res.refreshToken}`;
             }
             )
-            .then(res => history.replace({ pathname: '/' }))
+            .then(res => {
+                history.replace({ pathname: history.location.state?.from || '/' })
+            })
             .catch(err => {
                 console.log(err[0])
                 err[1]

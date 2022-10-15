@@ -19,14 +19,6 @@ export const ForgotPassPage = () => {
             )
     }
 
-    // проверка и переадресация, если пользователь авторизован
-    const wasLogged = document.cookie.includes('refreshToken') ? true : false;
-    if (wasLogged) {
-        return (
-            <Redirect to={{ pathname: '/' }} />
-        )
-    }
-
     if (wasReset) {
         return(
             <Redirect to={{ pathname: '/reset-password', state: {from: location} }} />

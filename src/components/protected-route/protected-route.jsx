@@ -1,14 +1,21 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
-export function ProtectedRoute({ children, ...rest }) {
+export function ProtectedRoute({ loggedUser = false, children, ...rest }) {
+  const wasLogged = document.cookie.includes('refreshToken') ? true : false;
+  if (wasLogged && !loggedUser) {
     return (
-        <Route
-          {...rest}
-          render={() => (
-              children
-            )
-          }
-        />
-      );
+        <Redirect to={{ pathname: '/' }} />
+      )
+  }
+
+  return (
+    <Route
+      {...rest}
+      render={() => (
+        children
+      )
+      }
+    />
+  );
 }

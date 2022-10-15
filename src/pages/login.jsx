@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, Link, Redirect } from 'react-router-dom';
+import { useHistory, Link, useLocation } from 'react-router-dom';
 import styles from './login.module.css';
 import AppHeader from "../components/app-header/app-header";
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,14 +8,16 @@ import { loginUser } from '../services/actions';
 
 
 export const LoginPage = () => {
+    debugger;
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
     const [passIcon, setPassIcon] = useState('ShowIcon');
     const loginData = {
-        "email": "", 
-        "password": "" 
+        "email": "",
+        "password": ""
     };
 
     const onIconClick = () => {
@@ -29,14 +31,6 @@ export const LoginPage = () => {
         dispatch(loginUser(loginData, history));
     }
 
-    // проверка и переадресация, если пользователь авторизован
-    const wasLogged = document.cookie.includes('refreshToken') ? true : false;
-    if(wasLogged) {
-        return (
-            <Redirect to={{ pathname: '/' }} />
-        )
-    }
-    
     return (
         <main className={styles.page}>
             <AppHeader />
@@ -45,7 +39,9 @@ export const LoginPage = () => {
                     <h1 className={`${styles.header} text text_type_main-medium`}>
                         Вход
                     </h1>
-                    <form className={`${styles.form_container} pt-6 pb-20`} onSubmit={handleLogin}>
+                    <form
+                        className={`${styles.form_container} pt-6 pb-20`}
+                        onSubmit={handleLogin}>
                         <div className={`${styles.input_container} pb-6`}>
                             <EmailInput
                                 name={'email-input'}

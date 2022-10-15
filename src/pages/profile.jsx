@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
 import AppHeader from "../components/app-header/app-header";
 import FormProfile from '../components/form-profile/form-profile';
@@ -9,8 +9,9 @@ import { getUserRequest } from '../components/api/api';
 import { refreshUser, getCookie } from '../services/actions';
 
 export const ProfilePage = () => {
+    debugger
     const history = useHistory();
-
+    const location = useLocation();
     const isLogin = document.cookie ? true : false;
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
@@ -28,7 +29,7 @@ export const ProfilePage = () => {
         .catch(err => {
             isLogin ? 
             dispatch(refreshUser(refreshToken)) : // перезаписываю accessToken в store
-            history.replace({ pathname: '/login' })
+            history.replace({ pathname: '/login', state: { from: location.pathname } })
         })
     }, [data, accessToken])
     

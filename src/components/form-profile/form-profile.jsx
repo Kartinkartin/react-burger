@@ -69,7 +69,7 @@ export default function FormProfile({ userData }) {
             <div className={`${styles.input_container} pb-6`}>
                 <Input
                     name={'pass-input'}
-                    type={'text'}
+                    type={'password'}
                     placeholder={'Пароль'}
                     size={'default'}
                     value={inputPassValue}
