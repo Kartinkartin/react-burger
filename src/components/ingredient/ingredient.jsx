@@ -30,7 +30,7 @@ export function Ingredient({ card }) {
                     <p className="text text_type_main-default pr-1">{card.price}</p>
                     <CurrencyIcon />
                 </div>
-                {Boolean(counter) && <Counter count={counter} size="default" />}
+                {!!counter && <Counter count={counter} size="default" />}
             </div>
         </Link>
     )

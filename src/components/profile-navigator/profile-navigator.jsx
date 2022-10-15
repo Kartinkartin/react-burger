@@ -8,21 +8,21 @@ import styles from './profile-navigator.module.css';
 export default function ProfileNavigator({ refreshToken }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const onClick = async () => {
+    const onLogoutClick = async () => {
         await dispatch(logoutUser(refreshToken, history))
-        // await чтобы не рисовался профиль и не ругалась типизация уже сброшенного refreshToken
+        // await чтобы не пытался рисоваться профиль
     }
     return (
         <nav className={`${styles.nav_container} mr-6`}>
             <NavLink
-                to={{ pathname: '/profile' }}
+                to='/profile'
                 className={`${styles.link} text text_type_main-medium`}
                 activeClassName={styles.link_active}
             >
                 Профиль
             </NavLink>
             <NavLink
-                to={{ pathname: '/profile/orders' }}
+                to='/profile/orders'
                 className={`${styles.link} text text_type_main-medium`}
                 activeClassName={styles.link_active}>
                 История заказов
@@ -30,7 +30,7 @@ export default function ProfileNavigator({ refreshToken }) {
             <button
                 className={`${styles.button} text text_type_main-medium`}
                 type='button'
-                onClick={onClick} >
+                onClick={onLogoutClick} >
                 Выход
             </button>
             <p className={`${styles.text} text text_type_main-default pt-20`} >

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import styles from './resetPass.module.css';
-import AppHeader from "../components/app-header/app-header";
+import AppHeader from "../../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { newPassRequest } from '../components/api/api';
+import { newPassRequest } from '../../components/api/api';
 
 
-export const ResetPassPage = ({ state }) => {
+export const ResetPassPage = () => {
     const history = useHistory();
     const location = useLocation();
     const [inputPassValue, setInputPassValue] = useState('');
@@ -83,6 +83,6 @@ export const ResetPassPage = ({ state }) => {
     }
 
     return (
-        <Redirect to={{ pathname: '/forgot-password' }} />
+        <Redirect to='/forgot-password' />
     )
 }

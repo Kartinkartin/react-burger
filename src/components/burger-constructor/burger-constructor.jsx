@@ -27,7 +27,7 @@ export default function BurgerConstructor() {
     const itemsMenu = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store => store.constructorItems.ingredientsConstructor);
     const orderNum = useSelector(store => store.order.number.toString());
-    let accessToken = useSelector(store => store.login.token);
+    const accessToken = useSelector(store => store.login.token);
     const [bunEl, setBunEl] = useState(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
@@ -92,9 +92,10 @@ export default function BurgerConstructor() {
     };
     
     const makeOrder = async () => {
+        const tokenLifeTime = 20 * 60 * 1000; // 20 min
         if (wasLogged) {
             const tokenDate = new Date(getCookie('date'));
-            if ((new Date() - tokenDate > 20 * 60 * 1000) || !accessToken ) {
+            if ((new Date() - tokenDate > tokenLifeTime) || !accessToken ) {
                 const refreshToken = getCookie('refreshToken');
                 await dispatch(postOrder(ingredientsConstructor, accessToken))
                 // я знаю, что тут беда, reducer на изменение store работает позже, чем оба диспатча. нет идеи, как положить в стор accessToken первее. Поэтому после обновления страницы, уходит запрос с еще пуcnым токеном из store. на этого наставника надежды у меня вообще нет(

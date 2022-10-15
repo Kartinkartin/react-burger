@@ -5,7 +5,7 @@ export function ProtectedRoute({ loggedUser = false, children, ...rest }) {
   const wasLogged = document.cookie.includes('refreshToken') ? true : false;
   if (wasLogged && !loggedUser) {
     return (
-        <Redirect to={{ pathname: '/' }} />
+        <Redirect to='/' />
       )
   }
 

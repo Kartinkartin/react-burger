@@ -1,34 +1,35 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import styles from './registration.module.css';
-import AppHeader from "../components/app-header/app-header";
-import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { registerUserRequest } from '../components/api/api';
+import { useDispatch } from 'react-redux';
+import { useHistory, Link, useLocation } from 'react-router-dom';
+import styles from './login.module.css';
+import AppHeader from "../../components/app-header/app-header";
+import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { loginUser } from '../../services/actions';
 
-export const RegistrationPage = () => {
-    const [inputNameValue, setInputNameValue] = useState('');
+
+export const LoginPage = () => {
+    debugger;
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const location = useLocation();
     const [inputEmailValue, setInputEmailValue] = useState('');
     const [inputPassValue, setInputPassValue] = useState('');
-    const newUserData = {
-        email: '',
-        password: '',
-        name: ''
+    const [passIcon, setPassIcon] = useState('ShowIcon');
+    const loginData = {
+        "email": "",
+        "password": ""
     };
 
-    const [passIcon, setPassIcon] = useState('ShowIcon')
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
 
-    const handleRegister = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        newUserData.email = inputEmailValue;
-        newUserData.password = inputPassValue;
-        newUserData.name = inputNameValue;
-        registerUserRequest(newUserData);
-
+        loginData.email = inputEmailValue;
+        loginData.password = inputPassValue;
+        dispatch(loginUser(loginData, history));
     }
-
 
     return (
         <main className={styles.page}>
@@ -36,23 +37,13 @@ export const RegistrationPage = () => {
             <div className={styles.main}>
                 <div className={styles.container}>
                     <h1 className={`${styles.header} text text_type_main-medium`}>
-                        Регистрация
+                        Вход
                     </h1>
                     <form
                         className={`${styles.form_container} pt-6 pb-20`}
-                        onSubmit={handleRegister} >
+                        onSubmit={handleLogin}>
                         <div className={`${styles.input_container} pb-6`}>
-                            <Input
-                                name={'name-input'}
-                                type={'text'}
-                                placeholder={'Name'}
-                                size={'default'}
-                                value={inputNameValue}
-                                onChange={e => setInputNameValue(e.target.value)}
-                            />
-                        </div>
-                        <div className={`${styles.input_container} pb-6`}>
-                            <Input
+                            <EmailInput
                                 name={'email-input'}
                                 type={'email'}
                                 placeholder={'E-mail'}
@@ -62,7 +53,7 @@ export const RegistrationPage = () => {
                             />
                         </div>
                         <div className={`${styles.input_container} pb-6`}>
-                            <Input
+                            <PasswordInput
                                 name={'pass-input'}
                                 type={'password'}
                                 placeholder={'Пароль'}
@@ -76,17 +67,23 @@ export const RegistrationPage = () => {
                         <Button
                             type="primary"
                             size="medium"
-                            disabled={!inputNameValue && !inputEmailValue && !inputPassValue} >
-                            Зарегистрироваться
+                            disabled={!inputEmailValue || !inputPassValue}
+                            htmlType="submit" >
+                            Войти
                         </Button>
                     </form>
                     <p className={`${styles.text} text text_type_main-default pb-4`}>
-                        Уже зарегистрированы? <Link className={styles.link} to='/login'>
-                            Войти
+                        Вы новый пользователь? <Link className={styles.link} to='/register'>
+                            Зарегистрироваться
+                        </Link>
+                    </p>
+                    <p className={`${styles.text} text text_type_main-default`}>
+                        Забыли пароль? <Link className={styles.link} to='/forgot-password'>
+                            Восстановить пароль
                         </Link>
                     </p>
                 </div>
             </div>
         </main>
-    )
+    );
 }

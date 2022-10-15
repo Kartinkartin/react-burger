@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useLocation, Link, Redirect } from 'react-router-dom';
-import styles from './login.module.css';
-import AppHeader from "../components/app-header/app-header";
+import styles from './forgotPass.module.css';
+import AppHeader from "../../components/app-header/app-header";
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { resetPassRequest } from '../components/api/api';
+import { resetPassRequest } from '../../components/api/api';
 
 
 

@@ -2,17 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
-import AppHeader from "../components/app-header/app-header";
-import FormProfile from '../components/form-profile/form-profile';
-import ProfileNavigator from '../components/profile-navigator/profile-navigator';
-import { getUserRequest } from '../components/api/api';
-import { refreshUser, getCookie } from '../services/actions';
+import AppHeader from "../../components/app-header/app-header";
+import FormProfile from '../../components/form-profile/form-profile';
+import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
+import { getUserRequest } from '../../components/api/api';
+import { refreshUser, getCookie } from '../../services/actions';
 
 export const ProfilePage = () => {
-    debugger
     const history = useHistory();
     const location = useLocation();
-    const isLogin = document.cookie ? true : false;
+    const isLogin = document.cookie.includes('refreshToken') ? true : false;
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';

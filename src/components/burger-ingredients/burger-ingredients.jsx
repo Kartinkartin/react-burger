@@ -20,7 +20,8 @@ export default function BurgerIngredients() {
             return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
         })
         const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
-        const currentSection = currentTabRef.current.dataset.type; // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
+        const currentSection = currentTabRef.current.dataset.type; 
+        // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
         setCurrent(currentSection)
     }
     const handlerScroll = (value) => {
