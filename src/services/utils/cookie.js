@@ -8,7 +8,10 @@ export const getCookie = (cookieName) => {
     )
 }
 
-export const setCookie = (name, value, action='add') => {
-    if(action === 'add') document.cookie=`${name}=${value}`;
-    if(action === 'delete') document.cookie=`${name}=${value}; max-age=-1`;
+export const setCookie = (name, value) => {
+    document.cookie=`${name}=${value}`;
+}
+
+export const deleteCookie = (name, value) => {
+    document.cookie=`${name}=${value}; max-age=-1`;
 }
