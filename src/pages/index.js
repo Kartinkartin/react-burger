@@ -5,6 +5,7 @@ import { ForgotPassPage } from "./forgotPass/forgotPass";
 import { RegistrationPage } from "./registration/registration";
 import { ResetPassPage } from "./resetPass/resetPass";
 import { IngredientDetailPage } from "./detail/detail";
+import { FeedPage } from "./feed/feed";
 import { NotFoundPage } from "./404/404";
 
 export {
@@ -15,5 +16,6 @@ export {
     ForgotPassPage,
     RegistrationPage,
     ResetPassPage,
+    FeedPage,
     NotFoundPage
 };

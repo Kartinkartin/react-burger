@@ -23,7 +23,7 @@ export default function AppHeader() {
             <NavLink
                 className={`${styles.button} pr-5 ml-2`}
                 activeClassName={styles.active}
-                to='/profile/orders' >
+                to='/feed' >
                 <ListIcon />
                 <p className="text text_type_main-default ml-2">Лента заказов</p>
             </NavLink>

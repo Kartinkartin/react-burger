@@ -15,6 +15,7 @@ import {
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { deleteError, getApiItems } from './services/actions';
+import { FeedPage } from './pages/feed/feed';
 
 function App() {
     const history = useHistory();
@@ -51,6 +52,7 @@ function App() {
                 <ProtectedRoute path="/reset-password" exact={true} >
                     <ResetPassPage />
                 </ProtectedRoute>
+                 {/* передаю параметр loggedUser, см. ProtectedRoute, он определяет защищенную маршрутизацию */}
                 <ProtectedRoute path="/profile" loggedUser={true} exact={true} >
                     <ProfilePage />
                 </ProtectedRoute>
@@ -59,6 +61,9 @@ function App() {
                 </Route>
                 <Route path={`/ingredients/:id`} >
                     <IngredientDetailPage />
+                </Route>
+                <Route path="/feed" exact={true}>
+                    <FeedPage />
                 </Route>
                 <Route path="*"  >
                     <NotFoundPage />
