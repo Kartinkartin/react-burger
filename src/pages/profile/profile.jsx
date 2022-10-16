@@ -12,7 +12,7 @@ import { getCookie } from '../../services/utils/cookie';
 export const ProfilePage = () => {
     const history = useHistory();
     const location = useLocation();
-    const isLogin = document.cookie.includes('refreshToken') ? true : false;
+    const isLogin = document.cookie.includes('refreshToken');
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';

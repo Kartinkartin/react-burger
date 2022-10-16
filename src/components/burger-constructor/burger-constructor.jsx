@@ -10,16 +10,18 @@ import styles from "./burger-constructor.module.css";
 import LayerElement from "../layer-element/layer-element";
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
-import { 
-    addIngredient, 
-    addOrChangeBun, 
-    deleteIngredient, 
-    postOrder, 
-    refreshUser, 
-    resetOrderNum, 
-    sortIngredients 
+import {
+    addIngredient,
+    addOrChangeBun,
+    deleteIngredient,
+    postOrder,
+    refreshUser,
+    resetOrderNum,
+    sortIngredients
 } from "../../services/actions";
-import { getCookie } from "../../services/utils/cookie"; 
+import { getCookie, setCookie } from "../../services/utils/cookie";
+import { refreshTokenRequest } from "../api/api";
+import { REFRESH_USER } from "../../services/actions/login";
 
 
 
@@ -71,17 +73,27 @@ export default function BurgerConstructor() {
         const item = notBunsIngredients.splice(index, 1)[0];
         dispatch(deleteIngredient(notBunsIngredients, id))
     };
-    
-    const makeOrder = async () => {
+
+    // проверяет актаульность и наличие токена в store, потом выполняет переданный action
+    const handlePerformeAction = (accessToken, action) => {
         const tokenLifeTime = 20 * 60 * 1000; // 20 min
+        const tokenDate = new Date(getCookie('date'));
+        if ((new Date() - tokenDate < tokenLifeTime) && accessToken) {
+            dispatch(action(ingredientsConstructor, accessToken));
+        }
+        if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
+            const refreshToken = getCookie('refreshToken');
+            Promise.resolve(dispatch(refreshUser(refreshToken)))
+            .then(accessToken => dispatch(action(ingredientsConstructor, accessToken)))
+            // так долго мучалась, я сейчас зарыдаю Т.Т я примерно так и думала, но тупила по-черному(
+            // умываясь слезами счастья, не могу теперь придумать имя XD в рабочем варианте я обозвала ее magic XD 
+            // СПАСИБО!!!!  
+        }     
+    }
+
+    const makeOrder = () => {
         if (wasLogged) {
-            const tokenDate = new Date(getCookie('date'));
-            if ((new Date() - tokenDate > tokenLifeTime) || !accessToken ) {
-                const refreshToken = getCookie('refreshToken');
-                await dispatch(refreshUser(refreshToken));
-                // я знаю, что тут беда, reducer на изменение store работает позже, чем оба диспатча. нет идеи, как положить в стор accessToken первее. Поэтому после обновления страницы, уходит запрос с еще пуcnым токеном из store. на этого наставника надежды у меня вообще нет(
-            }           
-            dispatch(postOrder(ingredientsConstructor, accessToken))
+            handlePerformeAction(accessToken, postOrder)
             setOpeningOrder(true);
         }
         else {
@@ -99,7 +111,7 @@ export default function BurgerConstructor() {
         }
 
     }, [ingredientsConstructor]);
-    
+
     const totalPrice = useMemo(() => {
         return ingredientsConstructor.reduce((price, current) => {
             if (current.type == 'bun') { return price + 2 * current.price }

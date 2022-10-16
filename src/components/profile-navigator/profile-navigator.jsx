@@ -8,9 +8,8 @@ import styles from './profile-navigator.module.css';
 export default function ProfileNavigator({ refreshToken }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const onLogoutClick = async () => {
-        await dispatch(logoutUser(refreshToken, history))
-        // await чтобы не пытался рисоваться профиль
+    const onLogoutClick = () => {
+        dispatch(logoutUser(refreshToken, history))
     }
     return (
         <nav className={`${styles.nav_container} mr-6`}>

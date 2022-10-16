@@ -105,11 +105,11 @@ export const resetOrderNum = () => (dispatch) => {
 export const postOrder = (orderList, token) => {
     const orderListId = orderList.map(item => item._id);
     orderListId.push(orderList[0]._id);
-    return async function (dispatch) {
+    return function (dispatch) {
         dispatch({
             type: SET_LOADING_MODE
         })
-        await postOrderRequest(orderListId, token)
+        postOrderRequest(orderListId, token)
             .then(res => {
                 if (res && res.success) {
                     dispatch({
@@ -167,10 +167,8 @@ export const loginUser = (loginData, history) => {
                             code: err[0],
                             message: res.message
                         })
-                    }
-                    )
+                    })
             })
-
     }
 }
 
@@ -204,22 +202,24 @@ export const refreshUser = (token) => {
         "token": token
     };
     let accessToken = null;
-    return async function (dispatch) {
-        await refreshTokenRequest(refreshData)
-            .then(async res => {
+    return function (dispatch) {
+        return refreshTokenRequest(refreshData)
+            .then(res => {
                 const oldDate = getCookie('date');
                 setCookie('refreshToken', token, 'delete');
                 setCookie('date', oldDate, 'delete');
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken;
-                await dispatch({
+                dispatch({
                     type: REFRESH_USER,
                     token: accessToken
                 })
                 setCookie('refreshToken', res.refreshToken);
                 setCookie('date', new Date());
+                return accessToken;
             })
             .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
+        
     }
 }
 
