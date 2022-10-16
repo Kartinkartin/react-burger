@@ -1,0 +1,30 @@
+.nav_container {
+    text-decoration: none;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+}
+
+.link {
+    text-decoration: none;
+    height: 64px;
+    color: #8585AD;
+}
+
+.link_active {
+    color: #F2F2F3
+}
+
+.button {
+    background-color: rgb(240, 240, 240, 0);
+    border: none;
+    color: #8585AD;
+    text-align: left;
+    height: 64px;
+    padding-bottom: 64px;
+    cursor: pointer;
+}
+
+.text {
+    color: #8585AD;
+}

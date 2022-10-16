@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -10,30 +11,34 @@ import LayerElement from "../layer-element/layer-element";
 import Modal from '../modal/modal';
 import OrderDetails from "../order-details/order-details";
 import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-    SORT_INGREDIENTS_IN_CONSTRUCTOR,
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR
-} from "../../services/actions/constructorItems";
-import { RESET_ORDER_NUMBER } from "../../services/actions/order";
-import { postOrder } from "../../services/actions";
+    addIngredient,
+    addOrChangeBun,
+    deleteIngredient,
+    postOrder,
+    refreshUser,
+    resetOrderNum,
+    sortIngredients
+} from "../../services/actions";
+import { getCookie, setCookie } from "../../services/utils/cookie";
+import { refreshTokenRequest } from "../api/api";
+import { REFRESH_USER } from "../../services/actions/login";
 
 
 
 export default function BurgerConstructor() {
+    const history = useHistory();
     const dispatch = useDispatch();
     const itemsMenu = useSelector(store => store.ingredientsApi);
     const ingredientsConstructor = useSelector(store => store.constructorItems.ingredientsConstructor);
-
-
     const orderNum = useSelector(store => store.order.number.toString());
-
+    const accessToken = useSelector(store => store.login.token);
     const [bunEl, setBunEl] = useState(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
     const [droppedIndex, setDroppedIndex] = useState(null);
     const [draggedIndex, setDraggedIndex] = useState(null);
     const [openingOrder, setOpeningOrder] = React.useState(false);
+    const wasLogged = document.cookie.includes('refreshToken');
 
     const handleDrag = (draggedTargetIndex) => {
         setIsSort(true);
@@ -50,39 +55,15 @@ export default function BurgerConstructor() {
             if (isSort) sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
             else {
                 item.type === 'bun' ?
-                    changeBunInConstructor(item) :
-                    addIngredientToConstructor(item)
+                    dispatch(addOrChangeBun(item)) :
+                    dispatch(addIngredient(item))
             };
 
         }
     })
 
-    const addIngredientToConstructor = (prod) => {
-        dispatch({
-            type: ADD_INGREDIENT_TO_CONSTRUCTOR,
-            item: prod
-        });
-        dispatchPrice({
-            type: 'increment',
-            item: prod
-        })
-    }
-    const changeBunInConstructor = (bun) => {
-        dispatch({
-            type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-            item: bun
-        })
-        dispatchPrice({
-            item: bun
-        })
-    }
     const sortIngredientsInConstructor = (item, droppedIndex, draggedIndex) => {
-        dispatch({
-            type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
-            draggedIndex: draggedIndex,
-            droppedIndex: droppedIndex,
-            item: item
-        })
+        dispatch(sortIngredients(item, droppedIndex, draggedIndex));
         setIsSort(false);
         setDraggedIndex(null);
         setDroppedIndex(null);
@@ -90,52 +71,52 @@ export default function BurgerConstructor() {
     const handleDeleteItem = (e, index) => {
         const id = notBunsIngredients[index]._id;
         const item = notBunsIngredients.splice(index, 1)[0];
-        dispatch({
-            type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-            ingredients: notBunsIngredients,
-            id: id,
-        })
-        dispatchPrice({
-            type: 'decrement',
-            item: item
-        })
+        dispatch(deleteIngredient(notBunsIngredients, id))
     };
+
+    // проверяет актаульность и наличие токена в store, потом выполняет переданный action
+    // эту функцию лучше вынести извне компонента и сделать ее более гибкой, чтобы она принимала помимо токена и экшена еще и набор аргументов для экшена и далее сама диспатчила переданный экшен со всеми его аргументами. Это позволит использовать ее во всех подобных случаях. Назвать можно как то performActionWithRefreshedToken, которая будет выполнять просто экшен, если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. Но над названием можно подумать еще)
+    const handlePerformeAction = (accessToken, action) => {
+        const tokenLifeTime = 20 * 60 * 1000; // 20 min
+        const tokenDate = new Date(getCookie('date'));
+        if ((new Date() - tokenDate < tokenLifeTime) && accessToken) {
+            dispatch(action(ingredientsConstructor, accessToken));
+        }
+        if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
+            const refreshToken = getCookie('refreshToken');
+            dispatch(refreshUser(refreshToken))
+            .then(accessToken => dispatch(action(ingredientsConstructor, accessToken)))
+        }     
+    }
+
     const makeOrder = () => {
-        dispatch(postOrder(ingredientsConstructor));
-        setOpeningOrder(true);
+        if (wasLogged) {
+            handlePerformeAction(accessToken, postOrder)
+            setOpeningOrder(true);
+        }
+        else {
+            history.replace({ pathname: '/login' })
+        }
     }
     function closePopup() {
         setOpeningOrder(false);
-        dispatch({
-            type: RESET_ORDER_NUMBER
-        })
+        dispatch(resetOrderNum())
     }
 
     useEffect(() => {
-        if (ingredientsConstructor.length) setBunEl(ingredientsConstructor.find(el => el.type === 'bun') || null);
+        if (ingredientsConstructor.length) {
+            setBunEl(ingredientsConstructor.find(el => el.type === 'bun') || null);
+        }
+
     }, [ingredientsConstructor]);
 
-    const [state, dispatchPrice] = useReducer(reducer, { price: 0 });
-    function reducer(state, action) {
-        switch (action.item.type) {
-            case ('bun'): return (bunEl ?
-                { price: state.price - (bunEl.price * 2) + (action.item.price * 2) } :
-                { price: state.price + (action.item.price * 2) })
-            case ('main'): //когда нет return или break, выполнение пойдет дальше
-            case ('sauce'):
-                switch (action.type) {
-                    case ('increment'): {
-                        return ({ price: state.price + action.item.price })
-                    }
-                    case ('decrement'): {
-                        return ({ price: state.price - action.item.price })
-                    }
-                    default: throw new Error();
-                }
-            default: throw new Error();
-        }
-    }
-    const totalPrice = state.price;
+    const totalPrice = useMemo(() => {
+        return ingredientsConstructor.reduce((price, current) => {
+            if (current.type == 'bun') { return price + 2 * current.price }
+            else { return price + current.price }
+        }, 0)
+    }, [ingredientsConstructor])
+
     return (
         <section className={`${styles.constructor} pt-25 pl-4 pr-4`} ref={targetDrop}>
             {itemsMenu.length && ingredientsConstructor.length ?
@@ -185,7 +166,12 @@ export default function BurgerConstructor() {
                             <span className="text text_type_digits-medium pr-2">{totalPrice}</span>
                             <CurrencyIcon type="primary" />
                         </div>
-                        <Button type="primary" size="large" onClick={makeOrder} disabled={!bunEl}>
+                        <Button
+                            type="primary"
+                            size="large"
+                            onClick={makeOrder}
+                            disabled={!bunEl}
+                            htmlType='button' >
                             Сделать заказ
                         </Button>
                     </div>

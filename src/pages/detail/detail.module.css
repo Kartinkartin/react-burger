@@ -1,0 +1,15 @@
+.page {
+    padding-top: 41px;
+    padding-bottom: 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.main {
+    width: 640px;
+    padding-top: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto;
+}
