@@ -75,6 +75,7 @@ export default function BurgerConstructor() {
     };
 
     // проверяет актаульность и наличие токена в store, потом выполняет переданный action
+    // эту функцию лучше вынести извне компонента и сделать ее более гибкой, чтобы она принимала помимо токена и экшена еще и набор аргументов для экшена и далее сама диспатчила переданный экшен со всеми его аргументами. Это позволит использовать ее во всех подобных случаях. Назвать можно как то performActionWithRefreshedToken, которая будет выполнять просто экшен, если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. Но над названием можно подумать еще)
     const handlePerformeAction = (accessToken, action) => {
         const tokenLifeTime = 20 * 60 * 1000; // 20 min
         const tokenDate = new Date(getCookie('date'));
@@ -83,11 +84,8 @@ export default function BurgerConstructor() {
         }
         if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
             const refreshToken = getCookie('refreshToken');
-            Promise.resolve(dispatch(refreshUser(refreshToken)))
+            dispatch(refreshUser(refreshToken))
             .then(accessToken => dispatch(action(ingredientsConstructor, accessToken)))
-            // так долго мучалась, я сейчас зарыдаю Т.Т я примерно так и думала, но тупила по-черному(
-            // умываясь слезами счастья, не могу теперь придумать имя XD в рабочем варианте я обозвала ее magic XD 
-            // СПАСИБО!!!!  
         }     
     }
 

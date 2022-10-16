@@ -31,7 +31,7 @@ import {
     CHANGE_USER_DATA
 } from "./login";
 import { SET_ERROR, RESET_ERROR } from "./error";
-import { getCookie, setCookie } from "../utils/cookie";
+import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 
 // action creator для получения всего набора, см. ConstructorPage
 export function getApiItems() {
@@ -184,8 +184,8 @@ export const logoutUser = (token, history) => {
                 })
                 const oldTokenCookie = getCookie('refreshToken');
                 const oldDate = getCookie('date')
-                setCookie('refreshToken', oldTokenCookie, 'delete');
-                setCookie('date', oldDate, 'delete')
+                deleteCookie('refreshToken', oldTokenCookie);
+                deleteCookie('date', oldDate)
             }
             )
             .then(res => history.replace({ pathname: '/login' }))
@@ -206,8 +206,8 @@ export const refreshUser = (token) => {
         return refreshTokenRequest(refreshData)
             .then(res => {
                 const oldDate = getCookie('date');
-                setCookie('refreshToken', token, 'delete');
-                setCookie('date', oldDate, 'delete');
+                deleteCookie('refreshToken', token);
+                deleteCookie('date', oldDate);
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken;
                 dispatch({
