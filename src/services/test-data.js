@@ -57,10 +57,11 @@ const burger = [
       __v: 0
     }
   ]
-export const testOrder = [{
-    num: 123456,
-    name: 'Burger with burger',
-    burger,
-    price: 450,
+const exampleOrder = {
+  num: 123456,
+  name: 'Burger with burger',
+  burger,
+  price: 450,
 
-}]
+}; 
+export const testOrder = [ exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder ]

@@ -1,5 +1,4 @@
 .container {
-    border: 1px solid red;
     border-radius: 40px;
     background-color: #1C1C21;
     display: flex;
@@ -12,4 +11,35 @@
 
 .date {
     color: #8585AD;
+}
+
+.order_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pictures_container {
+    height: 64px;
+    position: relative;
+}
+
+.image {
+    width: 64px;
+    height: 64px;
+    background: #131316;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 100px;
+    border: 2px solid #801AB2;
+    position: absolute;
+    top: 0;
+}
+
+.price_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,7 +1,20 @@
 .container {
-    width: 608px;
+    width: 608px;    
 }
 
 .list {
-    border: 1px solid red;
+    height: 650px;
+    overflow-y: scroll;
+    scrollbar-color: #8585AD #2F2F37;
+    scrollbar-width: 8px;
+}
+
+.list::-webkit-scrollbar {
+    width: 8px;
+    height: auto;
+    background-color: #2f2f37;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background-color: #8585ad;
 }
