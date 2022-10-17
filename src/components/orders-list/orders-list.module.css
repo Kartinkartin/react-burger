@@ -1,3 +1,7 @@
 .container {
     width: 608px;
 }
+
+.list {
+    border: 1px solid red;
+}
