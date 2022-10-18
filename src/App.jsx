@@ -6,6 +6,7 @@ import {
     ConstructorPage,
     LoginPage,
     ProfilePage,
+    FeedPage,
     ForgotPassPage,
     RegistrationPage,
     ResetPassPage,
@@ -15,7 +16,6 @@ import {
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { deleteError, getApiItems } from './services/actions';
-import { FeedPage } from './pages/feed/feed';
 
 function App() {
     const history = useHistory();

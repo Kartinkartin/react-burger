@@ -64,4 +64,4 @@ const exampleOrder = {
   price: 450,
 
 }; 
-export const testOrder = [ exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder ]
+export const testOrder = [ exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder, exampleOrder ]

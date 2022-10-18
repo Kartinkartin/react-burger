@@ -22,7 +22,6 @@ export default function Order({ order }) {
                 <div className={styles.pictures_container}>
                     {order.burger
                         .map((item, index) => {
-                            debugger;
                             const pic = item.image;
                             return (
                                 <div

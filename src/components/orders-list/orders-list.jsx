@@ -9,7 +9,7 @@ export default function OrdersList() {
     debugger
     return (
         <section className={styles.container}>
-            <h1 className="text text_type_main-large pt-10 pb-5">
+            <h1 className="text text_type_main-large pb-5">
                 Лента заказов
             </h1>
             <div className={`${styles.list} pr-2`}>

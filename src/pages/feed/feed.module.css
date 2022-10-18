@@ -6,6 +6,7 @@
 }
 
 .main {
+    padding-top: 40px;;
     display: flex;
     flex-direction: row;
     width: 1240px;
