@@ -33,10 +33,11 @@ export default function AppHeader() {
             <NavLink
                 className={styles.button}
                 activeClassName={styles.active}
-                to='/profile'
-                exact={true}>
+                to='/profile' >
                 <ProfileIcon />
-                <p className="text text_type_main-default ml-2">Личный кабинет</p>
+                <p className="text text_type_main-default ml-2">
+                    Личный кабинет
+                </p>
             </NavLink>
         </header>
     )

@@ -4,14 +4,10 @@ import styles from './orders-list.module.css';
 import Order from '../order/order';
 import { testOrder } from '../../services/test-data';
 
-export default function OrdersList() {
+export default function OrdersList({ width }) {
     const testData = testOrder;
-    debugger
     return (
-        <section className={styles.container}>
-            <h1 className="text text_type_main-large pb-5">
-                Лента заказов
-            </h1>
+        <section className={styles.container} style={{ width: `${width}` }}>
             <div className={`${styles.list} pr-2`}>
                 {testData.map(order =>{
                     return (

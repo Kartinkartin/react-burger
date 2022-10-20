@@ -1,7 +1,5 @@
 .container {
-    border: 1px solid red;
     width: 580px;
-    padding-top: 60px;
     display: grid;
     row-gap: 60px;
     column-gap: 36px;

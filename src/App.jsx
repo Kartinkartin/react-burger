@@ -11,7 +11,8 @@ import {
     RegistrationPage,
     ResetPassPage,
     IngredientDetailPage,
-    NotFoundPage
+    NotFoundPage,
+    OrdersPage
 } from "./pages";
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
@@ -56,6 +57,9 @@ function App() {
                 <ProtectedRoute path="/profile" loggedUser={true} exact={true} >
                     <ProfilePage />
                 </ProtectedRoute>
+                <ProtectedRoute path="/profile/orders" loggedUser={true} exact={true} >
+                    <OrdersPage />
+                </ProtectedRoute>
                 <Route path="/" exact={true}>
                     <ConstructorPage />
                 </Route>
@@ -63,6 +67,9 @@ function App() {
                     <IngredientDetailPage />
                 </Route>
                 <Route path="/feed" exact={true}>
+                    <FeedPage />
+                </Route>
+                <Route path={`/feed/:id`} exact={true}>
                     <FeedPage />
                 </Route>
                 <Route path="*"  >
