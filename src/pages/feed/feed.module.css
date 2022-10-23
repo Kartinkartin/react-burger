@@ -12,7 +12,6 @@
     grid-template-rows: auto;
     flex-direction: row;
     width: 1250px;
-    justify-content: space-between;
     margin: 0 auto;
 }
 

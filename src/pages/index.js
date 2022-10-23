@@ -6,6 +6,7 @@ import { RegistrationPage } from "./registration/registration";
 import { ResetPassPage } from "./resetPass/resetPass";
 import { IngredientDetailPage } from "./detail/detail";
 import { FeedPage } from "./feed/feed";
+import { FeedDetailPage } from "./feed-detail/feed-detail";
 import { NotFoundPage } from "./404/404";
 import { OrdersPage } from "./orders/orders";
 
@@ -18,6 +19,7 @@ export {
     RegistrationPage,
     ResetPassPage,
     FeedPage,
+    FeedDetailPage,
     NotFoundPage, 
     OrdersPage
 };

@@ -19,16 +19,15 @@ import {
     resetOrderNum,
     sortIngredients
 } from "../../services/actions";
-import { getCookie, setCookie } from "../../services/utils/cookie";
-import { refreshTokenRequest } from "../api/api";
-import { REFRESH_USER } from "../../services/actions/login";
+import { getCookie } from "../../services/utils/cookie";
+import { getApiIngredients } from "../../services/selectors/selectors";
 
 
 
 export default function BurgerConstructor() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const itemsMenu = useSelector(store => store.ingredientsApi);
+    const itemsMenu = useSelector(getApiIngredients);
     const ingredientsConstructor = useSelector(store => store.constructorItems.ingredientsConstructor);
     const orderNum = useSelector(store => store.order.number.toString());
     const accessToken = useSelector(store => store.login.token);

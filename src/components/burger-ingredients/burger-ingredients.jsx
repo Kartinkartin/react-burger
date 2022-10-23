@@ -3,10 +3,11 @@ import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import MenuCategory from "../menu-category/menu-category";
+import { getApiIngredients } from "../../services/selectors/selectors";
 
 
 export default function BurgerIngredients() {
-    const items = useSelector(store => store.ingredientsApi); // загрузка в App
+    const items = useSelector(getApiIngredients); // загрузка в App
     
     const [current, setCurrent] = React.useState('bun');
     const containerRef = useRef();

@@ -4,11 +4,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import styles from './detail.module.css';
 import AppHeader from '../../components/app-header/app-header';
 import IngredientDetail from '../../components/ingredient-detail/ingredient-detail';
+import { getApiIngredients } from '../../services/selectors/selectors';
 
 export const IngredientDetailPage = () => {
-    const location = useLocation();
     const { id } = useParams();
-    const allElements = useSelector(store => store.ingredientsApi)
+    const allElements = useSelector(getApiIngredients)
     const chosenElement = allElements.filter(el => el._id === id)
     return (
         <main className={styles.page}>

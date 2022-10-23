@@ -1,0 +1,1 @@
+export const getApiIngredients = store => store.ingredientsApi

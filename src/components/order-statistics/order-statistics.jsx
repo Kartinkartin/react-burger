@@ -1,9 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './order-statistics.module.css';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
-import { testOrder } from '../../services/test-data'; //тесовый заказ
 
-export function OrderStatistics() {
+export function OrderStatistics({ data }) {
+    const { orders, total, totalToday } = data;
+    const todayOrders = orders.filter(order => {
+        const orderDate = order.createdAt.slice(0, 10);
+        const todayDate = new Date().toISOString().slice(0, 10);
+        return orderDate === todayDate
+    });
     return (
         <div className={styles.container}>
             <div className={styles.ready}>
@@ -11,16 +17,18 @@ export function OrderStatistics() {
                     Готовы:
                 </h2>
                 <div className={`${styles.turn} pt-6`}>
-                    {testOrder.map(order => {
-                        return (
-                            <p
-                                className={`${styles.ready_num} text text_type_digits-default`}
-                                style={{ color: '#00CCCC' }}
-                                key={uuidv4()}>
-                                {order.num}
-                            </p>
-                        )
-                    })}
+                    {todayOrders.filter(order => order.status === 'done')
+                        .map((order, index) => {
+                            if (index > 9) return null
+                            return (
+                                <p
+                                    className={`${styles.ready_num} text text_type_digits-default pb-2`}
+                                    style={{ color: '#00CCCC' }}
+                                    key={uuidv4()}>
+                                    {order.number}
+                                </p>
+                            )
+                        })}
                 </div>
             </div>
             <div className={styles.process}>
@@ -28,16 +36,17 @@ export function OrderStatistics() {
                     В работе:
                 </h2>
                 <div className={`${styles.turn} pt-6`}>
-                    {testOrder.map(order => {
-                        return (
-                            <p
-                                className={`${styles.ready_num} text text_type_digits-default`}
-                                style={{ color: '#F2F2F3' }}
-                                key={uuidv4()}>
-                                {order.num}
-                            </p>
-                        )
-                    })}
+                    {todayOrders.filter(order => order.status !== 'done')
+                        .map(order => {
+                            return (
+                                <p
+                                    className={`${styles.ready_num} text text_type_digits-default pb-2`}
+                                    style={{ color: '#F2F2F3' }}
+                                    key={uuidv4()}>
+                                    {order.num}
+                                </p>
+                            )
+                        })}
                 </div>
             </div>
             <div className={styles.done_total}>
@@ -45,7 +54,7 @@ export function OrderStatistics() {
                     Выполнено за все время:
                 </h2>
                 <p className="text text_type_digits-large">
-                    25 000
+                    {total}
                 </p>
             </div>
             <div className={styles.done_today}>
@@ -53,9 +62,13 @@ export function OrderStatistics() {
                     Выполнено за сегодня:
                 </h2>
                 <p className="text text_type_digits-large">
-                    150
+                    {totalToday}
                 </p>
             </div>
         </div>
     )
+}
+
+OrderStatistics.propTypes = {
+    data: PropTypes.object.isRequired
 }

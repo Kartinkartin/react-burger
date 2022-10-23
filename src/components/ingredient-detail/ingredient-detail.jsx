@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
+import { getApiIngredients } from "../../services/selectors/selectors";
 import styles from "./ingredient-detail.module.css";
 
 export default function IngredientDetail() {
     const { id } = useParams();
-    const elements = useSelector(store => store.ingredientsApi);
+    const elements = useSelector(getApiIngredients);
     const element = elements.find(el => el._id === id);
     return (
         element && (

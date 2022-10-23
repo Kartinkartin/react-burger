@@ -12,7 +12,8 @@ import {
     ResetPassPage,
     IngredientDetailPage,
     NotFoundPage,
-    OrdersPage
+    OrdersPage,
+    FeedDetailPage
 } from "./pages";
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
@@ -34,7 +35,7 @@ function App() {
     }
 
     useEffect(() => {
-        dispatch(getApiItems())
+        dispatch(getApiItems()) // получение всех возможных ингредиентов
     }, [dispatch])
 
     // В <Router> обернуто в index, чтобы здесь читался location
@@ -70,7 +71,7 @@ function App() {
                     <FeedPage />
                 </Route>
                 <Route path={`/feed/:id`} exact={true}>
-                    <FeedPage />
+                    <FeedDetailPage />
                 </Route>
                 <Route path="*"  >
                     <NotFoundPage />
