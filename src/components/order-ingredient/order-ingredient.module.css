@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.image {
+    width: 64px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 100px;
+    border: 2px solid #801AB2;
+}
+.name {
+    width: 320px;
+}

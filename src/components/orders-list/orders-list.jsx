@@ -3,8 +3,11 @@ import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для ген�
 import PropTypes from 'prop-types';
 import styles from './orders-list.module.css';
 import Order from '../order/order';
+import { useSelector } from 'react-redux';
+import { getWSOrders } from '../../services/selectors/selectors';
 
-export default function OrdersList({ width, orders }) {
+export default function OrdersList({ width }) {
+    const orders = useSelector(getWSOrders);
     if (orders) {
         return (
             <section className={styles.container} style={{ width: `${width}` }}>
@@ -24,5 +27,4 @@ export default function OrdersList({ width, orders }) {
 
 OrdersList.propTypes = {
     width: PropTypes.string,
-    orders: PropTypes.array.isRequired
 }

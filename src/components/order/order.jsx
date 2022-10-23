@@ -14,17 +14,17 @@ export default function Order({ order }) {
     const price = order.ingredients.reduce((price, current) => {
         return price + findCurrentIngredient(current).price
     }, 0);
-    var moment = require('moment');
+    const moment = require('moment');
     require('moment/locale/ru');
     const orderDate = moment(order.createdAt).calendar();
 
     return (
         <Link
             className={`${styles.container} p-6 mb-6`}
-            to={`/feed/${order.id}`}>
+            to={`/feed/${order._id}`}>
             <div className={`${styles.service_info} pb-6 text text_type_digits-default`}>
                 #{order.number}
-                <span className={`${styles.date} text text_type_main-default`}>
+                <span className={`${styles.date} text text_type_main-default`} >
                     {orderDate}
                 </span>
             </div>

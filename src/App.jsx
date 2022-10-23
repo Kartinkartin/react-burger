@@ -18,14 +18,15 @@ import {
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { deleteError, getApiItems } from './services/actions';
+import { getError } from './services/selectors/selectors';
+import { WS_CONNECTION_START } from './services/websocket/actions/wsActionTypes';
 
 function App() {
     const history = useHistory();
     const location = useLocation();
-    let background = location.state?.background;
-
+    let background = location.state?.background; // для модального окна с ингредиентом
     const dispatch = useDispatch();
-    const error = useSelector(store => store.error)
+    const error = useSelector(getError);
 
     function closeIngredientModal(background) {
         history.replace({ pathname: background.pathname })
@@ -36,6 +37,12 @@ function App() {
 
     useEffect(() => {
         dispatch(getApiItems()) // получение всех возможных ингредиентов
+        .then(dispatch({
+            type: WS_CONNECTION_START
+        }))
+       
+        
+         
     }, [dispatch])
 
     // В <Router> обернуто в index, чтобы здесь читался location

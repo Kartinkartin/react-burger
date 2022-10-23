@@ -9,4 +9,23 @@
     padding-top: 120px;;
     width: 640px;
     margin: 0 auto;
+    color: #F2F2F3;
+}
+
+.container {
+    width: 640px;
+    margin: 0 auto;
+    
+}
+
+.number {
+    text-align: center;
+}
+
+.status {
+    color: #00CCCC;
+}
+
+.date {
+    color: #8585AD;
 }

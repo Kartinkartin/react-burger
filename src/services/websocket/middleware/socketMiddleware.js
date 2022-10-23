@@ -1,6 +1,7 @@
 // socketMiddleware.js
 // import type { Middleware, MiddlewareAPI } from 'redux';
 import { configWS } from "../../../components/api/api";
+import { WS_GET_MESSAGE } from "../actions/wsActionTypes";
 
 const wsUrl = `${configWS}`
 
@@ -31,7 +32,7 @@ export const socketMiddleware = wsUrl => {
                 // функция, которая вызывается при получении события от сервера
         socket.onmessage = event => {
           const { data } = event;
-          dispatch({ type: 'WS_GET_MESSAGE', payload: data });
+          dispatch({ type: WS_GET_MESSAGE, payload: JSON.parse(data) });
         };
                 // функция, которая вызывается при закрытии соединения
         socket.onclose = event => {

@@ -42,7 +42,7 @@ export function getApiItems() {
         dispatch({
             type: SET_LOADING_MODE // модалка с ожиданием
         })
-        getCardsRequest()
+        return getCardsRequest()
             .then(res => {
                 dispatch({
                     type: RESET_LOADING_MODE

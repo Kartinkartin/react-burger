@@ -1,13 +1,15 @@
 import {
-    WS_CONNECTION_START,
     WS_CONNECTION_SUCCESS,
     WS_CONNECTION_ERROR,
-    WS_CONNECTION_CLOSED
+    WS_CONNECTION_CLOSED,
+    WS_GET_MESSAGE
 } from "../actions/wsActionTypes";
 
 const initialState = {
     wsConnected: false,
     orders: [],
+    total: null,
+    totalToday: null,
     error: undefined
 };
 
@@ -47,7 +49,9 @@ export const wsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: undefined,
-                orders: [...state.orders, action.payload]
+                orders: [...state.orders, ...action.payload.orders],
+                total: action.payload.total,
+                totalToday: action.payload.totalToday,
             };
         default:
             return state;

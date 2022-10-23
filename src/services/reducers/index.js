@@ -6,6 +6,7 @@ import { orderReducer } from "./order";
 import { loadingReducer } from "./loading";
 import { loginReducer } from "./login";
 import { errorReducer } from "./error";
+import { wsReducer } from "../websocket/reducers/socketReducer";
 
 export const rootReducer = combineReducers({
     ingredientsApi: initialItemsReducer,
@@ -13,6 +14,7 @@ export const rootReducer = combineReducers({
     order: orderReducer,
     loading: loadingReducer,
     login: loginReducer,
-    error: errorReducer
+    error: errorReducer,
+    ws: wsReducer
 })
 

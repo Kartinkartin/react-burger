@@ -2,9 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './order-statistics.module.css';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
+import { useSelector } from 'react-redux';
+import { getTodayDone, getTotalDone, getWSOrders } from '../../services/selectors/selectors';
 
-export function OrderStatistics({ data }) {
-    const { orders, total, totalToday } = data;
+export default function OrderStatistics() {
+    const orders = useSelector(getWSOrders);
+    const total = useSelector(getTotalDone);
+    const totalToday = useSelector(getTodayDone);
     const todayOrders = orders.filter(order => {
         const orderDate = order.createdAt.slice(0, 10);
         const todayDate = new Date().toISOString().slice(0, 10);
@@ -67,8 +71,4 @@ export function OrderStatistics({ data }) {
             </div>
         </div>
     )
-}
-
-OrderStatistics.propTypes = {
-    data: PropTypes.object.isRequired
 }
