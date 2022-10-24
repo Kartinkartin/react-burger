@@ -1,11 +1,17 @@
 .container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.image {
-    width: 64px;
     height: 64px;
+    flex-direction: row;
+    padding-bottom: 16px;
+}
+
+.container:last-child {
+    padding-bottom: 0;
+}
+
+.image {
+    width: 56px;
+    height: 56px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -14,4 +20,7 @@
 }
 .name {
     width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
