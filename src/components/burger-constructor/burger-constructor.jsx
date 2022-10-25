@@ -9,7 +9,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import styles from "./burger-constructor.module.css";
 import LayerElement from "../layer-element/layer-element";
 import Modal from '../modal/modal';
-import OrderDetails from "../order-details/order-details";
+import OrderInfo from "../order-info/order-info";
 import {
     addIngredient,
     addOrChangeBun,
@@ -189,7 +189,7 @@ export default function BurgerConstructor() {
             }
             {openingOrder &&
                 (<Modal onClose={closePopup} >
-                    <OrderDetails number={orderNum} />
+                    <OrderInfo number={orderNum} />
                 </Modal>)
             }
         </section>

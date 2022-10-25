@@ -13,7 +13,7 @@ import {
     IngredientDetailPage,
     NotFoundPage,
     OrdersPage,
-    FeedDetailPage
+    OrderDetailPage
 } from "./pages";
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
@@ -37,16 +37,7 @@ function App() {
 
     useEffect(() => {
         dispatch(getApiItems()) // получение всех возможных ингредиентов
-        if(location.pathname === '/feed') {
-            dispatch({
-            type: 'WS_CONNECTION_START'
-        })}
-        // if(location.pathname === '/profile/orders') {
-        //     dispatch({
-        //     type: 'WS_CONNECTION_START_PROTECTED_ROUTE',
-        //     payload: accessToken
-        // })}
-    }, [dispatch, location.pathname])
+    }, [dispatch])
 
     // В <Router> обернуто в index, чтобы здесь читался location
     return (
@@ -64,7 +55,7 @@ function App() {
                 <ProtectedRoute path="/reset-password" exact={true} >
                     <ResetPassPage />
                 </ProtectedRoute>
-                 {/* передаю параметр loggedUser, см. ProtectedRoute, он определяет защищенную маршрутизацию */}
+                {/* передаю параметр loggedUser, см. ProtectedRoute, он определяет защищенную маршрутизацию */}
                 <ProtectedRoute path="/profile" loggedUser={true} exact={true} >
                     <ProfilePage />
                 </ProtectedRoute>
@@ -72,7 +63,7 @@ function App() {
                     <OrdersPage />
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile/orders/:id" loggedUser={true} exact={true} >
-                    <FeedDetailPage />
+                    <OrderDetailPage />
                 </ProtectedRoute>
                 <Route path="/" exact={true}>
                     <ConstructorPage />
@@ -84,23 +75,35 @@ function App() {
                     <FeedPage />
                 </Route>
                 <Route path={`/feed/:id`} exact={true}>
-                    <FeedDetailPage />
+                    <OrderDetailPage />
                 </Route>
                 <Route path="*"  >
                     <NotFoundPage />
                 </Route>
             </Switch>
             {background && (
-                <Route
-                    path={`/ingredients/:id`}
-                    children={
-                        <Modal
-                            title='Детали заказа'
-                            onClose={() => closeIngredientModal(background)}>
-                            <IngredientDetail />
-                        </Modal>
-                    }
-                />
+                <>
+                    <Route
+                        path={`/ingredients/:id`}
+                        children={
+                            <Modal
+                                title='Детали заказа'
+                                onClose={() => closeIngredientModal(background)}>
+                                <IngredientDetail />
+                            </Modal>
+                        }
+                    />
+                    <Route
+                        path={`/feed/:id`}
+                        children={
+                            <Modal
+                                title='Детали заказа'
+                                onClose={() => closeIngredientModal(background)}>
+                                <IngredientDetail />
+                            </Modal>
+                        }
+                    />
+                </>
             )
             }
             {error.code || error.message &&

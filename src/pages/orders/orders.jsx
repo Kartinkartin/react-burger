@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
 import AppHeader from "../../components/app-header/app-header";
 import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
-import { getUserRequest } from '../../components/api/api';
-import { handlePerformeAction, performActionWithRefreshedToken, refreshUser } from '../../services/actions';
+import { performActionWithRefreshedToken } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie';
 import OrdersList from '../../components/orders-list/orders-list';
 import { getWSOrders } from '../../services/selectors/selectors';
@@ -21,7 +20,7 @@ export const OrdersPage = () => {
         getCookie('refreshToken') : '';
     const myOrders = useSelector(getWSOrders);
 
-    useEffect(() => { // тут половину выкинуть
+    useEffect(() => {
         if(!isLogin)  history.replace({ pathname: '/login', state: { from: location.pathname } })
         dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute, ))
     }, [dispatch, isLogin])

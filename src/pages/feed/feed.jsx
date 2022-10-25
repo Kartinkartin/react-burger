@@ -11,11 +11,11 @@ export function FeedPage() {
     const dispatch = useDispatch();
     const data = useSelector(getWSOrders);
 
-    // useEffect(() => {
-    //     dispatch({
-    //         type: 'WS_CONNECTION_START'
-    //     })
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch({
+            type: 'WS_CONNECTION_START'
+        })
+    }, [dispatch])
 
     return (
         <main className={styles.page}>

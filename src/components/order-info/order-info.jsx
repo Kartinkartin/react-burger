@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./order-details.module.css";
+import styles from "./order-info.module.css";
 import doneImage from '../../images/done.jpg';
 
-export default function OrderDetails({ number }) {
+export default function OrderInfo({ number }) {
     return (
         <>
             <p className={`${styles.number} text text_type_digits-large pb-8`}>
@@ -23,6 +23,6 @@ export default function OrderDetails({ number }) {
     )
 }
 
-OrderDetails.propTypes = {
+OrderInfo.propTypes = {
     number: PropTypes.string.isRequired
 }
