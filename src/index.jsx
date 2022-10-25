@@ -9,8 +9,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { rootReducer } from './services/reducers';
 import { socketMiddleware } from './services/websocket/middleware/socketMiddleware';
+import { wsUrl } from './components/api/api';
 
-const wsUrl = 'wss://norma.nomoreparties.space/orders/all'
+// const wsUrl = 'wss://norma.nomoreparties.space/orders'
+
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})

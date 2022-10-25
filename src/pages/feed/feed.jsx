@@ -8,9 +8,14 @@ import { WS_CONNECTION_START, WS_GET_MESSAGE } from '../../services/websocket/ac
 import { getTodayDone, getTotalDone, getWSOrders } from '../../services/selectors/selectors';
 
 export function FeedPage() {
+    const dispatch = useDispatch();
     const data = useSelector(getWSOrders);
-    const total = useSelector(getTotalDone)
-    const totalToday = useSelector(getTodayDone);
+
+    // useEffect(() => {
+    //     dispatch({
+    //         type: 'WS_CONNECTION_START'
+    //     })
+    // }, [dispatch])
 
     return (
         <main className={styles.page}>
@@ -22,7 +27,7 @@ export function FeedPage() {
                 { data.length ?
                     (<>
                         <div className={styles.list} >
-                            <OrdersList width={'610px'} />
+                            <OrdersList width={'610px'} orders={data}/>
                         </div>
                         <div className={styles.statistics} >
                             <OrderStatistics />

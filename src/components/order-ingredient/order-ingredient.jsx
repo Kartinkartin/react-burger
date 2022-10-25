@@ -15,7 +15,7 @@ export default function OrderIngredient({ id, counter }) {
     const image = currentIngredient.image;
     return (
         <div className={`${styles.container}`} style={{ justifyContent: "space-between" }}>
-            <div className={styles.container}>
+            <div className={styles.container} >
                 <div
                     className={styles.image}
                     style={{ backgroundImage: `url("${image}")` }}>
@@ -24,7 +24,7 @@ export default function OrderIngredient({ id, counter }) {
                     {currentIngredient.name}
                 </h3>
             </div>
-            <div className={styles.container}>
+            <div className={styles.container} style={{alignItems: 'center'}}>
                 <p className="text text_type_digits-default mr-2">
                     {`${counter} x ${currentIngredient.price}`}
                 </p>

@@ -18,8 +18,7 @@ import {
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { deleteError, getApiItems } from './services/actions';
-import { getError } from './services/selectors/selectors';
-import { WS_CONNECTION_START } from './services/websocket/actions/wsActionTypes';
+import { getAccessToken, getError } from './services/selectors/selectors';
 
 function App() {
     const history = useHistory();
@@ -34,16 +33,20 @@ function App() {
     function closeErrorModal() {
         dispatch(deleteError())
     }
+    const accessToken = useSelector(getAccessToken);
 
     useEffect(() => {
         dispatch(getApiItems()) // получение всех возможных ингредиентов
-        .then(dispatch({
-            type: WS_CONNECTION_START
-        }))
-       
-        
-         
-    }, [dispatch])
+        if(location.pathname === '/feed') {
+            dispatch({
+            type: 'WS_CONNECTION_START'
+        })}
+        // if(location.pathname === '/profile/orders') {
+        //     dispatch({
+        //     type: 'WS_CONNECTION_START_PROTECTED_ROUTE',
+        //     payload: accessToken
+        // })}
+    }, [dispatch, location.pathname])
 
     // В <Router> обернуто в index, чтобы здесь читался location
     return (
@@ -67,6 +70,9 @@ function App() {
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile/orders" loggedUser={true} exact={true} >
                     <OrdersPage />
+                </ProtectedRoute>
+                <ProtectedRoute path="/profile/orders/:id" loggedUser={true} exact={true} >
+                    <FeedDetailPage />
                 </ProtectedRoute>
                 <Route path="/" exact={true}>
                     <ConstructorPage />

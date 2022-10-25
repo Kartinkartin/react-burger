@@ -12,9 +12,8 @@ const config = {
   }
 }
 
-export const configWS = {
-  baseUrl: 'wss://norma.nomoreparties.space/orders'
-}
+export const wsUrl =  'wss://norma.nomoreparties.space/orders'
+
 // получение всех начальных ингредиентов
 export function getCardsRequest() {
   return (fetch(`${config.baseUrl}/ingredients`, {

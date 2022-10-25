@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
 import AppHeader from "../../components/app-header/app-header";
-import FormProfile from '../../components/form-profile/form-profile';
 import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
 import { getUserRequest } from '../../components/api/api';
-import { refreshUser } from '../../services/actions';
-import { getCookie } from '../../services/utils/cookie'; 
+import { handlePerformeAction, performActionWithRefreshedToken, refreshUser } from '../../services/actions';
+import { getCookie } from '../../services/utils/cookie';
 import OrdersList from '../../components/orders-list/orders-list';
+import { getWSOrders } from '../../services/selectors/selectors';
+import { startWsProtectedRoute } from '../../services/websocket/actions';
 
 export const OrdersPage = () => {
     const history = useHistory();
@@ -16,33 +17,24 @@ export const OrdersPage = () => {
     const isLogin = document.cookie.includes('refreshToken');
     const dispatch = useDispatch();
     const accessToken = useSelector(store => store.login.token);
-    const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
+    const refreshToken = document.cookie.includes('refreshToken') ?
+        getCookie('refreshToken') : '';
+    const myOrders = useSelector(getWSOrders);
 
-    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка
-    let data = null;
+    useEffect(() => { // тут половину выкинуть
+        if(!isLogin)  history.replace({ pathname: '/login', state: { from: location.pathname } })
+        dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute, ))
+    }, [dispatch, isLogin])
 
-    useEffect(() => {
-        getUserRequest(accessToken)
-            .then(res => {
-                data = res.user;
-                if(data) setUser(data)
-            })
-        .catch(err => {
-            isLogin ? 
-            dispatch(refreshUser(refreshToken)) : // перезаписываю accessToken в store
-            history.replace({ pathname: '/login', state: { from: location.pathname } })
-        })
-    }, [data, accessToken])
-    
-    
+
     return (
         <main className={styles.page}>
             <AppHeader />
-            {user && 
-            (<div className={styles.main}>
-                <ProfileNavigator refreshToken={refreshToken} />
-                <OrdersList width={'860px'} />
-            </div>)}
+            {accessToken &&
+                (<div className={styles.main}>
+                    <ProfileNavigator refreshToken={refreshToken} />
+                    <OrdersList width={'860px'} orders={myOrders} />
+                </div>)}
         </main>
     )
 }

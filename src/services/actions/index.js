@@ -219,7 +219,7 @@ export const refreshUser = (token) => {
                 return accessToken;
             })
             .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
-        
+
     }
 }
 
@@ -243,4 +243,24 @@ export const deleteError = () => (dispatch) => {
     dispatch({
         type: RESET_ERROR
     })
+}
+
+// проверяет актаульность и наличие токена в store, потом выполняет переданный action
+// принимает набор аргументов для экшена и далее сама диспатчила переданный 
+// экшен со всеми его аргументами. Будет выполнять просто экшен, 
+// если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. 
+// Над названием можно подумать еще)
+export const performActionWithRefreshedToken = (accessToken, action, ...args) => {
+    const tokenLifeTime = 20 * 60 * 1000; // 20 min
+    const tokenDate = new Date(getCookie('date'));
+    return function (dispatch) {
+        if ((new Date() - tokenDate < tokenLifeTime) && accessToken) {
+            dispatch(action(...args, accessToken));
+        }
+        if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
+            const refreshToken = getCookie('refreshToken');
+            dispatch(refreshUser(refreshToken))
+                .then(accessToken => dispatch(action(...args, accessToken)))
+        }
+    }
 }

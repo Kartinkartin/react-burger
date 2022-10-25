@@ -8,7 +8,6 @@ import styles from './profile-navigator.module.css';
 export default function ProfileNavigator({ refreshToken }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    debugger
     const onLogoutClick = () => {
         dispatch(logoutUser(refreshToken, history))
     }

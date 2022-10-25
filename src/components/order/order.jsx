@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа
 import PropTypes from 'prop-types';
 import styles from './order.module.css';
@@ -9,6 +9,7 @@ import { getApiIngredients } from '../../services/selectors/selectors';
 import moment from 'moment';
 
 export default function Order({ order }) {
+    const location = useLocation();
     const ingregientsApi = useSelector(getApiIngredients);
     const findCurrentIngredient = (item) => ingregientsApi.find(el => item === el._id);
     const price = order.ingredients.reduce((price, current) => {
@@ -21,7 +22,7 @@ export default function Order({ order }) {
     return (
         <Link
             className={`${styles.container} p-6 mb-6`}
-            to={`/feed/${order._id}`}>
+            to={`${location.pathname}/${order._id}`}>
             <div className={`${styles.service_info} pb-6 text text_type_digits-default`}>
                 #{order.number}
                 <span className={`${styles.date} text text_type_main-default`} >
