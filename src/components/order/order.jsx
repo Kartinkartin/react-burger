@@ -22,7 +22,10 @@ export default function Order({ order }) {
     return (
         <Link
             className={`${styles.container} p-6 mb-6`}
-            to={`${location.pathname}/${order._id}`}>
+            to={{
+                pathname: `${location.pathname}/${order._id}`,
+                state: { background: location }
+            }} >
             <div className={`${styles.service_info} pb-6 text text_type_digits-default`}>
                 #{order.number}
                 <span className={`${styles.date} text text_type_main-default`} >

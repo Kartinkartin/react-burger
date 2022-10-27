@@ -22,7 +22,6 @@ export const OrdersPage = () => {
 
     useEffect(() => {
         if(!isLogin)  history.replace({ pathname: '/login', state: { from: location.pathname } })
-        dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute, ))
     }, [dispatch, isLogin])
 
 

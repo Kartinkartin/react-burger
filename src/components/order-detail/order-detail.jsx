@@ -12,19 +12,22 @@ export default function OrdertDetail() {
     const { id } = useParams();
     const orders = useSelector(getWSOrders);
     const currentOrder = orders.find(item => item._id === id);
-    const ingredientsList = currentOrder.ingredients.filter(
+    const ingredientsList = currentOrder ? currentOrder.ingredients.filter(
         (item, index) => currentOrder.ingredients.indexOf(item) === index
-    );
+    ) : null;
     const ingredientsApi = useSelector(getApiIngredients);
-    const price = currentOrder.ingredients.reduce((price, current) => {
+    if (currentOrder) {
+        
+    }
+    const price = currentOrder ? currentOrder.ingredients.reduce((price, current) => {
         const currentPrice = ingredientsApi.find(el => el._id === current).price;
         return price + currentPrice
-    }, 0)
+    }, 0) : 0;
     const moment = require('moment'); // библиотка для даты 
     require('moment/locale/ru');
-    const orderDate = moment(currentOrder.createdAt).calendar();
+    const orderDate = currentOrder ? moment(currentOrder.createdAt).calendar() : undefined;
     return (
-        ingredientsList && (
+        ingredientsList && ingredientsApi && (
             <div className={styles.container}>
                 <h2 className={`${styles.number} text text_type_digits-default pb-10`}>
                     {`#${currentOrder.number}`}
