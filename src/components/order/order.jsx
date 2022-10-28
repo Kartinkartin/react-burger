@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import styles from './order.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getApiIngredients } from '../../services/selectors/selectors';
-import moment from 'moment';
 
 export default function Order({ order }) {
     const location = useLocation();
@@ -15,7 +14,7 @@ export default function Order({ order }) {
     const price = order.ingredients.reduce((price, current) => {
         return price + findCurrentIngredient(current).price
     }, 0);
-    const moment = require('moment');
+    const moment = require('moment'); // библиотека moment для даты
     require('moment/locale/ru');
     const orderDate = moment(order.createdAt).calendar();
 
@@ -66,10 +65,10 @@ export default function Order({ order }) {
                                             }}
 
                                             key={uuidv4()} >
-                                            {(order.ingredients.length - index > 1) ?
+                                            {(counter > 1) ?
                                                 (
                                                     <p className={`${styles.counter} text text_type_main-default`}>
-                                                        {`+${order.ingredients.length - index}`}
+                                                        {`+${counter}`}
                                                     </p>
                                                 ) :
                                                 null
@@ -78,9 +77,7 @@ export default function Order({ order }) {
                                         </div>
                                     )
                                 }
-                                if (index > 5) {
-                                    return null
-                                }
+                                return null
                             })
                             .reverse()
                         }

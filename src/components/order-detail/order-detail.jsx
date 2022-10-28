@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
-import moment from 'moment'; // библиотека uuid для форматирования даты 
 import { getApiIngredients,getWSOrders } from "../../services/selectors/selectors";
 import OrderIngredient from '../../components/order-ingredient/order-ingredient';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -23,7 +22,7 @@ export default function OrdertDetail() {
         const currentPrice = ingredientsApi.find(el => el._id === current).price;
         return price + currentPrice
     }, 0) : 0;
-    const moment = require('moment'); // библиотка для даты 
+    const moment = require('moment'); // библиотека uuid для форматирования даты  
     require('moment/locale/ru');
     const orderDate = currentOrder ? moment(currentOrder.createdAt).calendar() : undefined;
     return (

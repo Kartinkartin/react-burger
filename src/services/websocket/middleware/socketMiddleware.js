@@ -7,7 +7,7 @@ export const socketMiddleware = wsUrl => {
     let socketProtectedRouter = null;
 
     return next => action => {
-      const { dispatch, getState } = store;
+      const { dispatch } = store;
       const { type, payload } = action;
 
       if (type === 'WS_CONNECTION_START') {

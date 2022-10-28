@@ -11,7 +11,7 @@ export default function IngredientDetail() {
     return (
         element && (
             <>
-            <img src={element.image} className={styles.image} />
+            <img src={element.image} alt='ingredient' className={styles.image} />
             <p className={`${styles.title} text text_type_main-medium pt-4 pb-8`}>
                 {element.name}
             </p>

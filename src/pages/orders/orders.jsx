@@ -4,11 +4,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
 import AppHeader from "../../components/app-header/app-header";
 import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
-import { performActionWithRefreshedToken } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie';
 import OrdersList from '../../components/orders-list/orders-list';
 import { getWSOrders } from '../../services/selectors/selectors';
-import { startWsProtectedRoute } from '../../services/websocket/actions';
 
 export const OrdersPage = () => {
     const history = useHistory();
@@ -22,8 +20,8 @@ export const OrdersPage = () => {
 
     useEffect(() => {
         if(!isLogin)  history.replace({ pathname: '/login', state: { from: location.pathname } })
-    }, [dispatch, isLogin])
-
+    }, [dispatch, isLogin, history, location])
+    
 
     return (
         <main className={styles.page}>

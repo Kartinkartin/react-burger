@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './order-statistics.module.css';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import { useSelector } from 'react-redux';

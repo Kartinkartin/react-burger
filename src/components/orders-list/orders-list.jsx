@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import PropTypes from 'prop-types';
 import styles from './orders-list.module.css';

@@ -27,7 +27,6 @@ export function FeedPage() {
                     </>) :
                     null
                 }
-
             </div>
         </main>
     )

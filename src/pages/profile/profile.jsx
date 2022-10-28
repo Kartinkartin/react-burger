@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
@@ -18,20 +18,21 @@ export const ProfilePage = () => {
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
     const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка
-    let data = null;
+    let data = useRef();
+    data.current = null;
 
     useEffect(() => {
         getUserRequest(accessToken)
             .then(res => {
-                data = res.user;
-                if(data) setUser(data)
+                data.current = res.user;
+                if(data.current) setUser(data.current)
             })
         .catch(err => {
             isLogin ? 
             dispatch(refreshUser(refreshToken)) : // перезаписываю accessToken в store
             history.replace({ pathname: '/login', state: { from: location.pathname } })
         })
-    }, [data, accessToken])
+    }, [data, accessToken, dispatch, history, location, isLogin, refreshToken])
     
     
     return (

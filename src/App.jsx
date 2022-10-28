@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import {
     ConstructorPage,
@@ -18,17 +18,17 @@ import {
 import Modal from './components/modal/modal';
 import IngredientDetail from './components/ingredient-detail/ingredient-detail';
 import { deleteError, getApiItems, performActionWithRefreshedToken } from './services/actions';
-import { getAccessToken, getError } from './services/selectors/selectors';
+import { getAccessToken, getApiIngredients, getError } from './services/selectors/selectors';
 import OrdertDetail from './components/order-detail/order-detail';
 import { startWsProtectedRoute } from './services/websocket/actions';
 
 function App() {
     const history = useHistory();
     const location = useLocation();
-    const match = useRouteMatch();
     let background = location.state?.background; // для модального окна с ингредиентом
     const dispatch = useDispatch();
     const error = useSelector(getError);
+    const ingredientsApi = useSelector(getApiIngredients)
 
     function closeDetailModal(background) {
         history.replace({ pathname: background.pathname })
@@ -39,7 +39,9 @@ function App() {
     const accessToken = useSelector(getAccessToken);
 
     useEffect(() => {
-        dispatch(getApiItems()); // получение всех возможных ингредиентов
+        if(!ingredientsApi.length) {
+            dispatch(getApiItems()); // получение всех возможных ингредиентов
+        }
         if (location.pathname.includes('/feed')) { 
             dispatch({
                 type: 'WS_CONNECTION_START'
@@ -48,7 +50,7 @@ function App() {
         if (location.pathname.includes('/profile/orders')) { 
             dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute, ))
         }
-    }, [dispatch, location])
+    }, [dispatch, location, accessToken, ingredientsApi])
 
     // В <Router> обернуто в index, чтобы здесь читался location
     return (
@@ -116,7 +118,7 @@ function App() {
                 </ >
             )
             }
-            {error.code || error.message &&
+            {(error.code || error.message) &&
                 <Modal title='Горе не беда, но ... ' onClose={closeErrorModal}>
                     <p className='text text_type_main-default'>
                         {`${error.code}: ${error.message}`}

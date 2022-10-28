@@ -69,7 +69,7 @@ export default function BurgerConstructor() {
     };
     const handleDeleteItem = (e, index) => {
         const id = notBunsIngredients[index]._id;
-        const item = notBunsIngredients.splice(index, 1)[0];
+        const item = notBunsIngredients.splice(index, 1)[0]; // изменяет notBunsIngredients
         dispatch(deleteIngredient(notBunsIngredients, id))
     };
 
@@ -118,7 +118,7 @@ export default function BurgerConstructor() {
 
     const totalPrice = useMemo(() => {
         return ingredientsConstructor.reduce((price, current) => {
-            if (current.type == 'bun') { return price + 2 * current.price }
+            if (current.type === 'bun') { return price + 2 * current.price }
             else { return price + current.price }
         }, 0)
     }, [ingredientsConstructor])
