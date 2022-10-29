@@ -7,9 +7,10 @@ import styles from './constructor.module.css';
 import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 import Modal from '../../components/modal/modal';
+import { getLoadingStatus } from '../../services/selectors/selectors';
 
 export const ConstructorPage = () => {
-    const loading = useSelector(store => store.loading);
+    const loading = useSelector(getLoadingStatus);
 
     return (
         <>

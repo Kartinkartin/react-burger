@@ -1,5 +1,7 @@
 // import type { Middleware, MiddlewareAPI } from 'redux';
 
+import { WS_CONNECTION_DISCONNECT, WS_CONNECTION_START } from "../actions/wsActionTypes";
+
 
 export const socketMiddleware = wsUrl => {
   return store => {
@@ -10,7 +12,7 @@ export const socketMiddleware = wsUrl => {
       const { dispatch } = store;
       const { type, payload } = action;
 
-      if (type === 'WS_CONNECTION_START') {
+      if (type === WS_CONNECTION_START) {
         // объект класса WebSocket
         socket = new WebSocket(`${wsUrl}/all`);
       }
@@ -39,7 +41,10 @@ export const socketMiddleware = wsUrl => {
         socket.onclose = event => {
           dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
         };
-
+        if (type === WS_CONNECTION_DISCONNECT) {
+          debugger
+          socket.close()
+        }
         if (type === 'WS_SEND_MESSAGE') {
           const message = payload;
           // функция для отправки сообщения на сервер
@@ -67,7 +72,10 @@ export const socketMiddleware = wsUrl => {
         socketProtectedRouter.onclose = event => {
           dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
         };
-
+        if (type === WS_CONNECTION_DISCONNECT) {
+          debugger
+          socketProtectedRouter.close()
+        }
         if (type === 'WS_SEND_MESSAGE') {
           const message = payload;
           // функция для отправки сообщения на сервер

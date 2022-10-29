@@ -7,13 +7,14 @@ import ProfileNavigator from '../../components/profile-navigator/profile-navigat
 import { getUserRequest } from '../../components/api/api';
 import { refreshUser } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie'; 
+import { getAccessToken } from '../../services/selectors/selectors';
 
 export const ProfilePage = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
     const dispatch = useDispatch();
-    const accessToken = useSelector(store => store.login.token);
+    const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
     const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка

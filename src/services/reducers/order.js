@@ -1,7 +1,7 @@
 import {
     POST_CONSTRUCTOR_ITEMS_SUCCESS,
     POST_CONSTRUCTOR_ITEMS_FAILED,
-    RESET_ORDER_NUMBER
+    ORDER_NUMBER_RESET
 } from "../actions/order";
 
 const initialState = {
@@ -20,7 +20,7 @@ export const orderReducer = (state = initialState, action) => {
             console.error(action.error);
             return state
         }
-        case RESET_ORDER_NUMBER: {
+        case ORDER_NUMBER_RESET: {
             return {
                 ...state.order,
                 number: '',

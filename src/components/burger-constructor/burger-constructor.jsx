@@ -20,7 +20,7 @@ import {
     sortIngredients
 } from "../../services/actions";
 import { getCookie } from "../../services/utils/cookie";
-import { getApiIngredients } from "../../services/selectors/selectors";
+import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
 
 
 
@@ -28,9 +28,9 @@ export default function BurgerConstructor() {
     const history = useHistory();
     const dispatch = useDispatch();
     const itemsMenu = useSelector(getApiIngredients);
-    const ingredientsConstructor = useSelector(store => store.constructorItems.ingredientsConstructor);
-    const orderNum = useSelector(store => store.order.number.toString());
-    const accessToken = useSelector(store => store.login.token);
+    const ingredientsConstructor = useSelector(getConstructorIngedients);
+    const orderNum = useSelector(getOrderNum);
+    const accessToken = useSelector(getAccessToken);
     const [bunEl, setBunEl] = useState(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
@@ -195,4 +195,3 @@ export default function BurgerConstructor() {
         </section>
     )
 }
-

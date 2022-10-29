@@ -22,15 +22,12 @@ import IngredientDetail from '../ingredient-detail/ingredient-detail';
 import { 
     deleteError,
     getApiItems, 
-    performActionWithRefreshedToken 
 } from '../../services/actions';
 import { 
-    getAccessToken, 
     getApiIngredients, 
     getError 
 } from '../../services/selectors/selectors';
 import OrdertDetail from '../order-detail/order-detail';
-import { startWsProtectedRoute } from '../../services/websocket/actions';
 
 function App() {
     const history = useHistory();
@@ -46,21 +43,12 @@ function App() {
     function closeErrorModal() {
         dispatch(deleteError())
     }
-    const accessToken = useSelector(getAccessToken);
 
     useEffect(() => {
         if(!ingredientsApi.length) {
             dispatch(getApiItems()); // получение всех возможных ингредиентов
         }
-        if (location.pathname.includes('/feed')) { 
-            dispatch({
-                type: 'WS_CONNECTION_START'
-            })
-        }
-        if (location.pathname.includes('/profile/orders')) { 
-            dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute, ))
-        }
-    }, [dispatch, location, accessToken, ingredientsApi])
+    }, [dispatch, ingredientsApi])
 
     // В <Router> обернуто в index, чтобы здесь читался location
     return (

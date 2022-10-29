@@ -22,7 +22,7 @@ export function Ingredient({ card }) {
     return (
         <Link
             to={{ pathname: `/ingredients/${card._id}`, state: { background: location } }}
-            className={`${styles.link}`}>
+            className={styles.link}>
             <div className={styles.ingredient_available} key={card._id} ref={dragRef} style={{ opacity }} draggable >
                 <img src={card.image} alt={card.name} />
                 <p className="text text_type_main-default">{card.name}</p>

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import PropTypes from 'prop-types';
 import styles from './orders-list.module.css';
 import Order from '../order/order';
@@ -14,7 +13,7 @@ export default function OrdersList({ width, orders }) {
                         return (
                             <Order
                                 order={order}
-                                key={uuidv4()} />
+                                key={order._id} />
                         )
                     })}
                 </div>

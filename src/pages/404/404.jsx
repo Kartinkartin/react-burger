@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './404.module.css';
 import notFoundImg from '../../images/404-page.png'
-import AppHeader from "../../components/app-header/app-header";
 export const NotFoundPage = () => {
     return (
         <div className={styles.main} >

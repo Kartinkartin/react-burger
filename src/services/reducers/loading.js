@@ -1,13 +1,13 @@
-import { SET_LOADING_MODE, RESET_LOADING_MODE } from "../actions/loading";
+import { LOADING_MODE_SET, LOADING_MODE_RESET } from "../actions/loading";
 
 const initialState = false;
 
 export const loadingReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_LOADING_MODE: {
+        case LOADING_MODE_SET: {
             return true
         }
-        case RESET_LOADING_MODE: {
+        case LOADING_MODE_RESET: {
             return false
         }
         default: return state

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
+import { getAccessToken } from '../../services/selectors/selectors';
 
 
 export default function FormProfile({ userData }) {
@@ -13,7 +14,7 @@ export default function FormProfile({ userData }) {
     const [inputPassValue, setInputPassValue] = useState('');
     const [dirty, setDirty] = useState(false);
     const newData = {};
-    const token = useSelector(store => store.login.token)
+    const accessToken = useSelector(getAccessToken)
 
     const onChange = (e, handleChange) => {
         handleChange(e.target.value);
@@ -28,7 +29,7 @@ export default function FormProfile({ userData }) {
             password: inputPassValue
         };
 
-        dispatch(changeUserData(token, newData));
+        dispatch(changeUserData(accessToken, newData));
         setDirty(false)
     }
 
@@ -43,7 +44,7 @@ export default function FormProfile({ userData }) {
     const onIconClick = () => { };
     return (
         <form
-            className={`${styles.form_container}`}
+            className={styles.form_container}
             onSubmit={handleSubmit} >
             <div className={`${styles.input_container} pb-6`}>
                 <Input

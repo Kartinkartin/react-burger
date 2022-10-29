@@ -1,4 +1,4 @@
-export const RESET_USER = 'RESET_USER';
-export const SET_USER = 'SET_USER';
-export const REFRESH_USER = 'REFRESH_USER';
-export const CHANGE_USER_DATA = 'CHANGE_USER_DATA'
+export const USER_RESET = 'USER_RESET';
+export const USER_SET = 'USER_SET';
+export const USER_REFRESH = 'USER_REFRESH';
+export const USER_CHANGE_DATA = 'USER_CHANGE_DATA'

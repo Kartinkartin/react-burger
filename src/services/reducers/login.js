@@ -1,4 +1,4 @@
-import { RESET_USER, SET_USER, REFRESH_USER, CHANGE_USER_DATA } from "../actions/login";
+import { USER_RESET, USER_SET, USER_REFRESH, USER_CHANGE_DATA } from "../actions/login";
 
 const initialState = {
     "email": "",
@@ -9,7 +9,7 @@ const initialState = {
 
 export const loginReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_USER: {
+        case USER_SET: {
             return {
                 ...state,
                 'email': action.user.email,
@@ -19,16 +19,16 @@ export const loginReducer = (state = initialState, action) => {
 
             }
         }
-        case RESET_USER: {
+        case USER_RESET: {
             return initialState
         }
-        case REFRESH_USER: {
+        case USER_REFRESH: {
             return {
                 ...state,
                 'token': action.token
             }
         }
-        case CHANGE_USER_DATA: {
+        case USER_CHANGE_DATA: {
             return {
                 ...state,
                 "email": action.changed.email ? action.changed.email : state.email,

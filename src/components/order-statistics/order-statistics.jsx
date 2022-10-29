@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './order-statistics.module.css';
-import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import { useSelector } from 'react-redux';
 import { getTodayDone, getTotalDone, getWSOrders } from '../../services/selectors/selectors';
 
@@ -27,7 +26,7 @@ export default function OrderStatistics() {
                                 <p
                                     className={`${styles.ready_num} text text_type_digits-default pb-2`}
                                     style={{ color: '#00CCCC' }}
-                                    key={uuidv4()}>
+                                    key={order._id}>
                                     {order.number}
                                 </p>
                             )
@@ -45,7 +44,7 @@ export default function OrderStatistics() {
                                 <p
                                     className={`${styles.ready_num} text text_type_digits-default pb-2`}
                                     style={{ color: '#F2F2F3' }}
-                                    key={uuidv4()}>
+                                    key={order._id}>
                                     {order.num}
                                 </p>
                             )
