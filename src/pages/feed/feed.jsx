@@ -10,24 +10,21 @@ export function FeedPage() {
     const data = useSelector(getWSOrders);
 
     return (
-        <main className={styles.page}>
-            <AppHeader />
-            <div className={styles.main}>
-                <h1 className={`${styles.title} text text_type_main-large pb-5`}>
-                    Лента заказов
-                </h1>
-                { data.length ?
-                    (<>
-                        <div className={styles.list} >
-                            <OrdersList width={'610px'} orders={data}/>
-                        </div>
-                        <div className={styles.statistics} >
-                            <OrderStatistics />
-                        </div>
-                    </>) :
-                    null
-                }
-            </div>
-        </main>
+        <div className={styles.main}>
+            <h1 className={`${styles.title} text text_type_main-large pb-5`}>
+                Лента заказов
+            </h1>
+            { data.length ?
+                (<>
+                    <div className={styles.list} >
+                        <OrdersList width={'610px'} orders={data} />
+                    </div>
+                    <div className={styles.statistics} >
+                        <OrderStatistics />
+                    </div>
+                </>) :
+                null
+            }
+        </div>
     )
 }

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
-import AppHeader from "../../components/app-header/app-header";
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../../services/actions';
 
@@ -30,8 +29,7 @@ export const LoginPage = () => {
     }
 
     return (
-        <main className={styles.page}>
-            <AppHeader />
+        <>
             <div className={styles.main}>
                 <div className={styles.container}>
                     <h1 className={`${styles.header} text text_type_main-medium`}>
@@ -82,6 +80,6 @@ export const LoginPage = () => {
                     </p>
                 </div>
             </div>
-        </main>
+        </>
     );
 }

@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import { ProtectedRoute } from './components/protected-route/protected-route';
+import { ProtectedRoute } from '../protected-route/protected-route';
+import styles from './app.module.css';
+import AppHeader from '../app-header/app-header';
 import {
     ConstructorPage,
     LoginPage,
@@ -14,13 +16,21 @@ import {
     NotFoundPage,
     OrdersPage,
     OrderDetailPage
-} from "./pages";
-import Modal from './components/modal/modal';
-import IngredientDetail from './components/ingredient-detail/ingredient-detail';
-import { deleteError, getApiItems, performActionWithRefreshedToken } from './services/actions';
-import { getAccessToken, getApiIngredients, getError } from './services/selectors/selectors';
-import OrdertDetail from './components/order-detail/order-detail';
-import { startWsProtectedRoute } from './services/websocket/actions';
+} from "../../pages";
+import Modal from '../modal/modal';
+import IngredientDetail from '../ingredient-detail/ingredient-detail';
+import { 
+    deleteError,
+    getApiItems, 
+    performActionWithRefreshedToken 
+} from '../../services/actions';
+import { 
+    getAccessToken, 
+    getApiIngredients, 
+    getError 
+} from '../../services/selectors/selectors';
+import OrdertDetail from '../order-detail/order-detail';
+import { startWsProtectedRoute } from '../../services/websocket/actions';
 
 function App() {
     const history = useHistory();
@@ -54,7 +64,8 @@ function App() {
 
     // В <Router> обернуто в index, чтобы здесь читался location
     return (
-        <div>
+        <main className={styles.page}>
+            <AppHeader />
             <Switch location={background || location}>
                 <ProtectedRoute path="/login" exact={true} >
                     <LoginPage />
@@ -126,7 +137,7 @@ function App() {
                 </Modal>
 
             }
-        </div>
+        </main>
     )
 }
 export default App;

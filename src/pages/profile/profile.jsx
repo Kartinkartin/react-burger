@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
-import AppHeader from "../../components/app-header/app-header";
 import FormProfile from '../../components/form-profile/form-profile';
 import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
 import { getUserRequest } from '../../components/api/api';
@@ -36,14 +35,13 @@ export const ProfilePage = () => {
     
     
     return (
-        <main className={styles.page}>
-            <AppHeader />
-            {user && 
+        <>
+            { user && 
             (<div className={styles.main}>
                 <ProfileNavigator refreshToken={refreshToken} />
                 <FormProfile userData={ { ...user } }  />
-                <></>
-            </div>)}
-        </main>
+            </div>)
+            }
+        </>
     )
 }

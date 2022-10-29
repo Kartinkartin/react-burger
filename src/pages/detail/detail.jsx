@@ -11,11 +11,8 @@ export const IngredientDetailPage = () => {
     const allElements = useSelector(getApiIngredients)
     const chosenElement = allElements.filter(el => el._id === id)
     return (
-        <main className={styles.page}>
-            <AppHeader />
-            <div className={styles.main}>
-                <IngredientDetail element={chosenElement}/>
-            </div>
-        </main>
+        <div className={styles.main}>
+            <IngredientDetail element={chosenElement} />
+        </div>
     );
 }

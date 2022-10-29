@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
-import AppHeader from "../../components/app-header/app-header";
 import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
 import { getCookie } from '../../services/utils/cookie';
 import OrdersList from '../../components/orders-list/orders-list';
@@ -24,13 +23,12 @@ export const OrdersPage = () => {
     
 
     return (
-        <main className={styles.page}>
-            <AppHeader />
+        <>
             {accessToken &&
                 (<div className={styles.main}>
                     <ProfileNavigator refreshToken={refreshToken} />
                     <OrdersList width={'860px'} orders={myOrders} />
                 </div>)}
-        </main>
+        </>
     )
 }
