@@ -27,9 +27,9 @@ export default function AppHeader() {
                 <ListIcon />
                 <p className="text text_type_main-default ml-2">Лента заказов</p>
             </NavLink>
-            <div className={styles.logo}>
+            <NavLink className={styles.logo} to='/'>
                 <Logo />
-            </div>
+            </NavLink>
             <NavLink
                 className={styles.button}
                 activeClassName={styles.active}

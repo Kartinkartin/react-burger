@@ -28,9 +28,7 @@ export const ProfilePage = () => {
                 if(data.current) setUser(data.current)
             })
         .catch(err => {
-            isLogin ? 
-            dispatch(refreshUser(refreshToken)) : // перезаписываю accessToken в store
-            history.replace({ pathname: '/login', state: { from: location.pathname } })
+            dispatch(refreshUser(refreshToken))
         })
     }, [data, accessToken, dispatch, history, location, isLogin, refreshToken])
     

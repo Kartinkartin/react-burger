@@ -18,7 +18,11 @@
     background-color: #000000;
     border-radius: 40px;
     width: 720px;
-    position: relative;
+    height: inherit;
+    --height: 700px;
+    position: fixed;
+    top: calc(50% - calc(var(--height)/2));
+    left: calc(50% - 360px);
     display: flex;
     flex-direction: column;
     align-items: center;

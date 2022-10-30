@@ -14,12 +14,11 @@ import {
     addIngredient,
     addOrChangeBun,
     deleteIngredient,
+    performActionWithRefreshedToken,
     postOrder,
-    refreshUser,
     resetOrderNum,
     sortIngredients
 } from "../../services/actions";
-import { getCookie } from "../../services/utils/cookie";
 import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
 
 
@@ -74,31 +73,9 @@ export default function BurgerConstructor() {
         dispatch(deleteIngredient(notBunsIngredients, id))
     };
 
-    // проверяет актаульность и наличие токена в store, потом выполняет переданный action
-    // эту функцию лучше вынести извне компонента и сделать ее более гибкой, 
-    // чтобы она принимала помимо токена и экшена еще и 
-    // набор аргументов для экшена и далее сама диспатчила переданный 
-    // экшен со всеми его аргументами. Это позволит использовать 
-    // ее во всех подобных случаях. Назвать можно как то 
-    // performActionWithRefreshedToken, которая будет выполнять просто экшен, 
-    // если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. 
-    // Но над названием можно подумать еще)
-    const handlePerformeAction = (accessToken, action) => {
-        const tokenLifeTime = 20 * 60 * 1000; // 20 min
-        const tokenDate = new Date(getCookie('date'));
-        if ((new Date() - tokenDate < tokenLifeTime) && accessToken) {
-            dispatch(action(ingredientsConstructor, accessToken));
-        }
-        if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
-            const refreshToken = getCookie('refreshToken');
-            dispatch(refreshUser(refreshToken))
-            .then(accessToken => dispatch(action(ingredientsConstructor, accessToken)))
-        }     
-    }
-
     const makeOrder = () => {
         if (wasLogged) {
-            handlePerformeAction(accessToken, postOrder)
+            dispatch(performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor))
             setOpeningOrder(true);
         }
         else {

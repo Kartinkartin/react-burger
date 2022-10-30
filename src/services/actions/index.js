@@ -4,7 +4,7 @@ import {
     loginUserRequest,
     logoutUserRequest,
     refreshTokenRequest,
-    changeUserDataRequest
+    changeUserDataRequest,
 } from "../../components/api/api";
 import {
     GET_API_ITEMS_REQUEST,

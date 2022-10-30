@@ -19,11 +19,13 @@ export default function Modal({ title = '', children, onClose }) {
             }
         }
     }, [isOpen, onClose])
+    
     return ReactDOM.createPortal(
         (<section className={styles.popup}>
             <ModalOverlay onClick={onClose} />
-            <div className={styles.modal}>
-                <div className={`${styles.container} pt-10 pb-15 pr-10 pl-10`}>
+                <div 
+                className={`${styles.container} pt-10 pb-15 pr-10 pl-10`} 
+                id='container' >
                     <button className={styles.close_button} onClick={onClose} />
                     <h2 className={`${styles.title} text text_type_main-large`}>
                         {title}
@@ -32,7 +34,6 @@ export default function Modal({ title = '', children, onClose }) {
                         {children}
                     </>
                 </div>
-            </div>
         </section>), document.getElementById('modals')
     )
 }

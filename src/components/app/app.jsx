@@ -67,7 +67,8 @@ function App() {
                 <ProtectedRoute path="/reset-password" exact={true} >
                     <ResetPassPage />
                 </ProtectedRoute>
-                {/* передаю параметр loggedUser, см. ProtectedRoute, он определяет защищенную маршрутизацию */}
+                {/* передаю параметр loggedUser, 
+                см. ProtectedRoute, он определяет защищенную маршрутизацию */}
                 <ProtectedRoute path="/profile" loggedUser={true} exact={true} >
                     <ProfilePage />
                 </ProtectedRoute>
