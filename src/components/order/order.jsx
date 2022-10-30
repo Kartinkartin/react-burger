@@ -41,7 +41,12 @@ export default function Order({ order }) {
                             .map((item, index) => {
                                 const ingredient = ingregientsApi.find(el => item === el._id);
                                 const pic = ingredient.image;
-                                const counter = order.ingredients.length - index
+                                const counter = order.ingredients.length - index;
+                                const reactKey = uuidv4(); 
+                                // только так придумала, 
+                                // id ингредиентов могут повторяться же в одном заказе, 
+                                // а индекс в key использовать нельзя. 
+                                // С наставником посоветоваться тоже не могу, наш чат ниже его достоинтсва. 
                                 if (index < 5) {
                                     return (
                                         <div
@@ -50,7 +55,7 @@ export default function Order({ order }) {
                                                 backgroundImage: `url("${pic}")`,
                                                 left: index * 48
                                             }}
-                                            key={uuidv4()} >
+                                            key={reactKey} >
 
                                         </div>
                                     )
@@ -64,7 +69,7 @@ export default function Order({ order }) {
                                                 left: index * 48,
                                             }}
 
-                                            key={uuidv4()} >
+                                            key={reactKey} >
                                             {(counter > 1) ?
                                                 (
                                                     <p className={`${styles.counter} text text_type_main-default`}>

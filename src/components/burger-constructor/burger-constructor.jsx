@@ -53,9 +53,10 @@ export default function BurgerConstructor() {
         drop(item) {
             if (isSort) sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
             else {
+                const key = uuidv4();
                 item.type === 'bun' ?
                     dispatch(addOrChangeBun(item)) :
-                    dispatch(addIngredient(item))
+                    dispatch(addIngredient({...item, key: key}))
             };
 
         }
@@ -146,7 +147,7 @@ export default function BurgerConstructor() {
                                         <LayerElement
                                             prod={item}
                                             index={index}
-                                            key={uuidv4()}
+                                            key={item.key}
                                             handleDelete={handleDeleteItem}
                                             handleDrag={handleDrag}
                                             handleDrop={handleDrop}

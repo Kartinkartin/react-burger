@@ -74,10 +74,11 @@ export const addIngredient = (prod) => (dispatch) => {
         item: prod
     });
 }
-export const addOrChangeBun = (bun) => (dispatch) => {
+export const addOrChangeBun = (bun, key) => (dispatch) => {
     dispatch({
         type: CONSTRUCTOR_ADD_OR_CHANGE_BUN,
-        item: bun
+        item: bun,
+        key: key
     })
 }
 export const sortIngredients = (item, droppedIndex, draggedIndex) => (dispatch) => {

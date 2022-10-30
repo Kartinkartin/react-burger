@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import { getApiIngredients,getWSOrders } from "../../services/selectors/selectors";
 import OrderIngredient from '../../components/order-ingredient/order-ingredient';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -45,7 +44,7 @@ export default function OrdertDetail() {
                             <OrderIngredient
                                 id={item}
                                 counter={counter}
-                                key={uuidv4()} />
+                                key={item} />
                         )
                     })}
                 </div>
@@ -54,7 +53,9 @@ export default function OrdertDetail() {
                         {orderDate}
                     </p>
                     <p className={styles.price_container}>
-                        <span className={`text text_type_digits-default pr-2`}>{price}</span>
+                        <span className={`text text_type_digits-default pr-2`}>
+                            {price}
+                        </span>
                         <CurrencyIcon />
                     </p>
                 </div>
