@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import styles from './detail.module.css';
-import AppHeader from '../../components/app-header/app-header';
 import IngredientDetail from '../../components/ingredient-detail/ingredient-detail';
 import { getApiIngredients } from '../../services/selectors/selectors';
 

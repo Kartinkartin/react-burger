@@ -6,8 +6,7 @@ import ProfileNavigator from '../../components/profile-navigator/profile-navigat
 import { getCookie } from '../../services/utils/cookie';
 import OrdersList from '../../components/orders-list/orders-list';
 import { getAccessToken, getWSOrders } from '../../services/selectors/selectors';
-import { WS_CONNECTION_DISCONNECT } from '../../services/websocket/actions/wsActionTypes';
-import { startWsProtectedRoute } from '../../services/websocket/actions';
+import { disconnectWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { performActionWithRefreshedToken } from '../../services/actions';
 
 export const OrdersPage = () => {
@@ -26,9 +25,7 @@ export const OrdersPage = () => {
         dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute,))
 
         return (() => {
-            dispatch({
-                type: WS_CONNECTION_DISCONNECT
-            })
+            dispatch(disconnectWs())
         })
 }, [dispatch, isLogin, history, location, accessToken])
 
