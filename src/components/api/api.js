@@ -5,9 +5,7 @@ function checkRes(res) {
   return Promise.reject([`Ошибка ${res.status}`, res.json()]);
 }
 function request(url, options) {
-  return (fetch(url, {
-    options
-  })
+  return (fetch(url, options)
   .then(checkRes))
 }
 
