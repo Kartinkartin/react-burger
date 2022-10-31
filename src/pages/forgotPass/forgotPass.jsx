@@ -3,16 +3,15 @@ import { useLocation, Link, Redirect } from 'react-router-dom';
 import styles from './forgotPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassRequest } from '../../components/api/api';
-
-
+import { useForm } from '../../services/hooks/useForm';
 
 export const ForgotPassPage = () => {
     const location = useLocation();
-    const [inputEmailValue, setInputEmailValue] = useState('');
+    const {values, handleChange} = useForm({email: ''});
     const [wasReset, setReset] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
-        return resetPassRequest(inputEmailValue)
+        return resetPassRequest(values.email)
             .then(res =>
                 setReset(true)
             )
@@ -36,18 +35,18 @@ export const ForgotPassPage = () => {
                     onSubmit={handleSubmit}>
                     <div className={`${styles.input_container} pb-6`}>
                         <Input
-                            name={'email-input'}
+                            name={'email'}
                             type={'email'}
                             placeholder={'Укажите e-mail'}
                             size={'default'}
-                            value={inputEmailValue}
-                            onChange={e => setInputEmailValue(e.target.value)}
+                            value={values.email}
+                            onChange={e => handleChange(e)}
                         />
                     </div>
                     <Button
                         type="primary"
                         size="medium"
-                        disabled={!inputEmailValue}
+                        disabled={!values.email}
                         htmlType='submit' >
                         Восстановить
                     </Button>

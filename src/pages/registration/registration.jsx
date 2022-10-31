@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import styles from './registration.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerUserRequest } from '../../components/api/api';
+import { useForm } from '../../services/hooks/useForm';
 
 export const RegistrationPage = () => {
-    const [inputNameValue, setInputNameValue] = useState('');
-    const [inputEmailValue, setInputEmailValue] = useState('');
-    const [inputPassValue, setInputPassValue] = useState('');
+    const {values, handleChange} = useForm({});
     const [passIcon, setPassIcon] = useState('ShowIcon');
 
     const onIconClick = () => {
@@ -15,15 +14,7 @@ export const RegistrationPage = () => {
     };
     const handleRegister = (e) => {
         e.preventDefault();
-        const newUserData = {
-            email: '',
-            password: '',
-            name: ''
-        };
-        newUserData.email = inputEmailValue;
-        newUserData.password = inputPassValue;
-        newUserData.name = inputNameValue;
-        registerUserRequest(newUserData);
+        registerUserRequest(values);
     }
 
     return (
@@ -37,32 +28,32 @@ export const RegistrationPage = () => {
                     onSubmit={handleRegister} >
                     <div className={`${styles.input_container} pb-6`}>
                         <Input
-                            name={'name-input'}
+                            name={'name'}
                             type={'text'}
                             placeholder={'Name'}
                             size={'default'}
-                            value={inputNameValue}
-                            onChange={e => setInputNameValue(e.target.value)}
+                            value={values.name || ''}
+                            onChange={e => handleChange(e)}
                         />
                     </div>
                     <div className={`${styles.input_container} pb-6`}>
                         <Input
-                            name={'email-input'}
+                            name={'email'}
                             type={'email'}
                             placeholder={'E-mail'}
                             size={'default'}
-                            value={inputEmailValue}
-                            onChange={e => setInputEmailValue(e.target.value)}
+                            value={values.email || ''}
+                            onChange={e => handleChange(e)}
                         />
                     </div>
                     <div className={`${styles.input_container} pb-6`}>
                         <Input
-                            name={'pass-input'}
+                            name={'password'}
                             type={'password'}
                             placeholder={'Пароль'}
                             size={'default'}
-                            value={inputPassValue}
-                            onChange={e => setInputPassValue(e.target.value)}
+                            value={values.password || ''}
+                            onChange={e => handleChange(e)}
                             icon={passIcon}
                             onIconClick={onIconClick}
                         />
@@ -70,7 +61,7 @@ export const RegistrationPage = () => {
                     <Button
                         type="primary"
                         size="medium"
-                        disabled={!inputNameValue && !inputEmailValue && !inputPassValue}
+                        disabled={!values.name && !values.email && !values.password}
                         htmlType='submit'>
                         Зарегистрироваться
                     </Button>

@@ -3,27 +3,21 @@ import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { newPassRequest } from '../../components/api/api';
+import { useForm } from '../../services/hooks/useForm'; 
 
 
 export const ResetPassPage = () => {
     const history = useHistory();
     const location = useLocation();
-    const [inputPassValue, setInputPassValue] = useState('');
+    const {values, handleChange } = useForm({});
     const [passIcon, setPassIcon] = useState('ShowIcon');
-    const [inputCodeValue, setInputCodeValue] = useState('');
-    const newPassData = {
-        password: '',
-        token: ''
-    };
 
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        newPassData.password = inputPassValue;
-        newPassData.token = inputCodeValue;
-        newPassRequest(newPassData)
+        newPassRequest(values)
             .then(res => history.replace({ pathname: '/login' }))
     }
 
@@ -40,30 +34,30 @@ export const ResetPassPage = () => {
                         onSubmit={handleSubmit} >
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
-                                name={'pass-input'}
+                                name={'password'}
                                 type={'password'}
                                 placeholder={'Введите новый пароль'}
                                 size={'default'}
-                                value={inputPassValue}
-                                onChange={e => setInputPassValue(e.target.value)}
+                                value={values.password || ''}
+                                onChange={e => handleChange(e)}
                                 icon={passIcon}
                                 onIconClick={onIconClick}
                             />
                         </div>
                         <div className={`${styles.input_container} pb-6`}>
                             <Input
-                                name={'code-input'}
+                                name={'token'}
                                 type={'text'}
                                 placeholder={'Введите код из письма'}
                                 size={'default'}
-                                value={inputCodeValue}
-                                onChange={e => setInputCodeValue(e.target.value)}
+                                value={values.token || ''}
+                                onChange={e => handleChange(e)}
                             />
                         </div>
                         <Button
                             type="primary"
                             size="medium"
-                            disabled={!inputPassValue || !inputCodeValue}
+                            disabled={!values.password || !values.code}
                             htmlType='submit'>
                             Войти
                         </Button>

@@ -4,13 +4,13 @@ import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../../services/actions';
+import { useForm } from '../../services/hooks/useForm';
 
 
 export const LoginPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [inputEmailValue, setInputEmailValue] = useState('');
-    const [inputPassValue, setInputPassValue] = useState('');
+    const {values, handleChange} = useForm({});
     const [passIcon, setPassIcon] = useState('ShowIcon');
     const loginData = {
         "email": "",
@@ -23,9 +23,9 @@ export const LoginPage = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        loginData.email = inputEmailValue;
-        loginData.password = inputPassValue;
-        dispatch(loginUser(loginData, history));
+        loginData.email = values.email;
+        loginData.password = values.password;
+        dispatch(loginUser(values, history));
     }
 
     return (
@@ -40,22 +40,22 @@ export const LoginPage = () => {
                         onSubmit={handleLogin}>
                         <div className={`${styles.input_container} pb-6`}>
                             <EmailInput
-                                name={'email-input'}
+                                name={'email'}
                                 type={'email'}
                                 placeholder={'E-mail'}
                                 size={'default'}
-                                value={inputEmailValue}
-                                onChange={e => setInputEmailValue(e.target.value)}
+                                value={values.email || ''}
+                                onChange={e => handleChange(e)}
                             />
                         </div>
                         <div className={`${styles.input_container} pb-6`}>
                             <PasswordInput
-                                name={'pass-input'}
+                                name={'password'}
                                 type={'password'}
                                 placeholder={'Пароль'}
                                 size={'default'}
-                                value={inputPassValue}
-                                onChange={e => setInputPassValue(e.target.value)}
+                                value={values.password || ''}
+                                onChange={e => handleChange(e)}
                                 icon={passIcon}
                                 onIconClick={onIconClick}
                             />
@@ -63,7 +63,7 @@ export const LoginPage = () => {
                         <Button
                             type="primary"
                             size="medium"
-                            disabled={!inputEmailValue || !inputPassValue}
+                            disabled={!values.email || !values.password}
                             htmlType="submit" >
                             Войти
                         </Button>
