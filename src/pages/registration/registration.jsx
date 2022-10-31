@@ -33,7 +33,7 @@ export const RegistrationPage = () => {
                             placeholder={'Name'}
                             size={'default'}
                             value={values.name || ''}
-                            onChange={e => handleChange(e)}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className={`${styles.input_container} pb-6`}>
@@ -43,7 +43,7 @@ export const RegistrationPage = () => {
                             placeholder={'E-mail'}
                             size={'default'}
                             value={values.email || ''}
-                            onChange={e => handleChange(e)}
+                            onChange={handleChange}
                         />
                     </div>
                     <div className={`${styles.input_container} pb-6`}>
@@ -53,7 +53,7 @@ export const RegistrationPage = () => {
                             placeholder={'Пароль'}
                             size={'default'}
                             value={values.password || ''}
-                            onChange={e => handleChange(e)}
+                            onChange={handleChange}
                             icon={passIcon}
                             onIconClick={onIconClick}
                         />
