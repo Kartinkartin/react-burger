@@ -13,10 +13,6 @@ export default function FormProfile({ userData }) {
     const [dirty, setDirty] = useState(false);
     const token = useSelector(store => store.login.token);
 
-    // const onChange = (e, handleChange) => {
-    //     handleChange(e.target.value);
-    //     if (!dirty) setDirty(true);
-    // }
     const onChange = (e) => {
         handleChange(e);
         if (!dirty) setDirty(true);
@@ -51,7 +47,7 @@ export default function FormProfile({ userData }) {
                     placeholder={'Name'}
                     size={'default'}
                     value={values.name}
-                    onChange={e => onChange(e)}
+                    onChange={onChange}
                     icon={'EditIcon'}
                     onIconClick={onIconClick}
                 />
@@ -61,7 +57,7 @@ export default function FormProfile({ userData }) {
                     name={'email'}
                     size={'default'}
                     value={values.email}
-                    onChange={e => onChange(e)}
+                    onChange={onChange}
                     icon={'EditIcon'}
                     onIconClick={onIconClick}
                 />
@@ -73,7 +69,7 @@ export default function FormProfile({ userData }) {
                     placeholder={'Пароль'}
                     size={'default'}
                     value={values.password}
-                    onChange={e => onChange(e)}
+                    onChange={onChange}
                     icon={'EditIcon'}
                     onIconClick={onIconClick}
                 />

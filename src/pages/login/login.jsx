@@ -45,7 +45,7 @@ export const LoginPage = () => {
                                 placeholder={'E-mail'}
                                 size={'default'}
                                 value={values.email || ''}
-                                onChange={e => handleChange(e)}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={`${styles.input_container} pb-6`}>
@@ -55,7 +55,7 @@ export const LoginPage = () => {
                                 placeholder={'Пароль'}
                                 size={'default'}
                                 value={values.password || ''}
-                                onChange={e => handleChange(e)}
+                                onChange={handleChange}
                                 icon={passIcon}
                                 onIconClick={onIconClick}
                             />

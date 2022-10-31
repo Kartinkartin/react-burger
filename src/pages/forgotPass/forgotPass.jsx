@@ -7,7 +7,7 @@ import { useForm } from '../../services/hooks/useForm';
 
 export const ForgotPassPage = () => {
     const location = useLocation();
-    const {values, handleChange} = useForm({email: ''});
+    const {values, handleChange} = useForm({});
     const [wasReset, setReset] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,8 +39,8 @@ export const ForgotPassPage = () => {
                             type={'email'}
                             placeholder={'Укажите e-mail'}
                             size={'default'}
-                            value={values.email}
-                            onChange={e => handleChange(e)}
+                            value={values.email || ''}
+                            onChange={handleChange}
                         />
                     </div>
                     <Button

@@ -39,7 +39,7 @@ export const ResetPassPage = () => {
                                 placeholder={'Введите новый пароль'}
                                 size={'default'}
                                 value={values.password || ''}
-                                onChange={e => handleChange(e)}
+                                onChange={handleChange}
                                 icon={passIcon}
                                 onIconClick={onIconClick}
                             />
@@ -51,7 +51,7 @@ export const ResetPassPage = () => {
                                 placeholder={'Введите код из письма'}
                                 size={'default'}
                                 value={values.token || ''}
-                                onChange={e => handleChange(e)}
+                                onChange={handleChange}
                             />
                         </div>
                         <Button
