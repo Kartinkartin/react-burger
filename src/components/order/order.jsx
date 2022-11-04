@@ -43,10 +43,6 @@ export default function Order({ order }) {
                                 const pic = ingredient.image;
                                 const counter = order.ingredients.length - index;
                                 const reactKey = uuidv4(); 
-                                // только так придумала, 
-                                // id ингредиентов могут повторяться же в одном заказе, 
-                                // а индекс в key использовать нельзя. 
-                                // С наставником посоветоваться тоже не могу, наш чат ниже его достоинтсва. 
                                 if (index < 5) {
                                     return (
                                         <div
