@@ -9,29 +9,27 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import styles from "./burger-constructor.module.css";
 import LayerElement from "../layer-element/layer-element";
 import Modal from '../modal/modal';
-import OrderDetails from "../order-details/order-details";
+import OrderInfo from "../order-info/order-info";
 import {
     addIngredient,
     addOrChangeBun,
     deleteIngredient,
+    performActionWithRefreshedToken,
     postOrder,
-    refreshUser,
     resetOrderNum,
     sortIngredients
 } from "../../services/actions";
-import { getCookie, setCookie } from "../../services/utils/cookie";
-import { refreshTokenRequest } from "../api/api";
-import { REFRESH_USER } from "../../services/actions/login";
+import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
 
 
 
 export default function BurgerConstructor() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const itemsMenu = useSelector(store => store.ingredientsApi);
-    const ingredientsConstructor = useSelector(store => store.constructorItems.ingredientsConstructor);
-    const orderNum = useSelector(store => store.order.number.toString());
-    const accessToken = useSelector(store => store.login.token);
+    const itemsMenu = useSelector(getApiIngredients);
+    const ingredientsConstructor = useSelector(getConstructorIngedients);
+    const orderNum = useSelector(getOrderNum);
+    const accessToken = useSelector(getAccessToken);
     const [bunEl, setBunEl] = useState(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
@@ -54,9 +52,10 @@ export default function BurgerConstructor() {
         drop(item) {
             if (isSort) sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
             else {
+                const key = uuidv4();
                 item.type === 'bun' ?
                     dispatch(addOrChangeBun(item)) :
-                    dispatch(addIngredient(item))
+                    dispatch(addIngredient({...item, key: key}))
             };
 
         }
@@ -70,28 +69,13 @@ export default function BurgerConstructor() {
     };
     const handleDeleteItem = (e, index) => {
         const id = notBunsIngredients[index]._id;
-        const item = notBunsIngredients.splice(index, 1)[0];
+        const item = notBunsIngredients.splice(index, 1)[0]; // изменяет notBunsIngredients
         dispatch(deleteIngredient(notBunsIngredients, id))
     };
 
-    // проверяет актаульность и наличие токена в store, потом выполняет переданный action
-    // эту функцию лучше вынести извне компонента и сделать ее более гибкой, чтобы она принимала помимо токена и экшена еще и набор аргументов для экшена и далее сама диспатчила переданный экшен со всеми его аргументами. Это позволит использовать ее во всех подобных случаях. Назвать можно как то performActionWithRefreshedToken, которая будет выполнять просто экшен, если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. Но над названием можно подумать еще)
-    const handlePerformeAction = (accessToken, action) => {
-        const tokenLifeTime = 20 * 60 * 1000; // 20 min
-        const tokenDate = new Date(getCookie('date'));
-        if ((new Date() - tokenDate < tokenLifeTime) && accessToken) {
-            dispatch(action(ingredientsConstructor, accessToken));
-        }
-        if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
-            const refreshToken = getCookie('refreshToken');
-            dispatch(refreshUser(refreshToken))
-            .then(accessToken => dispatch(action(ingredientsConstructor, accessToken)))
-        }     
-    }
-
     const makeOrder = () => {
         if (wasLogged) {
-            handlePerformeAction(accessToken, postOrder)
+            dispatch(performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor))
             setOpeningOrder(true);
         }
         else {
@@ -112,7 +96,7 @@ export default function BurgerConstructor() {
 
     const totalPrice = useMemo(() => {
         return ingredientsConstructor.reduce((price, current) => {
-            if (current.type == 'bun') { return price + 2 * current.price }
+            if (current.type === 'bun') { return price + 2 * current.price }
             else { return price + current.price }
         }, 0)
     }, [ingredientsConstructor])
@@ -140,7 +124,7 @@ export default function BurgerConstructor() {
                                         <LayerElement
                                             prod={item}
                                             index={index}
-                                            key={uuidv4()}
+                                            key={item.key}
                                             handleDelete={handleDeleteItem}
                                             handleDrag={handleDrag}
                                             handleDrop={handleDrop}
@@ -183,10 +167,9 @@ export default function BurgerConstructor() {
             }
             {openingOrder &&
                 (<Modal onClose={closePopup} >
-                    <OrderDetails number={orderNum} />
+                    <OrderInfo number={orderNum} />
                 </Modal>)
             }
         </section>
     )
 }
-

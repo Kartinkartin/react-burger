@@ -1,9 +1,9 @@
 import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-    SORT_INGREDIENTS_IN_CONSTRUCTOR,
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-    RESET_INGREDIENTS_IN_CONSTRUCTOR
+    CONSTRUCTOR_ADD_INGREDIENT,
+    CONSTRUCTOR_ADD_OR_CHANGE_BUN,
+    CONSTRUCTOR_SORT_INGREDIENTS,
+    CONSTRUCTOR_DELETE_INGREDIENT,
+    CONSTRUCTOR_RESET_INGREDIENTS
 } from "../actions/constructorItems";
 
 const initialState = {
@@ -16,7 +16,7 @@ export const constructorItemsReducer = (state = {
     counter: initialState.counter
 }, action) => {
     switch (action.type) {
-        case ADD_INGREDIENT_TO_CONSTRUCTOR: {
+        case CONSTRUCTOR_ADD_INGREDIENT: {
             return {
                 ...state,
                 counter: checkExistence(state, action) ?
@@ -31,7 +31,7 @@ export const constructorItemsReducer = (state = {
 
             }
         }
-        case ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR: {
+        case CONSTRUCTOR_ADD_OR_CHANGE_BUN: {
             const hasBun = state.ingredientsConstructor.some(item => item.type === 'bun');
             const currentBun = hasBun ? state.ingredientsConstructor.find(item => item.type === 'bun') : null;
             return {
@@ -53,7 +53,7 @@ export const constructorItemsReducer = (state = {
                         [action.item, ...state.ingredientsConstructor],
             }
         }
-        case SORT_INGREDIENTS_IN_CONSTRUCTOR: {
+        case CONSTRUCTOR_SORT_INGREDIENTS: {
             const hasBun = state.ingredientsConstructor.some(item => item.type === 'bun');
             const notBuns = hasBun ? state.ingredientsConstructor.filter(prod => prod.type !== 'bun') : state.ingredientsConstructor ;
             if (action.droppedIndex > action.draggedIndex) {
@@ -69,7 +69,7 @@ export const constructorItemsReducer = (state = {
                 ingredientsConstructor: hasBun ? state.ingredientsConstructor.slice(0, 1).concat(notBuns) : notBuns
             }
         }
-        case DELETE_INGREDIENT_FROM_CONSTRUCTOR: {
+        case CONSTRUCTOR_DELETE_INGREDIENT: {
             if (state.counter[action.id] === 1) { delete state.counter[action.id] };
             return {
                 ...state,
@@ -85,7 +85,7 @@ export const constructorItemsReducer = (state = {
 
             }
         }
-        case RESET_INGREDIENTS_IN_CONSTRUCTOR: {
+        case CONSTRUCTOR_RESET_INGREDIENTS: {
             return {
                 ingredientsConstructor: initialState.ingredientsConstructor,
                 counter: initialState.counter

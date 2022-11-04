@@ -23,20 +23,21 @@ export default function AppHeader() {
             <NavLink
                 className={`${styles.button} pr-5 ml-2`}
                 activeClassName={styles.active}
-                to='/profile/orders' >
+                to='/feed' >
                 <ListIcon />
                 <p className="text text_type_main-default ml-2">Лента заказов</p>
             </NavLink>
-            <div className={styles.logo}>
+            <NavLink className={styles.logo} to='/'>
                 <Logo />
-            </div>
+            </NavLink>
             <NavLink
                 className={styles.button}
                 activeClassName={styles.active}
-                to='/profile'
-                exact={true}>
+                to='/profile' >
                 <ProfileIcon />
-                <p className="text text_type_main-default ml-2">Личный кабинет</p>
+                <p className="text text_type_main-default ml-2">
+                    Личный кабинет
+                </p>
             </NavLink>
         </header>
     )

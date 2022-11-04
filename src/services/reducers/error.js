@@ -1,4 +1,4 @@
-import { SET_ERROR, RESET_ERROR } from "../actions/error";
+import { ERROR_SET, ERROR_RESET } from "../actions/error";
 
 const initialState = {
     code: '',
@@ -7,14 +7,14 @@ const initialState = {
 
 export const errorReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_ERROR: {
+        case ERROR_SET: {
             return {
                 ...state,
                 code: action.code,
                 message: action.message
             }
         }
-        case RESET_ERROR: {
+        case ERROR_RESET: {
             return initialState;
         }
         default: return state

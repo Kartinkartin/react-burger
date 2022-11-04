@@ -9,9 +9,9 @@ export const getCookie = (cookieName) => {
 }
 
 export const setCookie = (name, value) => {
-    document.cookie=`${name}=${value}`;
+    document.cookie=`${name}=${value}; path=/`;
 }
 
 export const deleteCookie = (name, value) => {
-    document.cookie=`${name}=${value}; max-age=-1`;
+    document.cookie=`${name}=${value}; path=/; max-age=-1`;
 }

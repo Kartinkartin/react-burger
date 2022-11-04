@@ -5,7 +5,10 @@ import { ForgotPassPage } from "./forgotPass/forgotPass";
 import { RegistrationPage } from "./registration/registration";
 import { ResetPassPage } from "./resetPass/resetPass";
 import { IngredientDetailPage } from "./detail/detail";
+import { FeedPage } from "./feed/feed";
+import { OrderDetailPage } from "./order-detail/order-detail";
 import { NotFoundPage } from "./404/404";
+import { OrdersPage } from "./orders/orders";
 
 export {
     ConstructorPage,
@@ -15,5 +18,8 @@ export {
     ForgotPassPage,
     RegistrationPage,
     ResetPassPage,
-    NotFoundPage
+    FeedPage,
+    OrderDetailPage,
+    NotFoundPage, 
+    OrdersPage
 };

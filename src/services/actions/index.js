@@ -4,7 +4,7 @@ import {
     loginUserRequest,
     logoutUserRequest,
     refreshTokenRequest,
-    changeUserDataRequest
+    changeUserDataRequest,
 } from "../../components/api/api";
 import {
     GET_API_ITEMS_REQUEST,
@@ -12,25 +12,25 @@ import {
     GET_API_ITEMS_FAILED
 } from "./ingredientsApi";
 import {
-    ADD_INGREDIENT_TO_CONSTRUCTOR,
-    ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-    DELETE_INGREDIENT_FROM_CONSTRUCTOR,
-    SORT_INGREDIENTS_IN_CONSTRUCTOR,
-    RESET_INGREDIENTS_IN_CONSTRUCTOR
+    CONSTRUCTOR_ADD_INGREDIENT,
+    CONSTRUCTOR_ADD_OR_CHANGE_BUN,
+    CONSTRUCTOR_DELETE_INGREDIENT,
+    CONSTRUCTOR_SORT_INGREDIENTS,
+    CONSTRUCTOR_RESET_INGREDIENTS
 } from "./constructorItems";
 import {
     POST_CONSTRUCTOR_ITEMS_SUCCESS,
     POST_CONSTRUCTOR_ITEMS_FAILED
 } from "./order";
-import { RESET_ORDER_NUMBER } from "./order";
-import { SET_LOADING_MODE, RESET_LOADING_MODE } from "./loading";
+import { ORDER_NUMBER_RESET } from "./order";
+import { LOADING_MODE_SET, LOADING_MODE_RESET } from "./loading";
 import {
-    SET_USER,
-    RESET_USER,
-    REFRESH_USER,
-    CHANGE_USER_DATA
+    USER_SET,
+    USER_RESET,
+    USER_REFRESH,
+    USER_CHANGE_DATA
 } from "./login";
-import { SET_ERROR, RESET_ERROR } from "./error";
+import { ERROR_SET, ERROR_RESET } from "./error";
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 
 // action creator для получения всего набора, см. ConstructorPage
@@ -40,12 +40,12 @@ export function getApiItems() {
             type: GET_API_ITEMS_REQUEST
         });
         dispatch({
-            type: SET_LOADING_MODE // модалка с ожиданием
+            type: LOADING_MODE_SET // модалка с ожиданием
         })
-        getCardsRequest()
+        return getCardsRequest()
             .then(res => {
                 dispatch({
-                    type: RESET_LOADING_MODE
+                    type: LOADING_MODE_RESET
                 })
                 if (res && res.success) {
                     dispatch({
@@ -70,19 +70,20 @@ export function getApiItems() {
 
 export const addIngredient = (prod) => (dispatch) => {
     dispatch({
-        type: ADD_INGREDIENT_TO_CONSTRUCTOR,
+        type: CONSTRUCTOR_ADD_INGREDIENT,
         item: prod
     });
 }
-export const addOrChangeBun = (bun) => (dispatch) => {
+export const addOrChangeBun = (bun, key) => (dispatch) => {
     dispatch({
-        type: ADD_OR_CHANGE_BUN_IN_CONSTRUCTOR,
-        item: bun
+        type: CONSTRUCTOR_ADD_OR_CHANGE_BUN,
+        item: bun,
+        key: key
     })
 }
 export const sortIngredients = (item, droppedIndex, draggedIndex) => (dispatch) => {
     dispatch({
-        type: SORT_INGREDIENTS_IN_CONSTRUCTOR,
+        type: CONSTRUCTOR_SORT_INGREDIENTS,
         draggedIndex: draggedIndex,
         droppedIndex: droppedIndex,
         item: item
@@ -90,14 +91,14 @@ export const sortIngredients = (item, droppedIndex, draggedIndex) => (dispatch) 
 }
 export const deleteIngredient = (notBunsIngredients, id) => (dispatch) => {
     dispatch({
-        type: DELETE_INGREDIENT_FROM_CONSTRUCTOR,
+        type: CONSTRUCTOR_DELETE_INGREDIENT,
         ingredients: notBunsIngredients,
         id: id,
     })
 }
 export const resetOrderNum = () => (dispatch) => {
     dispatch({
-        type: RESET_ORDER_NUMBER
+        type: ORDER_NUMBER_RESET
     })
 }
 
@@ -107,7 +108,7 @@ export const postOrder = (orderList, token) => {
     orderListId.push(orderList[0]._id);
     return function (dispatch) {
         dispatch({
-            type: SET_LOADING_MODE
+            type: LOADING_MODE_SET
         })
         postOrderRequest(orderListId, token)
             .then(res => {
@@ -117,7 +118,7 @@ export const postOrder = (orderList, token) => {
                         number: res.order.number
                     })
                     dispatch({
-                        type: RESET_INGREDIENTS_IN_CONSTRUCTOR
+                        type: CONSTRUCTOR_RESET_INGREDIENTS
                     });
                 } else {
                     dispatch({
@@ -126,7 +127,7 @@ export const postOrder = (orderList, token) => {
                     });
                 }
                 dispatch({
-                    type: RESET_LOADING_MODE
+                    type: LOADING_MODE_RESET
                 })
             })
             .catch(err => {
@@ -146,7 +147,7 @@ export const loginUser = (loginData, history) => {
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken
                 dispatch({
-                    type: SET_USER,
+                    type: USER_SET,
                     user: { ...res.user, 'password': loginData.password },
                     token: accessToken,
                 })
@@ -163,7 +164,7 @@ export const loginUser = (loginData, history) => {
                     .then(res => { console.log(res); return res })
                     .then(res => {
                         dispatch({
-                            type: SET_ERROR,
+                            type: ERROR_SET,
                             code: err[0],
                             message: res.message
                         })
@@ -180,7 +181,7 @@ export const logoutUser = (token, history) => {
         logoutUserRequest(logoutData)
             .then(res => {
                 dispatch({
-                    type: RESET_USER,
+                    type: USER_RESET,
                 })
                 const oldTokenCookie = getCookie('refreshToken');
                 const oldDate = getCookie('date')
@@ -211,7 +212,7 @@ export const refreshUser = (token) => {
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
                 else accessToken = res.accessToken;
                 dispatch({
-                    type: REFRESH_USER,
+                    type: USER_REFRESH,
                     token: accessToken
                 })
                 setCookie('refreshToken', res.refreshToken);
@@ -219,7 +220,7 @@ export const refreshUser = (token) => {
                 return accessToken;
             })
             .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
-        
+
     }
 }
 
@@ -229,7 +230,7 @@ export const changeUserData = (token, newData) => {
         changeUserDataRequest(token, newData)
             .then(res => {
                 dispatch({
-                    type: CHANGE_USER_DATA,
+                    type: USER_CHANGE_DATA,
                     changed: { ...newData }
                 })
             }
@@ -241,6 +242,26 @@ export const changeUserData = (token, newData) => {
 
 export const deleteError = () => (dispatch) => {
     dispatch({
-        type: RESET_ERROR
+        type: ERROR_RESET
     })
+}
+
+// проверяет актаульность и наличие токена в store, потом выполняет переданный action
+// принимает набор аргументов для экшена и далее сама диспатчила переданный 
+// экшен со всеми его аргументами. Будет выполнять просто экшен, 
+// если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. 
+// Над названием можно подумать еще)
+export const performActionWithRefreshedToken = (accessToken, action, ...args) => {
+    const tokenLifeTime = 20 * 60 * 1000; // 20 min
+    const tokenDate = new Date(getCookie('date'));
+    return function (dispatch) {
+        if ((new Date() - tokenDate < tokenLifeTime) && accessToken) {
+            dispatch(action(...args, accessToken));
+        }
+        if ((new Date() - tokenDate > tokenLifeTime) || !accessToken) {
+            const refreshToken = getCookie('refreshToken');
+            dispatch(refreshUser(refreshToken))
+                .then(accessToken => dispatch(action(...args, accessToken)))
+        }
+    }
 }

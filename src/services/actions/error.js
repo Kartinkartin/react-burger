@@ -1,2 +1,2 @@
-export const SET_ERROR = 'SET_ERROR';
-export const RESET_ERROR = 'RESET_ERROR';
+export const ERROR_SET = 'ERROR_SET';
+export const ERROR_RESET = 'ERROR_RESET';

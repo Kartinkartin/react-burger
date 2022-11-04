@@ -4,28 +4,24 @@ import PropTypes from 'prop-types';
 import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
+import { useForm } from '../../services/hooks/useForm';
 
 
 export default function FormProfile({ userData }) {
     const dispatch = useDispatch();
-    const [inputNameValue, setInputNameValue] = useState(userData.name);
-    const [inputEmailValue, setInputEmailValue] = useState(userData.email);
-    const [inputPassValue, setInputPassValue] = useState('');
+    const {values, handleChange, setValues} = useForm({ name: userData.name, email: userData.email, password: '' });
     const [dirty, setDirty] = useState(false);
-    const newData = {};
-    const token = useSelector(store => store.login.token)
+    const token = useSelector(store => store.login.token);
 
-    const onChange = (e, handleChange) => {
-        handleChange(e.target.value);
+    const onChange = (e) => {
+        handleChange(e);
         if (!dirty) setDirty(true);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const newData = {
-            name: inputNameValue,
-            email: inputEmailValue,
-            password: inputPassValue
+            ...values
         };
 
         dispatch(changeUserData(token, newData));
@@ -34,9 +30,8 @@ export default function FormProfile({ userData }) {
 
     const handleReset = (e) => {
         e.preventDefault();
-        setInputNameValue(userData.name);
-        setInputEmailValue(userData.email);
-        setInputPassValue('');
+        setValues({name: userData.name, email: userData.email, password: ''});
+    
         setDirty(false)
     }
 
@@ -47,34 +42,34 @@ export default function FormProfile({ userData }) {
             onSubmit={handleSubmit} >
             <div className={`${styles.input_container} pb-6`}>
                 <Input
-                    name={'name-input'}
+                    name={'name'}
                     type={'text'}
                     placeholder={'Name'}
                     size={'default'}
-                    value={inputNameValue}
-                    onChange={e => onChange(e, setInputNameValue)}
+                    value={values.name}
+                    onChange={onChange}
                     icon={'EditIcon'}
                     onIconClick={onIconClick}
                 />
             </div>
             <div className={`${styles.input_container} pb-6`}>
                 <EmailInput
-                    name={'email-input'}
+                    name={'email'}
                     size={'default'}
-                    value={inputEmailValue}
-                    onChange={e => onChange(e, setInputEmailValue)}
+                    value={values.email}
+                    onChange={onChange}
                     icon={'EditIcon'}
                     onIconClick={onIconClick}
                 />
             </div>
             <div className={`${styles.input_container} pb-6`}>
                 <Input
-                    name={'pass-input'}
+                    name={'password'}
                     type={'password'}
                     placeholder={'Пароль'}
                     size={'default'}
-                    value={inputPassValue}
-                    onChange={e => onChange(e, setInputPassValue)}
+                    value={values.password}
+                    onChange={onChange}
                     icon={'EditIcon'}
                     onIconClick={onIconClick}
                 />
