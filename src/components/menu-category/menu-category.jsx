@@ -9,7 +9,7 @@ const types = {
     main: 'Начинки'
 }
 export default function MenuCategory({ cards, type, refer, headerKey }) {
-    const typeArray = useMemo(() => { return cards.filter(prod => prod.type === type) }, [cards])
+    const typeArray = useMemo(() => { return cards.filter(prod => prod.type === type) }, [cards, type])
     return (
         <>
             <h2 ref={refer} className={`${styles.title} pt-10 pb-6 text text_type_main-medium`} data-type={headerKey} >
