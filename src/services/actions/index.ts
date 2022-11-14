@@ -54,83 +54,84 @@ import {
     TSetUserAction,
     TSortIngredientAction
 } from "../types/actions";
+import { addIngredientAction, addOrChangeBunAction, changeUserDataAction, deleteIngredientAction, getApiItemsFailedAction, getApiItemsRequestAction, getApiItemsSuccessAction, postItemsFailedAction, postItemsSuccessAction, refreshUserAction, resetConstructorAction, resetErrorAction, resetLoadingModeAction, resetOrderNumAction, resetUserAction, setErrorAction, setLoadingModeAction, setUserAction, sortIngredientsAction } from "./actions";
 
 // actions
-const setErrorAction = (code: any, message: string): TSetErrorAction => ({
-    type: ERROR_SET,
-    code: code,
-    message: message
-})
-const resetErrorAction = () => ({
-    type: ERROR_RESET
-})
-const setLoadingModeAction = (): TSetLoadingModeAction => ({
-    type: LOADING_MODE_SET
-})
-const resetLoadingModeAction = (): TResetLoadingModeAction => ({
-    type: LOADING_MODE_RESET
-})
-const getApiItemsRequestAction = (): TGetApiItemsRequestAction => ({
-    type: GET_API_ITEMS_REQUEST
-})
-const getApiItemsSuccessAction = (data: Array<TIngredient>): TGetApiItemsSuccessAction => ({
-    type: GET_API_ITEMS_SUCCESS,
-    items: data
-})
-const getApiItemsFailedAction = (err: any): TGetApiItemsFailedAction => ({
-    type: GET_API_ITEMS_FAILED,
-    error: err
-})
-const addIngredientAction = (prod: TIngredient): TAddIngredientAction => ({
-    type: CONSTRUCTOR_ADD_INGREDIENT,
-    item: prod
-})
-const addOrChangeBunAction = (bun: TIngredient, key: string): TAddOrChangeBunAction => ({
-    type: CONSTRUCTOR_ADD_OR_CHANGE_BUN,
-    item: bun,
-    key: key
-})
-const sortIngredientsAction = (item: TIngredient, droppedIndex: number, draggedIndex: number): TSortIngredientAction => ({
-    type: CONSTRUCTOR_SORT_INGREDIENTS,
-    draggedIndex: draggedIndex,
-    droppedIndex: droppedIndex,
-    item: item
-})
-const deleteIngredientAction = (notBunsIngredients: Array<TIngredient>, id: string): TDeleteIngredientAction => ({
-    type: CONSTRUCTOR_DELETE_INGREDIENT,
-    ingredients: notBunsIngredients,
-    id: id,
-})
-const postItemsSuccessAction = (number: number): TPostItemsSuccessAction => ({
-    type: POST_CONSTRUCTOR_ITEMS_SUCCESS,
-    number: number
-})
-const postItemsFailedAction = (err: any): TPostItemsFailedAction => ({
-    type: POST_CONSTRUCTOR_ITEMS_FAILED,
-    error: err
-})
-const resetConstructorAction = (): TResetConstructorAction => ({
-    type: CONSTRUCTOR_RESET_INGREDIENTS
-})
-const resetOrderNumAction = (): TResetOrderNumAction => ({
-    type: ORDER_NUMBER_RESET
-})
-const setUserAction = (user: TUser, password: string, accessToken: string): TSetUserAction => ({
-    type: USER_SET,
-    user: { ...user, 'password': password },
-    token: accessToken,
-})
-const resetUserAction = (): TResetUserAction => ({
-    type: USER_RESET,
-})
-const refreshUserAction = (accessToken: string): TRefreshUserAction => ({
-    type: USER_REFRESH,
-    token: accessToken
-})
-const changeUserDataAction = (data: TChangeUserData): TChangeUserDataAction => ({
-    type: USER_CHANGE_DATA,
-    changed: { ...data }
-})
+// const setErrorAction = (code: any, message: string): TSetErrorAction => ({
+//     type: ERROR_SET,
+//     code: code,
+//     message: message
+// })
+// const resetErrorAction = () => ({
+//     type: ERROR_RESET
+// })
+// const setLoadingModeAction = (): TSetLoadingModeAction => ({
+//     type: LOADING_MODE_SET
+// })
+// const resetLoadingModeAction = (): TResetLoadingModeAction => ({
+//     type: LOADING_MODE_RESET
+// })
+// const getApiItemsRequestAction = (): TGetApiItemsRequestAction => ({
+//     type: GET_API_ITEMS_REQUEST
+// })
+// const getApiItemsSuccessAction = (data: Array<TIngredient>): TGetApiItemsSuccessAction => ({
+//     type: GET_API_ITEMS_SUCCESS,
+//     items: data
+// })
+// const getApiItemsFailedAction = (err: any): TGetApiItemsFailedAction => ({
+//     type: GET_API_ITEMS_FAILED,
+//     error: err
+// })
+// const addIngredientAction = (prod: TIngredient): TAddIngredientAction => ({
+//     type: CONSTRUCTOR_ADD_INGREDIENT,
+//     item: prod
+// })
+// const addOrChangeBunAction = (bun: TIngredient, key: string): TAddOrChangeBunAction => ({
+//     type: CONSTRUCTOR_ADD_OR_CHANGE_BUN,
+//     item: bun,
+//     key: key
+// })
+// const sortIngredientsAction = (item: TIngredient, droppedIndex: number, draggedIndex: number): TSortIngredientAction => ({
+//     type: CONSTRUCTOR_SORT_INGREDIENTS,
+//     draggedIndex: draggedIndex,
+//     droppedIndex: droppedIndex,
+//     item: item
+// })
+// const deleteIngredientAction = (notBunsIngredients: Array<TIngredient>, id: string): TDeleteIngredientAction => ({
+//     type: CONSTRUCTOR_DELETE_INGREDIENT,
+//     ingredients: notBunsIngredients,
+//     id: id,
+// })
+// const postItemsSuccessAction = (number: number): TPostItemsSuccessAction => ({
+//     type: POST_CONSTRUCTOR_ITEMS_SUCCESS,
+//     number: number
+// })
+// const postItemsFailedAction = (err: any): TPostItemsFailedAction => ({
+//     type: POST_CONSTRUCTOR_ITEMS_FAILED,
+//     error: err
+// })
+// const resetConstructorAction = (): TResetConstructorAction => ({
+//     type: CONSTRUCTOR_RESET_INGREDIENTS
+// })
+// const resetOrderNumAction = (): TResetOrderNumAction => ({
+//     type: ORDER_NUMBER_RESET
+// })
+// const setUserAction = (user: TUser, password: string, accessToken: string): TSetUserAction => ({
+//     type: USER_SET,
+//     user: { ...user, 'password': password },
+//     token: accessToken,
+// })
+// const resetUserAction = (): TResetUserAction => ({
+//     type: USER_RESET,
+// })
+// const refreshUserAction = (accessToken: string): TRefreshUserAction => ({
+//     type: USER_REFRESH,
+//     token: accessToken
+// })
+// const changeUserDataAction = (data: TChangeUserData): TChangeUserDataAction => ({
+//     type: USER_CHANGE_DATA,
+//     changed: { ...data }
+// })
 
 // action creator для получения всего набора, см. ConstructorPage
 export function getApiItems() {
