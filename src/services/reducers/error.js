@@ -1,4 +1,4 @@
-import { ERROR_SET, ERROR_RESET } from "../actions/error";
+import { ERROR_SET, ERROR_RESET } from "../actions/action-types/error";
 
 const initialState = {
     code: '',

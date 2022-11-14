@@ -1,4 +1,4 @@
-import { USER_RESET, USER_SET, USER_REFRESH, USER_CHANGE_DATA } from "../actions/login";
+import { USER_RESET, USER_SET, USER_REFRESH, USER_CHANGE_DATA } from "../actions/action-types/login";
 
 const initialState = {
     "email": "",

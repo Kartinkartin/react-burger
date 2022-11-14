@@ -2,7 +2,7 @@ import {
     POST_CONSTRUCTOR_ITEMS_SUCCESS,
     POST_CONSTRUCTOR_ITEMS_FAILED,
     ORDER_NUMBER_RESET
-} from "../actions/order";
+} from "../actions/action-types/order";
 
 const initialState = {
     number: '',
