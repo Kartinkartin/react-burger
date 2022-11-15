@@ -16,7 +16,7 @@ import {
 } from "../actions/action-types/order";
 import { ORDER_NUMBER_RESET } from "../actions/action-types/order";
 import { LOADING_MODE_SET, LOADING_MODE_RESET } from "../actions/action-types/loading";
-import { TIngredient } from "./data";
+import { TIngredient, TUser } from "./data";
 import { USER_CHANGE_DATA, USER_REFRESH, USER_RESET, USER_SET } from "../actions/action-types/login";
 import { ERROR_RESET, ERROR_SET } from "../actions/action-types/error";
 import { TChangeUserData } from ".";
@@ -83,7 +83,7 @@ export type TResetOrderNumAction = {
 }
 export type TSetUserAction = {
     readonly type: typeof USER_SET,
-    readonly user: object,
+    readonly user: TUser,
     readonly token: string,
 }
 export type TResetUserAction = {
@@ -98,4 +98,17 @@ export type TChangeUserDataAction = {
     readonly changed: TChangeUserData
 }
 
-export type TApplicationActions = TAddIngredientAction | TAddOrChangeBunAction | TDeleteIngredientAction | TGetApiItemsFailedAction | TGetApiItemsRequestAction | TGetApiItemsSuccessAction | TPostItemsFailedAction | TPostItemsSuccessAction | TResetConstructorAction | TResetLoadingModeAction | TResetOrderNumAction | TSetLoadingModeAction | TSortIngredientAction | TSetUserAction | TResetUserAction | TRefreshUserAction | TChangeUserDataAction | TSetErrorAction | TResetErrorAction;
+export type TErrorActions = TSetErrorAction | TResetErrorAction; 
+//юнион тип для ошибок. См. reducers/error.ts
+export type TLoadingActions = TSetLoadingModeAction | TResetLoadingModeAction; 
+//юнион тип для ошибок. См. reducers/loading.ts 
+export type TGetApiItemsActions = TGetApiItemsFailedAction | TGetApiItemsRequestAction | TGetApiItemsSuccessAction;
+//юнион тип для ошибок. См. reducers/ingredientsApi.ts
+export type TUserActions = TSetUserAction | TResetUserAction | TRefreshUserAction | TChangeUserDataAction;
+//юнион тип для логина и данных профиля. См. reducers/login.ts
+export type TConstructorActions = TAddIngredientAction | TAddOrChangeBunAction | TDeleteIngredientAction |  TResetConstructorAction | TSortIngredientAction;
+//юнион тип для сборки заказа. См. reducers/constructorItems.ts
+export type TOrderNumActions = TPostItemsSuccessAction | TPostItemsFailedAction | TResetOrderNumAction;
+//юнион тип для номера заказа. См. reducers/order.ts
+
+export type TApplicationActions = TConstructorActions | TErrorActions | TLoadingActions | TGetApiItemsActions | TUserActions | TOrderNumActions;

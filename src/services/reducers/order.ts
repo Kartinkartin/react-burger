@@ -3,12 +3,16 @@ import {
     POST_CONSTRUCTOR_ITEMS_FAILED,
     ORDER_NUMBER_RESET
 } from "../actions/action-types/order";
+import { TOrderNumActions } from "../types/actions";
 
-const initialState = {
+type TOrderNumState = {
+    number: string
+}
+const initialState: TOrderNumState = {
     number: '',
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TOrderNumActions) => {
     switch (action.type) {
         case POST_CONSTRUCTOR_ITEMS_SUCCESS: {
             return {
@@ -22,7 +26,7 @@ export const orderReducer = (state = initialState, action) => {
         }
         case ORDER_NUMBER_RESET: {
             return {
-                ...state.order,
+                ...state,
                 number: '',
             }
         }

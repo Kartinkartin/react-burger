@@ -15,5 +15,6 @@ export type TIngredient = {
 
 export type TUser = {
     readonly name: string,
-    readonly email: string
+    readonly email: string,
+    password?: string 
 }

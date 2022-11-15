@@ -1,13 +1,20 @@
 import { USER_RESET, USER_SET, USER_REFRESH, USER_CHANGE_DATA } from "../actions/action-types/login";
+import { TUserActions } from "../types/actions";
 
-const initialState = {
+type TLoginState = {
+    "email": string,
+    "name": string,
+    "password": string,
+    "token": string
+}
+const initialState: TLoginState = {
     "email": "",
     "name": "",
     "password": "",
     "token": ""
 };
 
-export const loginReducer = (state = initialState, action) => {
+export const loginReducer = (state = initialState, action: TUserActions) => {
     switch (action.type) {
         case USER_SET: {
             return {

@@ -5,8 +5,16 @@ import {
     CONSTRUCTOR_DELETE_INGREDIENT,
     CONSTRUCTOR_RESET_INGREDIENTS
 } from "../actions/action-types/constructorItems";
+import { TAddIngredientAction, TConstructorActions } from "../types/actions";
+import { TIngredient } from "../types/data";
 
-const initialState = {
+type TConstructorState = {
+    ingredientsConstructor: Array<TIngredient>,
+    counter: {
+        [name: string]: number
+    }
+}
+const initialState: TConstructorState = {
     ingredientsConstructor: [],
     counter: {},
 }
@@ -14,7 +22,7 @@ const initialState = {
 export const constructorItemsReducer = (state = {
     ingredientsConstructor: initialState.ingredientsConstructor,
     counter: initialState.counter
-}, action) => {
+}, action: TConstructorActions) => {
     switch (action.type) {
         case CONSTRUCTOR_ADD_INGREDIENT: {
             return {
@@ -27,7 +35,7 @@ export const constructorItemsReducer = (state = {
                         ...state.counter,
                         [action.item._id]: 1
                     },
-                ingredientsConstructor: state.ingredientsConstructor.concat(action.item),
+                ingredientsConstructor: state.ingredientsConstructor.push(action.item),
 
             }
         }
@@ -37,7 +45,7 @@ export const constructorItemsReducer = (state = {
             return {
                 ...state,
                 counter:
-                    (hasBun && currentBun._id !== action.item._id) ?
+                    (currentBun && currentBun._id !== action.item._id) ?
                         {
                             ...state.counter,
                             [action.item._id]: 2,
@@ -97,6 +105,6 @@ export const constructorItemsReducer = (state = {
     }
 }
 
-function checkExistence(state, action) {
+function checkExistence(state: TConstructorState, action: TAddIngredientAction) {
     return state.ingredientsConstructor.some(item => item._id === action.item._id)
 }
