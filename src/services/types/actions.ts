@@ -120,11 +120,12 @@ export type TApplicationActions = TConstructorActions | TErrorActions | TLoading
     //для обычного и защищенного роутинга
 export type TStartWsAction = {
     readonly type: typeof WS_CONNECTION_START,
-    readonly payload: string
+    readonly payload: string | object
 }
 
 export type TDisconnectWsAction = {
-    readonly type: typeof WS_CONNECTION_DISCONNECT
+    readonly type: typeof WS_CONNECTION_DISCONNECT,
+    readonly payload?: string
 }
 
 export type TWsActions = TStartWsAction | TDisconnectWsAction;

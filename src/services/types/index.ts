@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_DISCONNECT, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from '../websocket/actions/wsActionTypes';
 import { TApplicationActions, TWsActions } from './actions';
 
 export type TLoginData = {
