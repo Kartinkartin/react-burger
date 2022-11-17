@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useLocation, Link, Redirect } from 'react-router-dom';
 import styles from './forgotPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,7 +9,7 @@ export const ForgotPassPage = () => {
     const location = useLocation();
     const {values, handleChange} = useForm({});
     const [wasReset, setReset] = useState(false);
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         return resetPassRequest(values.email)
             .then(res =>

@@ -13,13 +13,12 @@ export const ProfilePage = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
     const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка
     let data = useRef();
-    data.current = null;
 
     useEffect(() => {
         getUserRequest(accessToken)
@@ -38,7 +37,7 @@ export const ProfilePage = () => {
             { user && 
             (<div className={styles.main}>
                 <ProfileNavigator refreshToken={refreshToken} />
-                <FormProfile userData={ { ...user } }  />
+                <FormProfile userData={ user }  />
             </div>)
             }
         </>
