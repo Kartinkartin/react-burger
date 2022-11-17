@@ -9,7 +9,27 @@ import {
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { TIngredient } from "../types/data";
 import { AppDispatch, TChangeUserData, TLoginData } from "../types";
-import { addIngredientAction, addOrChangeBunAction, changeUserDataAction, deleteIngredientAction, getApiItemsFailedAction, getApiItemsRequestAction, getApiItemsSuccessAction, postItemsFailedAction, postItemsSuccessAction, refreshUserAction, resetConstructorAction, resetErrorAction, resetLoadingModeAction, resetOrderNumAction, resetUserAction, setErrorAction, setLoadingModeAction, setUserAction, sortIngredientsAction } from "./actions";
+import {
+    addIngredientAction,
+    addOrChangeBunAction,
+    changeUserDataAction,
+    deleteIngredientAction,
+    getApiItemsFailedAction,
+    getApiItemsRequestAction,
+    getApiItemsSuccessAction,
+    postItemsFailedAction,
+    postItemsSuccessAction,
+    refreshUserAction,
+    resetConstructorAction,
+    resetErrorAction,
+    resetLoadingModeAction,
+    resetOrderNumAction,
+    resetUserAction,
+    setErrorAction,
+    setLoadingModeAction,
+    setUserAction,
+    sortIngredientsAction
+} from "./actions";
 
 
 // action creator для получения всего набора, см. ConstructorPage
@@ -90,7 +110,7 @@ export const loginUser = (loginData: TLoginData, history: any) => {
             .catch(err => {
                 console.log(err[0])
                 err[1]
-                    .then((res: object & {massage: string}) => {
+                    .then((res: object & { massage: string }) => {
                         dispatch(setErrorAction(err[0], res.massage))
                     })
             })
@@ -149,8 +169,7 @@ export const changeUserData = (token: string, newData: TChangeUserData) => {
         changeUserDataRequest(token, newData)
             .then(res => {
                 dispatch(changeUserDataAction(newData))
-            }
-            )
+            })
             .catch(err => console.log(err)) //честно, ни одной идеи нет. но я что-то могу и показала это в логине
 
     }

@@ -35,6 +35,7 @@ import {
     TPostItemsSuccessAction,
     TRefreshUserAction,
     TResetConstructorAction,
+    TResetErrorAction,
     TResetLoadingModeAction,
     TResetOrderNumAction,
     TResetUserAction,
@@ -52,7 +53,7 @@ export const setErrorAction = (code: any, message: string): TSetErrorAction => (
     code: code,
     message: message
 })
-export const resetErrorAction = () => ({
+export const resetErrorAction = (): TResetErrorAction => ({
     type: ERROR_RESET
 })
 export const setLoadingModeAction = (): TSetLoadingModeAction => ({

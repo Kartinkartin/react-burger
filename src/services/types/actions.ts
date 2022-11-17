@@ -20,8 +20,10 @@ import { TIngredient, TUser } from "./data";
 import { USER_CHANGE_DATA, USER_REFRESH, USER_RESET, USER_SET } from "../actions/action-types/login";
 import { ERROR_RESET, ERROR_SET } from "../actions/action-types/error";
 import { TChangeUserData } from ".";
+import { WS_CONNECTION_DISCONNECT, WS_CONNECTION_START } from "../websocket/actions/wsActionTypes";
+import { type } from "os";
 
-// типизация actions 
+// типизация App actions 
 export type TSetErrorAction = {
     readonly type: typeof ERROR_SET,
     readonly code: any,
@@ -57,7 +59,7 @@ export type TAddOrChangeBunAction = {
     readonly key: string
 }
 export type TSortIngredientAction = {
-    readonly type: typeof  CONSTRUCTOR_SORT_INGREDIENTS,
+    readonly type: typeof CONSTRUCTOR_SORT_INGREDIENTS,
     readonly draggedIndex: number,
     readonly droppedIndex: number,
     readonly item: TIngredient
@@ -98,17 +100,31 @@ export type TChangeUserDataAction = {
     readonly changed: TChangeUserData
 }
 
-export type TErrorActions = TSetErrorAction | TResetErrorAction; 
+export type TErrorActions = TSetErrorAction | TResetErrorAction;
 //юнион тип для ошибок. См. reducers/error.ts
-export type TLoadingActions = TSetLoadingModeAction | TResetLoadingModeAction; 
+export type TLoadingActions = TSetLoadingModeAction | TResetLoadingModeAction;
 //юнион тип для ошибок. См. reducers/loading.ts 
 export type TGetApiItemsActions = TGetApiItemsFailedAction | TGetApiItemsRequestAction | TGetApiItemsSuccessAction;
 //юнион тип для ошибок. См. reducers/ingredientsApi.ts
 export type TUserActions = TSetUserAction | TResetUserAction | TRefreshUserAction | TChangeUserDataAction;
 //юнион тип для логина и данных профиля. См. reducers/login.ts
-export type TConstructorActions = TAddIngredientAction | TAddOrChangeBunAction | TDeleteIngredientAction |  TResetConstructorAction | TSortIngredientAction;
+export type TConstructorActions = TAddIngredientAction | TAddOrChangeBunAction | TDeleteIngredientAction | TResetConstructorAction | TSortIngredientAction;
 //юнион тип для сборки заказа. См. reducers/constructorItems.ts
 export type TOrderNumActions = TPostItemsSuccessAction | TPostItemsFailedAction | TResetOrderNumAction;
 //юнион тип для номера заказа. См. reducers/order.ts
 
 export type TApplicationActions = TConstructorActions | TErrorActions | TLoadingActions | TGetApiItemsActions | TUserActions | TOrderNumActions;
+
+
+//типизация webSocket actions
+    //для обычного и защищенного роутинга
+export type TStartWsAction = {
+    readonly type: typeof WS_CONNECTION_START,
+    readonly payload: string
+}
+
+export type TDisconnectWsAction = {
+    readonly type: typeof WS_CONNECTION_DISCONNECT
+}
+
+export type TWsActions = TStartWsAction | TDisconnectWsAction;
