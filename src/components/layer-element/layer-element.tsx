@@ -3,7 +3,19 @@ import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burg
 import styles from './layer-element.module.css';
 import PropTypes from 'prop-types';
 
-export default function LayerElement({ prod, index, handleDelete, handleDrag, handleDrop }) {
+type TLayerProps = {
+    prod: {
+        name: string,
+        price: number,
+        image: string
+    }, 
+    index: number, 
+    handleDelete: (e: any, index: number) => {}, 
+    handleDrag: (index: number) => {}, 
+    handleDrop: (e: any, index: number) => {}
+}
+
+export default function LayerElement({ prod, index, handleDelete, handleDrag, handleDrop }: TLayerProps) {
     const [{ opacity }, dragRef] = useDrag({
         type: 'item',
         item: prod,
@@ -18,12 +30,12 @@ export default function LayerElement({ prod, index, handleDelete, handleDrag, ha
             onDrag={() => handleDrag(index)}
             onDrop={(e) => handleDrop(e, index)}
             style={{ opacity }}>
-            <DragIcon />
+            <DragIcon type='primary' />
             <ConstructorElement
                 text={prod.name}
                 price={prod.price}
                 thumbnail={prod.image}
-                handleClose={(e) => handleDelete(e, index)}
+                handleClose={() => (e: any) => handleDelete(e, index)}
             />
         </li>
     )

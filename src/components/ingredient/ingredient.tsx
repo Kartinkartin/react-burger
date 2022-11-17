@@ -5,10 +5,14 @@ import PropTypes from "prop-types";
 import styles from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
+import { TIngredient } from "../../services/types/data";
+import { TStore } from "../../services/types";
 
+type TIngredientInfo = {
+    card: TIngredient
+}
 
-
-export function Ingredient({ card }) {
+export function Ingredient({ card }: TIngredientInfo) {
     const location = useLocation();
     const [{ opacity }, dragRef] = useDrag({
         type: 'item',
@@ -17,7 +21,7 @@ export function Ingredient({ card }) {
             opacity: monitor.isDragging() ? 0.5 : 1,
         })
     })
-    const counter = useSelector(state => state.constructorItems.counter[card._id]);
+    const counter = useSelector((store: TStore) => store.constructorItems.counter[card._id]);
 
     return (
         <Link
@@ -28,7 +32,7 @@ export function Ingredient({ card }) {
                 <p className="text text_type_main-default">{card.name}</p>
                 <div className={styles.price_container}>
                     <p className="text text_type_main-default pr-1">{card.price}</p>
-                    <CurrencyIcon />
+                    <CurrencyIcon type='primary' />
                 </div>
                 {!!counter && <Counter count={counter} size="default" />}
             </div>

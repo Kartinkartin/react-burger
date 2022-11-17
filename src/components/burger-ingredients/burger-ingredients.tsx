@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, LegacyRef } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
@@ -10,14 +10,14 @@ export default function BurgerIngredients() {
     const items = useSelector(getApiIngredients); // загрузка в App
     
     const [current, setCurrent] = React.useState('bun');
-    const containerRef = useRef();
-    const bunRef = useRef();
-    const mainRef = useRef();
-    const sauceRef = useRef();
+    const containerRef: any = useRef();
+    const bunRef: any = useRef();
+    const mainRef: any = useRef();
+    const sauceRef: any = useRef();
 
     const hightlightTab = () => {
         const refs = [bunRef, mainRef, sauceRef];
-        const positions = refs.map(item => {
+        const positions: any = refs.map((item: any) => {
             return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
         })
         const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
@@ -25,7 +25,7 @@ export default function BurgerIngredients() {
         // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
         setCurrent(currentSection)
     }
-    const handlerScroll = (value) => {
+    const handlerScroll = (value: string) => {
         setCurrent(value);
         if (value === 'bun') { bunRef.current.scrollIntoView() }
         else if (value === 'sauce') { sauceRef.current.scrollIntoView() }

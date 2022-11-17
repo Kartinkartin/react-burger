@@ -1,14 +1,20 @@
-import React, { useMemo } from "react";
-import PropTypes from 'prop-types';
+import React, { useMemo, LegacyRef } from "react";
 import styles from './menu-category.module.css';
 import { Ingredient } from "../ingredient/ingredient";
+import { TIngredient } from "../../services/types/data";
 
-const types = {
-    bun: 'Булки',
-    sauce: 'Соусы',
-    main: 'Начинки'
+type TCategoryProps ={ 
+    cards: Array<TIngredient>, 
+    type: string, 
+    refer: any, 
+    headerKey: string
 }
-export default function MenuCategory({ cards, type, refer, headerKey }) {
+const types: {[name: string]: string} = {
+    'bun': 'Булки',
+    'sauce': 'Соусы',
+    'main': 'Начинки'
+}
+export default function MenuCategory({ cards, type, refer, headerKey }: TCategoryProps) {
     const typeArray = useMemo(() => { return cards.filter(prod => prod.type === type) }, [cards, type])
     return (
         <>
@@ -26,10 +32,4 @@ export default function MenuCategory({ cards, type, refer, headerKey }) {
             </div>
         </>
     )
-}
-MenuCategory.propTypes = {
-    cards: PropTypes.array.isRequired,
-    type: PropTypes.string.isRequired,
-    refer: PropTypes.object.isRequired,
-    headerKey: PropTypes.string.isRequired
 }
