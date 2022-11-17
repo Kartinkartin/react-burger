@@ -8,7 +8,7 @@ import {
 import { TAddIngredientAction, TConstructorActions } from "../types/actions";
 import { TIngredient } from "../types/data";
 
-type TConstructorState = {
+export type TConstructorState = {
     ingredientsConstructor: Array<TIngredient>,
     counter: {
         [name: string]: number

@@ -2,7 +2,7 @@ import { ERROR_SET, ERROR_RESET } from "../actions/action-types/error";
 import { TErrorActions } from "../types/actions";
 
 
-type TErrorState = {
+export type TErrorState = {
     code: string,
     message: string
 }

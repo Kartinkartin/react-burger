@@ -6,14 +6,14 @@ import {
     WS_GET_MESSAGE
 } from "../actions/wsActionTypes";
 
-type TSocketState = {
+export type TSocketState = {
     wsConnected: boolean,
     orders: Array<any>,
     total: null | number,
     totalToday: null | number,
     error: undefined
 }
-const initialState = {
+const initialState: TSocketState = {
     wsConnected: false,
     orders: [],
     total: null,

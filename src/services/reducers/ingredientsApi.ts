@@ -4,8 +4,9 @@ import {
     GET_API_ITEMS_FAILED 
 } from "../actions/action-types/ingredientsApi";
 import { TGetApiItemsActions } from "../types/actions";
+import { TIngredient } from "../types/data";
 
-type TIngredientsState = [];
+export type TIngredientsState = Array<TIngredient>;
 const initialState: TIngredientsState = [];
 
 export const initialItemsReducer = (state = initialState, action: TGetApiItemsActions) => {

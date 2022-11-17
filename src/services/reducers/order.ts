@@ -5,7 +5,7 @@ import {
 } from "../actions/action-types/order";
 import { TOrderNumActions } from "../types/actions";
 
-type TOrderNumState = {
+export type TOrderNumState = {
     number: string
 }
 const initialState: TOrderNumState = {

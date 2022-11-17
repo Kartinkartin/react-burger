@@ -1,7 +1,7 @@
 import { USER_RESET, USER_SET, USER_REFRESH, USER_CHANGE_DATA } from "../actions/action-types/login";
 import { TUserActions } from "../types/actions";
 
-type TLoginState = {
+export type TLoginState = {
     "email": string,
     "name": string,
     "password": string,

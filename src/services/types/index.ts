@@ -1,5 +1,11 @@
 import { Dispatch } from 'redux';
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_DISCONNECT, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from '../websocket/actions/wsActionTypes';
+import { TConstructorState } from '../reducers/constructorItems';
+import { TErrorState } from '../reducers/error';
+import { TIngredientsState } from '../reducers/ingredientsApi';
+import { TLoadingState } from '../reducers/loading';
+import { TLoginState } from '../reducers/login';
+import { TOrderNumState } from '../reducers/order';
+import { TSocketState } from '../websocket/reducers/socketReducer';
 import { TApplicationActions, TWsActions } from './actions';
 
 export type TLoginData = {
@@ -8,6 +14,15 @@ export type TLoginData = {
     password:  string,
 }
 export type TChangeUserData = Partial<TLoginData>
+export type TStore = {
+    ingredientsApi: TIngredientsState,
+    login: TLoginState,
+    error: TErrorState,
+    ws: TSocketState,
+    order: TOrderNumState,
+    loading: TLoadingState,
+    constructorItems: TConstructorState
+}
 
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
 export type AppDispatch = Dispatch<TApplicationActions>
