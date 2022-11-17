@@ -1,3 +1,4 @@
+import { TWsActions } from "../../types/actions";
 import {
     WS_CONNECTION_SUCCESS,
     WS_CONNECTION_ERROR,
@@ -5,6 +6,13 @@ import {
     WS_GET_MESSAGE
 } from "../actions/wsActionTypes";
 
+type TSocketState = {
+    wsConnected: boolean,
+    orders: Array<any>,
+    total: null | number,
+    totalToday: null | number,
+    error: undefined
+}
 const initialState = {
     wsConnected: false,
     orders: [],
@@ -13,7 +21,7 @@ const initialState = {
     error: undefined
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWsActions) => {
     switch (action.type) {
         // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
         // Установим флаг wsConnected в состояние true

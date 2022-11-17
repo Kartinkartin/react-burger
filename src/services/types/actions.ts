@@ -20,7 +20,7 @@ import { TIngredient, TUser } from "./data";
 import { USER_CHANGE_DATA, USER_REFRESH, USER_RESET, USER_SET } from "../actions/action-types/login";
 import { ERROR_RESET, ERROR_SET } from "../actions/action-types/error";
 import { TChangeUserData } from ".";
-import { WS_CONNECTION_DISCONNECT, WS_CONNECTION_START } from "../websocket/actions/wsActionTypes";
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_DISCONNECT, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "../websocket/actions/wsActionTypes";
 import { type } from "os";
 
 // типизация App actions 
@@ -127,5 +127,25 @@ export type TDisconnectWsAction = {
     readonly type: typeof WS_CONNECTION_DISCONNECT,
     readonly payload?: string
 }
+export type TWsConnectionSuccessAction = {
+    readonly type: typeof WS_CONNECTION_SUCCESS
+    readonly payload?: string
+}
+export type TWsConnectionErrorAction = {
+    readonly type: typeof WS_CONNECTION_ERROR
+    readonly payload?: string
+}
+export type TWsConnectionClosedAction = {
+    readonly type: typeof WS_CONNECTION_CLOSED
+    readonly payload?: string
+}
+export type TWsGetMessageAction = {
+    readonly type: typeof WS_GET_MESSAGE
+    readonly payload: {
+        orders: Array<any>,
+        total: number,
+        totalToday: number
+    }
+}
 
-export type TWsActions = TStartWsAction | TDisconnectWsAction;
+export type TWsActions = TStartWsAction | TDisconnectWsAction | TWsConnectionSuccessAction | TWsConnectionErrorAction | TWsConnectionClosedAction | TWsGetMessageAction;
