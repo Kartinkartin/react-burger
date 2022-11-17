@@ -92,7 +92,7 @@ export const postOrder = (orderList: Array<TIngredient>, token: string) => {
     }
 }
 
-export const loginUser = (loginData: TLoginData, history: any) => {
+export const loginUser = (loginData: {[name: string]: string}, history: any) => {
     let accessToken;
     return function (dispatch: AppDispatch) {
         loginUserRequest(loginData)

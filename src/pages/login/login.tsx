@@ -1,27 +1,23 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../../services/actions';
 import { useForm } from '../../services/hooks/useForm';
+import { AnyAction } from 'redux';
 
 
 export const LoginPage = () => {
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     const history = useHistory();
     const {values, handleChange} = useForm({});
-    const [passIcon, setPassIcon] = useState('ShowIcon');
     const loginData = {
         "email": "",
         "password": ""
     };
 
-    const onIconClick = () => {
-        passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
-    };
-
-    const handleLogin = (e) => {
+    const handleLogin = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         loginData.email = values.email;
         loginData.password = values.password;
@@ -41,7 +37,6 @@ export const LoginPage = () => {
                         <div className={`${styles.input_container} pb-6`}>
                             <EmailInput
                                 name={'email'}
-                                type={'email'}
                                 placeholder={'E-mail'}
                                 size={'default'}
                                 value={values.email || ''}
@@ -51,13 +46,11 @@ export const LoginPage = () => {
                         <div className={`${styles.input_container} pb-6`}>
                             <PasswordInput
                                 name={'password'}
-                                type={'password'}
                                 placeholder={'Пароль'}
                                 size={'default'}
                                 value={values.password || ''}
                                 onChange={handleChange}
-                                icon={passIcon}
-                                onIconClick={onIconClick}
+                                icon={"EditIcon"}
                             />
                         </div>
                         <Button

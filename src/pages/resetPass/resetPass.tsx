@@ -1,21 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { newPassRequest } from '../../components/api/api';
 import { useForm } from '../../services/hooks/useForm'; 
+import { TLocationState } from '../../services/types';
 
 
 export const ResetPassPage = () => {
     const history = useHistory();
-    const location = useLocation();
+    const location = useLocation<TLocationState>();
     const {values, handleChange } = useForm({});
     const [passIcon, setPassIcon] = useState('ShowIcon');
 
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         newPassRequest(values)
             .then(res => history.replace({ pathname: '/login' }))
@@ -40,7 +41,7 @@ export const ResetPassPage = () => {
                                 size={'default'}
                                 value={values.password || ''}
                                 onChange={handleChange}
-                                icon={passIcon}
+                                icon={'ShowIcon'}
                                 onIconClick={onIconClick}
                             />
                         </div>

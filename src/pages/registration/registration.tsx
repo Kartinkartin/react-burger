@@ -12,7 +12,7 @@ export const RegistrationPage = () => {
     const onIconClick = () => {
         passIcon === 'ShowIcon' ? setPassIcon('HideIcon') : setPassIcon('ShowIcon')
     };
-    const handleRegister = (e) => {
+    const handleRegister = (e: any) => {
         e.preventDefault();
         registerUserRequest(values);
     }
@@ -54,7 +54,7 @@ export const RegistrationPage = () => {
                             size={'default'}
                             value={values.password || ''}
                             onChange={handleChange}
-                            icon={passIcon}
+                            icon={"ShowIcon"}
                             onIconClick={onIconClick}
                         />
                     </div>

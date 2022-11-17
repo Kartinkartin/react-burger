@@ -1,3 +1,4 @@
+import { type } from 'os';
 import { Dispatch } from 'redux';
 import { TConstructorState } from '../reducers/constructorItems';
 import { TErrorState } from '../reducers/error';
@@ -22,6 +23,11 @@ export type TStore = {
     order: TOrderNumState,
     loading: TLoadingState,
     constructorItems: TConstructorState
+}
+export type TLocationState = {
+    from: {
+        pathname: string
+    }
 }
 
 // Типизация метода dispatch для проверки на валидность отправляемого экшена

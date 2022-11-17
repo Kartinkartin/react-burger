@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "../app-header/app-header.module.css";
 import { NavLink } from "react-router-dom";
 import {
@@ -9,7 +9,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-export default function AppHeader() {
+export const AppHeader:FunctionComponent = () => {
     return (
         <header className={`${styles.header} p-4`}>
             <NavLink
@@ -17,14 +17,14 @@ export default function AppHeader() {
                 activeClassName={styles.active}
                 to='/'
                 exact={true}>
-                <BurgerIcon />
+                <BurgerIcon type="primary" />
                 <p className="text text_type_main-default ml-2">Конструктор</p>
             </NavLink>
             <NavLink
                 className={`${styles.button} pr-5 ml-2`}
                 activeClassName={styles.active}
                 to='/feed' >
-                <ListIcon />
+                <ListIcon type="primary" />
                 <p className="text text_type_main-default ml-2">Лента заказов</p>
             </NavLink>
             <NavLink className={styles.logo} to='/'>
@@ -34,7 +34,7 @@ export default function AppHeader() {
                 className={styles.button}
                 activeClassName={styles.active}
                 to='/profile' >
-                <ProfileIcon />
+                <ProfileIcon type="primary" />
                 <p className="text text_type_main-default ml-2">
                     Личный кабинет
                 </p>
