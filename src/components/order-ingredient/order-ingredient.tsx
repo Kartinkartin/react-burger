@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import styles from './order-ingredient.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getApiIngredients } from "../../services/selectors/selectors";
@@ -32,8 +31,4 @@ export const OrderIngredient: FunctionComponent<TOrderIngredientProps> = ({ id, 
             </div>
         </div>
     )
-}
-OrderIngredient.propTypes = {
-    id: PropTypes.string.isRequired,
-    counter: PropTypes.number.isRequired
 }
