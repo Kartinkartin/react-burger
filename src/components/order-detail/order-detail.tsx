@@ -2,7 +2,7 @@ import React, { FunctionComponent }  from "react";
 import { useSelector } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { getApiIngredients,getWSOrders } from "../../services/selectors/selectors";
-import { OrderIngredient } from '../order-ingredient/order-ingredient';
+import OrderIngredient from '../order-ingredient/order-ingredient';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./order-detail.module.css";
 import { TIngredient } from "../../services/types/data";
