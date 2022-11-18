@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
-import MenuCategory from "../menu-category/menu-category";
+import { MenuCategory } from "../menu-category/menu-category";
 import { getApiIngredients } from "../../services/selectors/selectors";
 
 
-export default function BurgerIngredients() {
+export const BurgerIngredients: FunctionComponent = () => {
     const items = useSelector(getApiIngredients); // загрузка в App
     
     const [current, setCurrent] = React.useState('bun');

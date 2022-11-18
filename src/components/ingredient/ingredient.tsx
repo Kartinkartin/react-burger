@@ -1,7 +1,6 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
-import PropTypes from "prop-types";
 import styles from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
@@ -12,7 +11,7 @@ type TIngredientInfo = {
     card: TIngredient
 }
 
-export function Ingredient({ card }: TIngredientInfo) {
+export const Ingredient: FunctionComponent<TIngredientInfo> = ({ card }: TIngredientInfo) => {
     const location = useLocation();
     const [{ opacity }, dragRef] = useDrag({
         type: 'item',
@@ -38,7 +37,4 @@ export function Ingredient({ card }: TIngredientInfo) {
             </div>
         </Link>
     )
-}
-Ingredient.propTypes = {
-    card: PropTypes.object.isRequired,
 }

@@ -18,7 +18,7 @@ import {
     OrderDetailPage
 } from "../../pages";
 import Modal from '../modal/modal';
-import IngredientDetail from '../ingredient-detail/ingredient-detail';
+import { IngredientDetail } from '../ingredient-detail/ingredient-detail';
 import { 
     deleteError,
     getApiItems, 
