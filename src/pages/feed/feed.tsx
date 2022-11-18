@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './feed.module.css';
 import { OrdersList } from '../../components/orders-list/orders-list';
-import OrderStatistics from '../../components/order-statistics/order-statistics';
+import { OrderStatistics } from '../../components/order-statistics/order-statistics';
 import { getWSOrders } from '../../services/selectors/selectors';
 import { disconnectWs, startWs } from '../../services/websocket/actions';
 
-export function FeedPage() {
-    const dispatch = useDispatch();
+export const FeedPage: FunctionComponent = () => {
+    const dispatch: any = useDispatch();
     const data = useSelector(getWSOrders);
     useEffect(() => {
         dispatch(startWs())
