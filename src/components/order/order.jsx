@@ -1,20 +1,17 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа
+import PropTypes from 'prop-types';
 import styles from './order.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getApiIngredients } from '../../services/selectors/selectors';
-import { TIngredient } from '../../services/types/data';
 
-type TOrderProps = {
-    order: any
-}
-export const Order: FunctionComponent<TOrderProps> = ({ order }: TOrderProps) => {
+export default function Order({ order }) {
     const location = useLocation();
     const ingregientsApi = useSelector(getApiIngredients);
-    const findCurrentIngredient = (item: string) => ingregientsApi.find(el => item === el._id)!;
-    const price = order.ingredients.reduce((price: number, current: string) => {
+    const findCurrentIngredient = (item) => ingregientsApi.find(el => item === el._id);
+    const price = order.ingredients.reduce((price, current) => {
         return price + findCurrentIngredient(current).price
     }, 0);
     const moment = require('moment'); // библиотека moment для даты
@@ -41,8 +38,8 @@ export const Order: FunctionComponent<TOrderProps> = ({ order }: TOrderProps) =>
                 {ingregientsApi.length ?
                     <div className={styles.pictures_container}>
                         {order.ingredients
-                            .map((item: string, index: number) => {
-                                const ingredient: TIngredient = ingregientsApi.find(el => item === el._id)!;
+                            .map((item, index) => {
+                                const ingredient = ingregientsApi.find(el => item === el._id);
                                 const pic = ingredient.image;
                                 const counter = order.ingredients.length - index;
                                 const reactKey = uuidv4(); 
@@ -89,9 +86,13 @@ export const Order: FunctionComponent<TOrderProps> = ({ order }: TOrderProps) =>
                     null}
                 <div className={styles.price_container}>
                     <p className="text text_type_main-medium pr-1">{price}</p>
-                    <CurrencyIcon type='primary' />
+                    <CurrencyIcon />
                 </div>
             </div>
         </Link>
     )
+}
+
+Order.propTypes = {
+    order: PropTypes.object.isRequired,
 }

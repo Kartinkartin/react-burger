@@ -1,12 +1,9 @@
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from './orders-list.module.css';
-import { Order } from '../order/order';
+import Order from '../order/order';
 
-type TOrderListProps = {
-    width: string, 
-    orders: Array<any>
-}
-export const OrdersList = ({ width, orders }: TOrderListProps) => {
+export default function OrdersList({ width, orders }) {
     useEffect(() => {}, [orders])
     if (orders.length) {
         return (
@@ -23,4 +20,9 @@ export const OrdersList = ({ width, orders }: TOrderListProps) => {
             </section>
         )
     }
+}
+
+OrdersList.propTypes = {
+    width: PropTypes.string,
+    orders: PropTypes.array.isRequired,
 }

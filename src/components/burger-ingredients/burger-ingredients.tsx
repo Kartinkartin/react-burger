@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, LegacyRef } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, LegacyRef } from "react";
 import styles from './menu-category.module.css';
 import { Ingredient } from "../ingredient/ingredient";
 import { TIngredient } from "../../services/types/data";

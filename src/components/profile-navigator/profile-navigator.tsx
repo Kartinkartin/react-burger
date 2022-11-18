@@ -5,9 +5,9 @@ import { logoutUser } from '../../services/actions';
 import styles from './profile-navigator.module.css';
 
 type TNavigatorProps = {
-    refreshToken: string
+    readonly refreshToken: string
 }
-export const ProfileNavigator = ({ refreshToken }: TNavigatorProps) => {
+export default function ProfileNavigator({ refreshToken }: TNavigatorProps) {
     const dispatch: any = useDispatch();
     const history = useHistory();
     const onLogoutClick = () => {
