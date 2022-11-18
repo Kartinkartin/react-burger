@@ -23,7 +23,7 @@ import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNu
 
 
 
-export default function BurgerConstructor() {
+export const BurgerConstructor = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const itemsMenu = useSelector(getApiIngredients);
