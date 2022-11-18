@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, FunctionComponent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
@@ -7,7 +7,7 @@ import { loginUser } from '../../services/actions';
 import { useForm } from '../../services/hooks/useForm';
 
 
-export const LoginPage = () => {
+export const LoginPage:FunctionComponent = () => {
     const dispatch: any = useDispatch();
     const history = useHistory();
     const {values, handleChange} = useForm({});
