@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import { logoutUser } from '../../services/actions';
@@ -7,7 +7,7 @@ import styles from './profile-navigator.module.css';
 type TNavigatorProps = {
     refreshToken: string
 }
-export const ProfileNavigator = ({ refreshToken }: TNavigatorProps) => {
+export const ProfileNavigator: FunctionComponent<TNavigatorProps> = ({ refreshToken }: TNavigatorProps) => {
     const dispatch: any = useDispatch();
     const history = useHistory();
     const onLogoutClick = () => {
