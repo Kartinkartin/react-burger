@@ -1,6 +1,5 @@
-import React, { useState, ChangeEvent, FormEvent, SyntheticEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, SyntheticEvent, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
@@ -11,7 +10,7 @@ import { getAccessToken } from '../../services/selectors/selectors';
 type TProfileProps = {
     userData: TLoginData
 }
-export default function FormProfile({ userData }: TProfileProps) {
+export const FormProfile: FunctionComponent<TProfileProps> = ({ userData }: TProfileProps) => {
     const dispatch: any = useDispatch();
     const {values, handleChange, setValues} = useForm({ name: userData.name, email: userData.email, password: '' });
     const [dirty, setDirty] = useState(false);
@@ -95,8 +94,4 @@ export default function FormProfile({ userData }: TProfileProps) {
             </div>
         </form>
     )
-}
-
-FormProfile.propTypes = {
-    userData: PropTypes.object.isRequired
 }
