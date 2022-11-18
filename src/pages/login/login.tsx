@@ -7,7 +7,7 @@ import { loginUser } from '../../services/actions';
 import { useForm } from '../../services/hooks/useForm';
 
 
-export const LoginPage:FunctionComponent = () => {
+export const LoginPage: FunctionComponent = () => {
     const dispatch: any = useDispatch();
     const history = useHistory();
     const {values, handleChange} = useForm({});
@@ -49,7 +49,7 @@ export const LoginPage:FunctionComponent = () => {
                                 size={'default'}
                                 value={values.password || ''}
                                 onChange={handleChange}
-                                icon={"EditIcon"}
+                                icon={"HideIcon"}
                             />
                         </div>
                         <Button

@@ -35,7 +35,7 @@ export const constructorItemsReducer = (state = {
                         ...state.counter,
                         [action.item._id]: 1
                     },
-                ingredientsConstructor: state.ingredientsConstructor.push(action.item),
+                ingredientsConstructor: state.ingredientsConstructor.concat([action.item]),
 
             }
         }
