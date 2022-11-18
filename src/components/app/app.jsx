@@ -27,7 +27,7 @@ import {
     getApiIngredients, 
     getError 
 } from '../../services/selectors/selectors';
-import OrdertDetail from '../order-detail/order-detail';
+import { OrdertDetail } from '../order-detail/order-detail';
 
 function App() {
     const history = useHistory();
