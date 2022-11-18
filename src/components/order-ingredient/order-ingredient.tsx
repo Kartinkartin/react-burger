@@ -1,13 +1,17 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from './order-ingredient.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getApiIngredients } from "../../services/selectors/selectors";
 
-export default function OrderIngredient({ id, counter }) {
+type TOrderIngredientProps = {
+    id: string, 
+    counter: number
+}
+export const OrderIngredient: FunctionComponent<TOrderIngredientProps> = ({ id, counter }: TOrderIngredientProps) => {
     const ingredientsApi = useSelector(getApiIngredients);
-    const currentIngredient = ingredientsApi.find(item => item._id === id);
+    const currentIngredient = ingredientsApi.find(item => item._id === id)!;
     const image = currentIngredient.image;
     return (
         <div className={`${styles.container}`} style={{ justifyContent: "space-between" }}>
@@ -24,7 +28,7 @@ export default function OrderIngredient({ id, counter }) {
                 <p className="text text_type_digits-default mr-2">
                     {`${counter} x ${currentIngredient.price}`}
                 </p>
-                <CurrencyIcon />
+                <CurrencyIcon type='primary' />
             </div>
         </div>
     )
