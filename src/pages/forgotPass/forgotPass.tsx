@@ -58,6 +58,5 @@ export const ForgotPassPage = () => {
                 </p>
             </div>
         </div>
-
     );
 }
