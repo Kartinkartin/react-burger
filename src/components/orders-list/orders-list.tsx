@@ -6,7 +6,7 @@ type TOrderListProps = {
     width: string, 
     orders: Array<any>
 }
-export const OrdersList = ({ width, orders }: TOrderListProps) => {
+export const OrdersList: FunctionComponent<TOrderListProps> = ({ width, orders }: TOrderListProps) => {
     useEffect(() => {}, [orders])
     if (orders.length) {
         return (
@@ -23,4 +23,5 @@ export const OrdersList = ({ width, orders }: TOrderListProps) => {
             </section>
         )
     }
+    return null
 }
