@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
-import { FormProfile } from '../../components/form-profile/form-profile';
+import FormProfile from '../../components/form-profile/form-profile';
 import { ProfileNavigator } from '../../components/profile-navigator/profile-navigator';
 import { getUserRequest } from '../../components/api/api';
 import { refreshUser } from '../../services/actions';
