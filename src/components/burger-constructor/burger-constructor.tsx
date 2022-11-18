@@ -8,7 +8,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css";
 import { LayerElement } from "../layer-element/layer-element";
-import Modal from '../modal/modal';
+import { Modal } from '../modal/modal';
 import { OrderInfo } from "../order-info/order-info";
 import {
     addIngredient,

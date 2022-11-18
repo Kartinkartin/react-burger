@@ -17,7 +17,7 @@ import {
     OrdersPage,
     OrderDetailPage
 } from "../../pages";
-import Modal from '../modal/modal';
+import { Modal } from '../modal/modal';
 import { IngredientDetail } from '../ingredient-detail/ingredient-detail';
 import { 
     deleteError,
