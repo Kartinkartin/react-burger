@@ -1,7 +1,7 @@
+import React, { FunctionComponent } from 'react';
 import { useDrag } from "react-dnd";
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './layer-element.module.css';
-import PropTypes from 'prop-types';
 
 type TLayerProps = {
     prod: {
@@ -15,7 +15,7 @@ type TLayerProps = {
     handleDrop: (e: any, index: number) => {}
 }
 
-export default function LayerElement({ prod, index, handleDelete, handleDrag, handleDrop }: TLayerProps) {
+export const LayerElement: FunctionComponent<TLayerProps> = ({ prod, index, handleDelete, handleDrag, handleDrop }: TLayerProps) => {
     const [{ opacity }, dragRef] = useDrag({
         type: 'item',
         item: prod,
@@ -39,12 +39,4 @@ export default function LayerElement({ prod, index, handleDelete, handleDrag, ha
             />
         </li>
     )
-}
-
-LayerElement.propTypes = {
-    prod: PropTypes.object.isRequired,
-    index: PropTypes.number.isRequired,
-    handleDelete: PropTypes.func.isRequired,
-    handleDrag: PropTypes.func.isRequired,
-    handleDrop: PropTypes.func.isRequired
 }
