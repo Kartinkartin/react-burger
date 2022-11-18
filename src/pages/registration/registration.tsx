@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './registration.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerUserRequest } from '../../components/api/api';
 import { useForm } from '../../services/hooks/useForm';
 
-export const RegistrationPage: FunctionComponent = () => {
+export const RegistrationPage = () => {
     const {values, handleChange} = useForm({});
     const [passIcon, setPassIcon] = useState('ShowIcon');
 

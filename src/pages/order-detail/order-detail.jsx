@@ -1,14 +1,14 @@
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styles from './order-detail.module.css';
-import { OrdertDetail } from '../../components/order-detail/order-detail';
+import OrdertDetail from '../../components/order-detail/order-detail';
 import { performActionWithRefreshedToken } from '../../services/actions';
 import { disconnectWs, startWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { getAccessToken } from '../../services/selectors/selectors';
 
-export const OrderDetailPage: FunctionComponent = () => {
-    const dispatch: any = useDispatch();
+export function OrderDetailPage() {
+    const dispatch = useDispatch();
     const location = useLocation();
     const accessToken = useSelector(getAccessToken);
     useEffect(() => {
