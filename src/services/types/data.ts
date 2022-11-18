@@ -11,6 +11,7 @@ export type TIngredient = {
     readonly "image_mobile": string,
     readonly "image_large": string,
     readonly "__v": 0,
+    key?: string
 }
 
 export type TUser = {

@@ -8,6 +8,7 @@ import { TLoginState } from '../reducers/login';
 import { TOrderNumState } from '../reducers/order';
 import { TSocketState } from '../websocket/reducers/socketReducer';
 import { TApplicationActions, TWsActions } from './actions';
+import { TIngredient } from './data';
 
 export type TLoginData = {
     name:  string,
@@ -29,6 +30,7 @@ export type TLocationState = {
         pathname: string
     }
 }
+
 
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
 export type AppDispatch = Dispatch<TApplicationActions>

@@ -2,17 +2,14 @@ import React, { FunctionComponent } from 'react';
 import { useDrag } from "react-dnd";
 import { DragIcon, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './layer-element.module.css';
+import { TIngredient } from '../../services/types/data';
 
 type TLayerProps = {
-    prod: {
-        name: string,
-        price: number,
-        image: string
-    }, 
+    prod: TIngredient, 
     index: number, 
-    handleDelete: (e: any, index: number) => {}, 
-    handleDrag: (index: number) => {}, 
-    handleDrop: (e: any, index: number) => {}
+    handleDelete: (e: any, index: number) => void, 
+    handleDrag: (index: number) => void, 
+    handleDrop: (e: any, index: number) => void
 }
 
 export const LayerElement: FunctionComponent<TLayerProps> = ({ prod, index, handleDelete, handleDrag, handleDrop }: TLayerProps) => {

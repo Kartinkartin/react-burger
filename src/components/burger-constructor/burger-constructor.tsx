@@ -20,54 +20,55 @@ import {
     sortIngredients
 } from "../../services/actions";
 import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
+import { TIngredient } from "../../services/types/data";
 
 
 
-export default function BurgerConstructor() {
+export const BurgerConstructor: FunctionComponent = () => {
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     const itemsMenu = useSelector(getApiIngredients);
     const ingredientsConstructor = useSelector(getConstructorIngedients);
     const orderNum = useSelector(getOrderNum);
     const accessToken = useSelector(getAccessToken);
-    const [bunEl, setBunEl] = useState(null);
+    const [bunEl, setBunEl] = useState<TIngredient | null>(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
     const [droppedIndex, setDroppedIndex] = useState(null);
     const [draggedIndex, setDraggedIndex] = useState(null);
-    const [openingOrder, setOpeningOrder] = React.useState(false);
+    const [openingOrder, setOpeningOrder] = useState(false);
     const wasLogged = document.cookie.includes('refreshToken');
 
-    const handleDrag = (draggedTargetIndex) => {
+    const handleDrag = (draggedTargetIndex: any) => {
         setIsSort(true);
         setDraggedIndex(draggedTargetIndex)
     };
-    const handleDrop = (e, droppedTargetIndex) => {
+    const handleDrop = (e: { preventDefault: () => void; }, droppedTargetIndex: any) => {
         e.preventDefault();
         setDroppedIndex(droppedTargetIndex)
     };
 
     const [, targetDrop] = useDrop({
         accept: 'item',
-        drop(item) {
+        drop(item: TIngredient) {
             if (isSort) sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
             else {
                 const key = uuidv4();
                 item.type === 'bun' ?
-                    dispatch(addOrChangeBun(item)) :
+                    dispatch(addOrChangeBun(item, key)) :
                     dispatch(addIngredient({...item, key: key}))
             };
 
         }
     })
 
-    const sortIngredientsInConstructor = (item, droppedIndex, draggedIndex) => {
+    const sortIngredientsInConstructor = (item: TIngredient, droppedIndex: any, draggedIndex: any) => {
         dispatch(sortIngredients(item, droppedIndex, draggedIndex));
         setIsSort(false);
         setDraggedIndex(null);
         setDroppedIndex(null);
     };
-    const handleDeleteItem = (e, index) => {
+    const handleDeleteItem = (e: any, index: number) => {
         const id = notBunsIngredients[index]._id;
         const item = notBunsIngredients.splice(index, 1)[0]; // изменяет notBunsIngredients
         dispatch(deleteIngredient(notBunsIngredients, id))
