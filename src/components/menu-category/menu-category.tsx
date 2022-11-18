@@ -1,9 +1,9 @@
-import React, { useMemo, FunctionComponent } from "react";
+import React, { useMemo } from "react";
 import styles from './menu-category.module.css';
 import { Ingredient } from "../ingredient/ingredient";
 import { TIngredient } from "../../services/types/data";
 
-type TCategoryProps = { 
+type TCategoryProps ={ 
     cards: Array<TIngredient>, 
     type: string, 
     refer: any, 
@@ -14,7 +14,7 @@ const types: {[name: string]: string} = {
     'sauce': 'Соусы',
     'main': 'Начинки'
 }
-export const MenuCategory: FunctionComponent<TCategoryProps> = ({ cards, type, refer, headerKey }: TCategoryProps) => {
+export default function MenuCategory({ cards, type, refer, headerKey }: TCategoryProps) {
     const typeArray = useMemo(() => { return cards.filter(prod => prod.type === type) }, [cards, type])
     return (
         <>

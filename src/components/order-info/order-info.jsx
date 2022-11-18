@@ -1,12 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./order-info.module.css";
 import doneImage from '../../images/done.jpg';
 
-type TOrderInfoProps = {
-    number: string
-}
-export const OrderInfo: FunctionComponent<TOrderInfoProps> = ({ number }: TOrderInfoProps) => {
+export default function OrderInfo({ number }) {
     return (
         <>
             <p className={`${styles.number} text text_type_digits-large pb-8`}>
