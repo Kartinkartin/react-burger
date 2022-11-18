@@ -24,7 +24,6 @@ export const ForgotPassPage: FunctionComponent = () => {
     }
 
     return (
-
         <div className={styles.main}>
             <div className={styles.container}>
                 <h1 className={`${styles.header} text text_type_main-medium`}>

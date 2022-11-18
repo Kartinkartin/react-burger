@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
@@ -9,11 +9,11 @@ import { getAccessToken, getWSOrders } from '../../services/selectors/selectors'
 import { disconnectWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { performActionWithRefreshedToken } from '../../services/actions';
 
-export const OrdersPage = () => {
+export const OrdersPage: FunctionComponent = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ?
         getCookie('refreshToken') : '';
