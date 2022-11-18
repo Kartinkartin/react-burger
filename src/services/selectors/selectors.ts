@@ -1,4 +1,3 @@
-import { TIngredientsState } from "../reducers/ingredientsApi";
 import { TStore } from "../types";
 
 export const getApiIngredients = (store: TStore) => store.ingredientsApi;
