@@ -1,28 +1,24 @@
-import React, { useState, ChangeEvent, FormEvent, SyntheticEvent } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
 import { useForm } from '../../services/hooks/useForm';
-import { TLoginData } from '../../services/types';
-import { getAccessToken } from '../../services/selectors/selectors';
 
-type TProfileProps = {
-    userData: TLoginData
-}
-export default function FormProfile({ userData }: TProfileProps) {
-    const dispatch: any = useDispatch();
+
+export default function FormProfile({ userData }) {
+    const dispatch = useDispatch();
     const {values, handleChange, setValues} = useForm({ name: userData.name, email: userData.email, password: '' });
     const [dirty, setDirty] = useState(false);
-    const token = useSelector(getAccessToken);
+    const token = useSelector(store => store.login.token);
 
-    const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChange = (e) => {
         handleChange(e);
         if (!dirty) setDirty(true);
     }
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         const newData = {
             ...values
@@ -32,7 +28,7 @@ export default function FormProfile({ userData }: TProfileProps) {
         setDirty(false)
     }
 
-    const handleReset = (e: SyntheticEvent) => {
+    const handleReset = (e) => {
         e.preventDefault();
         setValues({name: userData.name, email: userData.email, password: ''});
     
@@ -62,7 +58,8 @@ export default function FormProfile({ userData }: TProfileProps) {
                     size={'default'}
                     value={values.email}
                     onChange={onChange}
-                    isIcon={false}
+                    icon={'EditIcon'}
+                    onIconClick={onIconClick}
                 />
             </div>
             <div className={`${styles.input_container} pb-6`}>

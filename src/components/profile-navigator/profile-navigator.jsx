@@ -1,14 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import { logoutUser } from '../../services/actions';
 import styles from './profile-navigator.module.css';
 
-type TNavigatorProps = {
-    readonly refreshToken: string
-}
-export default function ProfileNavigator({ refreshToken }: TNavigatorProps) {
-    const dispatch: any = useDispatch();
+export default function ProfileNavigator({ refreshToken }) {
+    const dispatch = useDispatch();
     const history = useHistory();
     const onLogoutClick = () => {
         dispatch(logoutUser(refreshToken, history))
@@ -43,4 +41,8 @@ export default function ProfileNavigator({ refreshToken }: TNavigatorProps) {
             </p>
         </nav>
     )
+}
+
+ProfileNavigator.propTypes = {
+    refreshToken: PropTypes.string.isRequired,
 }
