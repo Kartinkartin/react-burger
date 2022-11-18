@@ -8,7 +8,7 @@ import {
 } from "../../components/api/api";
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { TIngredient } from "../types/data";
-import { AppDispatch, TChangeUserData, TLoginData } from "../types";
+import { AppDispatch, TChangeUserData } from "../types";
 import {
     addIngredientAction,
     addOrChangeBunAction,

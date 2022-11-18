@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
 import FormProfile from '../../components/form-profile/form-profile';
-import ProfileNavigator from '../../components/profile-navigator/profile-navigator';
+import { ProfileNavigator } from '../../components/profile-navigator/profile-navigator';
 import { getUserRequest } from '../../components/api/api';
 import { refreshUser } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie'; 
@@ -36,7 +36,7 @@ export const ProfilePage: FunctionComponent = () => {
         <>
             { user && 
             (<div className={styles.main}>
-                <ProfileNavigator refreshToken={refreshToken} />
+                <ProfileNavigator refreshToken={ refreshToken } />
                 <FormProfile userData={ user }  />
             </div>)
             }
