@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import styles from './order-statistics.module.css';
 import { useSelector } from 'react-redux';
 import { getTodayDone, getTotalDone, getWSOrders } from '../../services/selectors/selectors';
 
-export const OrderStatistics: FunctionComponent = () => {
+export default function OrderStatistics() {
     const orders = useSelector(getWSOrders);
     const total = useSelector(getTotalDone);
     const totalToday = useSelector(getTodayDone);
