@@ -1,4 +1,4 @@
-import React, { useRef, FunctionComponent } from "react";
+import React, { useRef, FunctionComponent, RefObject } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
@@ -10,26 +10,26 @@ export const BurgerIngredients: FunctionComponent = () => {
     const items = useSelector(getApiIngredients); // загрузка в App
     
     const [current, setCurrent] = React.useState('bun');
-    const containerRef: any = useRef();
-    const bunRef: any = useRef();
-    const mainRef: any = useRef();
-    const sauceRef: any = useRef();
+    const containerRef = useRef<HTMLInputElement>(null);
+    const bunRef = useRef<HTMLInputElement>(null);
+    const mainRef = useRef<HTMLInputElement>(null);
+    const sauceRef = useRef<HTMLInputElement>(null);
 
     const hightlightTab = () => {
         const refs = [bunRef, mainRef, sauceRef];
-        const positions: any = refs.map((item: any) => {
-            return Math.abs(item.current.getBoundingClientRect().top - containerRef.current.getBoundingClientRect().top)
+        const positions: Array<number> = refs.map((item: RefObject<HTMLInputElement>) => {
+            return Math.abs(item.current!.getBoundingClientRect().top - containerRef.current!.getBoundingClientRect().top)
         })
         const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
-        const currentSection = currentTabRef.current.dataset.type; 
+        const currentSection: any = currentTabRef.current!.dataset.type; 
         // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
         setCurrent(currentSection)
     }
     const handlerScroll = (value: string) => {
         setCurrent(value);
-        if (value === 'bun') { bunRef.current.scrollIntoView() }
-        else if (value === 'sauce') { sauceRef.current.scrollIntoView() }
-        else { mainRef.current.scrollIntoView() }
+        if (value === 'bun') { bunRef.current!.scrollIntoView() }
+        else if (value === 'sauce') { sauceRef.current!.scrollIntoView() }
+        else { mainRef.current!.scrollIntoView() }
     }
 
     return (
