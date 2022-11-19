@@ -26,8 +26,8 @@ import { type } from "os";
 // типизация App actions 
 export type TSetErrorAction = {
     readonly type: typeof ERROR_SET,
-    readonly code: any,
-    readonly message: string
+    readonly code: string,
+    readonly message?: string
 }
 export type TResetErrorAction = {
     readonly type: typeof ERROR_RESET

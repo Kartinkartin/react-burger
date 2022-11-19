@@ -48,7 +48,7 @@ import { TIngredient, TUser } from "../types/data";
 import { TChangeUserData } from "../types";
 
 
-export const setErrorAction = (code: any, message: string): TSetErrorAction => ({
+export const setErrorAction = (code: string, message: string): TSetErrorAction => ({
     type: ERROR_SET,
     code: code,
     message: message

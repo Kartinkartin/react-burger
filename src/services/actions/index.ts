@@ -110,8 +110,8 @@ export const loginUser = (loginData: {[name: string]: string}, history: any) => 
             .catch(err => {
                 console.log(err[0])
                 err[1]
-                    .then((res: object & { massage: string }) => {
-                        dispatch(setErrorAction(err[0], res.massage))
+                    .then((res: object & { message: string }) => {
+                        dispatch(setErrorAction(err[0], res.message))
                     })
             })
     }

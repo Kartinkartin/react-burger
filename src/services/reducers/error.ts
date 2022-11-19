@@ -17,7 +17,7 @@ export const errorReducer = (state = initialState, action: TErrorActions) => {
             return {
                 ...state,
                 code: action.code,
-                message: action.message
+                message: '' || action.message
             }
         }
         case ERROR_RESET: {
