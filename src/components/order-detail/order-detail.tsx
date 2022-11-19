@@ -12,7 +12,7 @@ export const OrdertDetail: FunctionComponent = () => {
     const orders = useSelector(getWSOrders);
     const currentOrder = orders.find(item => item._id === id);
     const ingredientsList = currentOrder ? currentOrder.ingredients.filter(
-        (item: TIngredient, index: number) => currentOrder.ingredients.indexOf(item) === index
+        (item: string, index: number) => currentOrder.ingredients.indexOf(item) === index
     ) : null;
     const ingredientsApi = useSelector(getApiIngredients);
     if (currentOrder) {
@@ -29,18 +29,18 @@ export const OrdertDetail: FunctionComponent = () => {
         ingredientsList && ingredientsApi && (
             <div className={styles.container}>
                 <h2 className={`${styles.number} text text_type_digits-default pb-10`}>
-                    {`#${currentOrder.number}`}
+                    {`#${currentOrder!.number}`}
                 </h2>
                 <h1 className='text text_type_main-medium pb-3'>
-                    {currentOrder.name}
+                    {currentOrder!.name}
                 </h1>
                 <p className={`${styles.status} text text_type_main-default`}>
-                    {currentOrder.status === 'done' ? <>Выполнен</> : <>В работе</>}
+                    {currentOrder!.status === 'done' ? <>Выполнен</> : <>В работе</>}
                 </p>
                 <p className='text text_type_main-medium pt-15 pb-6'>Состав:</p>
                 <div className={`${styles.ingredients} pr-6`}>
                     {ingredientsList.map((item: string) => {
-                        const counter = currentOrder.ingredients.filter((el: string) => el === item).length;
+                        const counter = currentOrder!.ingredients.filter((el: string) => el === item).length;
                         return (
                             <OrderIngredient
                                 id={item}

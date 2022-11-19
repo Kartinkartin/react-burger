@@ -1,4 +1,5 @@
 import { TWsActions } from "../../types/actions";
+import { TOrderApi } from "../../types/data";
 import {
     WS_CONNECTION_SUCCESS,
     WS_CONNECTION_ERROR,
@@ -8,10 +9,10 @@ import {
 
 export type TSocketState = {
     wsConnected: boolean,
-    orders: Array<any>,
+    orders: Array<TOrderApi>,
     total: null | number,
     totalToday: null | number,
-    error: undefined
+    error: undefined,
 }
 const initialState: TSocketState = {
     wsConnected: false,

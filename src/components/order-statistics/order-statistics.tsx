@@ -45,7 +45,7 @@ export const OrderStatistics: FunctionComponent = () => {
                                     className={`${styles.ready_num} text text_type_digits-default pb-2`}
                                     style={{ color: '#F2F2F3' }}
                                     key={order._id}>
-                                    {order.num}
+                                    {order.number}
                                 </p>
                             )
                         })}

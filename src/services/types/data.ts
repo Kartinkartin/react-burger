@@ -13,6 +13,15 @@ export type TIngredient = {
     readonly "__v": 0,
     key?: string
 }
+export type TOrderApi = {
+    _id: string,
+    ingredients: Array<string>,
+    status: string,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    number: number
+}
 
 export type TUser = {
     readonly name: string,
