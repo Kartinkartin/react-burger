@@ -1,10 +1,17 @@
-function checkRes(res) {
+import { TChangeUserData, TLoginData } from "../../services/types";
+
+type TOptions = { 
+  headers: { authorization?: string; 'Content-Type': string; }; 
+  method?: string; 
+  body?: string; 
+}
+function checkRes(res: any) {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject([`Ошибка ${res.status}`, res.json()]);
 }
-function request(url, options) {
+function request(url: string, options: TOptions) {
   return (fetch(url, options)
   .then(checkRes))
 }
@@ -26,7 +33,7 @@ export function getCardsRequest() {
 }
 
 // отправка заказа на сервер
-export function postOrderRequest(orderListId, token) {
+export function postOrderRequest(orderListId: Array<string>, token: string) {
   const order = { ingredients: orderListId };
   return request(`${config.baseUrl}/orders`, {
     headers: {
@@ -39,7 +46,7 @@ export function postOrderRequest(orderListId, token) {
 }
 
 // сброс пароля
-export function resetPassRequest(email) {
+export function resetPassRequest(email: string) {
   return request(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
@@ -50,7 +57,7 @@ export function resetPassRequest(email) {
 }
 
 // создание нового пароля
-export function newPassRequest(newPassData) {
+export function newPassRequest(newPassData: { [name: string]: string; }) {
   return request(`${config.baseUrl}/password-reset/reset`, {
     headers: config.headers,
     method: 'POST',
@@ -59,7 +66,7 @@ export function newPassRequest(newPassData) {
 }
 
 // регистрация нового пользователя
-export function registerUserRequest(userData) {
+export function registerUserRequest(userData: { [name: string]: string; }) {
   return request(`${config.baseUrl}/auth/register`, {
     headers: config.headers,
     method: 'POST',
@@ -68,7 +75,7 @@ export function registerUserRequest(userData) {
 }
 
 // авторизация пользователя
-export function loginUserRequest(loginData) {
+export function loginUserRequest(loginData: { [name: string]: string; }) {
   return request(`${config.baseUrl}/auth/login`, {
     headers: config.headers,
     method: 'POST',
@@ -77,7 +84,7 @@ export function loginUserRequest(loginData) {
 }
 
 // выход из аккаунта
-export function logoutUserRequest(logoutData) {
+export function logoutUserRequest(logoutData: { token: string; }) {
   return request(`${config.baseUrl}/auth/logout`, {
     headers: config.headers,
     method: 'POST',
@@ -86,7 +93,7 @@ export function logoutUserRequest(logoutData) {
 }
 
 // обновление токена
-export function refreshTokenRequest(tokenData) {
+export function refreshTokenRequest(tokenData: { token: string; }) {
   return request(`${config.baseUrl}/auth/token`, {
     headers: config.headers,
     method: 'POST',
@@ -95,7 +102,7 @@ export function refreshTokenRequest(tokenData) {
 }
 
 // получение информации профиля пользователя
-export function getUserRequest(token) {
+export function getUserRequest(token: string) {
   return request(`${config.baseUrl}/auth/user`, {
     headers: {
       ...config.headers,
@@ -106,7 +113,7 @@ export function getUserRequest(token) {
 }
 
 // изменение данных профиля пользователя, пароль тоже меняется
-export function changeUserDataRequest(token, userData) {
+export function changeUserDataRequest(token: string, userData: TChangeUserData) {
   return request(`${config.baseUrl}/auth/user`, {
     headers: {
       ...config.headers,
