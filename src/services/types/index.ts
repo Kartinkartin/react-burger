@@ -26,7 +26,10 @@ export type TStore = {
     constructorItems: TConstructorState
 }
 export type TLocationState = {
-    from: {
+    from?: {
+        pathname: string
+    }
+    background?: {
         pathname: string
     }
 }

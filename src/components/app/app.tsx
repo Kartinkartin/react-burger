@@ -28,16 +28,17 @@ import {
     getError 
 } from '../../services/selectors/selectors';
 import { OrdertDetail } from '../order-detail/order-detail';
+import { TLocationState } from '../../services/types';
 
 function App() {
     const history = useHistory();
-    const location = useLocation();
+    const location = useLocation<TLocationState | any>();
     let background = location.state?.background; // для модального окна с ингредиентом
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     const error = useSelector(getError);
     const ingredientsApi = useSelector(getApiIngredients)
 
-    function closeDetailModal(background) {
+    function closeDetailModal(background: { pathname: string; }) {
         history.replace({ pathname: background.pathname })
     }
     function closeErrorModal() {
@@ -101,7 +102,7 @@ function App() {
                         children={
                             <Modal
                                 title='Детали заказа'
-                                onClose={() => closeDetailModal(background)}>
+                                onClose={() => closeDetailModal(background!)}>
                                 <IngredientDetail />
                             </Modal>
                         }
@@ -110,7 +111,7 @@ function App() {
                         path={`${background.pathname}/:id`}
                         children={
                             <Modal
-                                onClose={() => closeDetailModal(background)}>
+                                onClose={() => closeDetailModal(background!)}>
                                 <OrdertDetail />
                             </Modal>
                         }

@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { useLocation, Route, Redirect } from 'react-router-dom';
 
 type TRouteProps = {
-  loggedUser:boolean, 
+  path: string,
+  exact: boolean,
+  loggedUser?: boolean, 
   children: any, 
-  rest: any
 }
-export const ProtectedRoute = ({ loggedUser = false, children, ...rest }: TRouteProps) => {
+export const ProtectedRoute: FunctionComponent<TRouteProps> = ({ loggedUser = false, children, ...rest }: TRouteProps) => {
   const location = useLocation();
   const wasLogged = document.cookie.includes('refreshToken');
   /* защита роутинга для страниц входа, регистрации, восстановления пароля  */
