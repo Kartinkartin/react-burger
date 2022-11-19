@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { Dispatch } from 'redux';
 import { TConstructorState } from '../reducers/constructorItems';
 import { TErrorState } from '../reducers/error';
@@ -8,7 +7,6 @@ import { TLoginState } from '../reducers/login';
 import { TOrderNumState } from '../reducers/order';
 import { TSocketState } from '../websocket/reducers/socketReducer';
 import { TApplicationActions, TWsActions } from './actions';
-import { TIngredient } from './data';
 
 export type TLoginData = {
     name:  string,

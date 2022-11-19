@@ -21,12 +21,13 @@ import {
 } from "../../services/actions";
 import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
 import { TIngredient } from "../../services/types/data";
+import { AppDispatch } from "../../services/types";
 
 
 
 export const BurgerConstructor: FunctionComponent = () => {
     const history = useHistory();
-    const dispatch: any = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const itemsMenu = useSelector(getApiIngredients);
     const ingredientsConstructor = useSelector(getConstructorIngedients);
     const orderNum = useSelector(getOrderNum);
@@ -55,15 +56,15 @@ export const BurgerConstructor: FunctionComponent = () => {
             else {
                 const key = uuidv4();
                 item.type === 'bun' ?
-                    dispatch(addOrChangeBun(item, key)) :
-                    dispatch(addIngredient({...item, key: key}))
+                    addOrChangeBun(item, key)(dispatch) :
+                    addIngredient({...item, key: key})(dispatch)
             };
 
         }
     })
 
     const sortIngredientsInConstructor = (item: TIngredient, droppedIndex: any, draggedIndex: any) => {
-        dispatch(sortIngredients(item, droppedIndex, draggedIndex));
+        sortIngredients(item, droppedIndex, draggedIndex)(dispatch);
         setIsSort(false);
         setDraggedIndex(null);
         setDroppedIndex(null);
@@ -71,12 +72,12 @@ export const BurgerConstructor: FunctionComponent = () => {
     const handleDeleteItem = (e: any, index: number) => {
         const id = notBunsIngredients[index]._id;
         const item = notBunsIngredients.splice(index, 1)[0]; // изменяет notBunsIngredients
-        dispatch(deleteIngredient(notBunsIngredients, id))
+        deleteIngredient(notBunsIngredients, id)(dispatch)
     };
 
     const makeOrder = () => {
         if (wasLogged) {
-            dispatch(performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor))
+            performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor)(dispatch)
             setOpeningOrder(true);
         }
         else {
@@ -85,7 +86,7 @@ export const BurgerConstructor: FunctionComponent = () => {
     }
     function closePopup() {
         setOpeningOrder(false);
-        dispatch(resetOrderNum())
+        resetOrderNum()(dispatch)
     }
 
     useEffect(() => {

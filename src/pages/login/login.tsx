@@ -5,10 +5,11 @@ import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../../services/actions';
 import { useForm } from '../../services/hooks/useForm';
+import { AppDispatch } from '../../services/types';
 
 
 export const LoginPage: FunctionComponent = () => {
-    const dispatch: any = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const history = useHistory();
     const {values, handleChange} = useForm({});
     const loginData = {
@@ -20,7 +21,7 @@ export const LoginPage: FunctionComponent = () => {
         e.preventDefault();
         loginData.email = values.email;
         loginData.password = values.password;
-        dispatch(loginUser(values, history));
+        loginUser(values, history)(dispatch);
     }
 
     return (

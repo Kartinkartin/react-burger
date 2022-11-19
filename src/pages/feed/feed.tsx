@@ -5,14 +5,15 @@ import { OrdersList } from '../../components/orders-list/orders-list';
 import { OrderStatistics } from '../../components/order-statistics/order-statistics';
 import { getWSOrders } from '../../services/selectors/selectors';
 import { disconnectWs, startWs } from '../../services/websocket/actions';
+import { WsDispatch } from '../../services/types';
 
 export const FeedPage: FunctionComponent = () => {
-    const dispatch: any = useDispatch();
+    const dispatch: WsDispatch = useDispatch();
     const data = useSelector(getWSOrders);
     useEffect(() => {
-        dispatch(startWs())
+        startWs()(dispatch)
         return(() => {
-            dispatch(disconnectWs()) // socket.close()
+            disconnectWs()(dispatch) // socket.close()
         })
     }, [dispatch])
     return (

@@ -1,4 +1,4 @@
-import React, { useMemo, FunctionComponent } from "react";
+import React, { useMemo, FunctionComponent, RefObject } from "react";
 import styles from './menu-category.module.css';
 import { Ingredient } from "../ingredient/ingredient";
 import { TIngredient } from "../../services/types/data";
@@ -6,7 +6,7 @@ import { TIngredient } from "../../services/types/data";
 type TCategoryProps = { 
     cards: Array<TIngredient>, 
     type: string, 
-    refer: any, 
+    refer: RefObject<HTMLInputElement>, 
     headerKey: string
 }
 const types: {[name: string]: string} = {
