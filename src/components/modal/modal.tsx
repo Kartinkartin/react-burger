@@ -6,7 +6,7 @@ import { ModalOverlay } from "../modal-overlay/modal-overlay";
 type TModalProps = {
     title?: string,
     children: any, 
-    onClose: any
+    onClose: () => void
 }
 export const Modal: FunctionComponent<TModalProps> = ({ title = '', children, onClose }: TModalProps) => {
     const [isOpen, setIsOpen] = React.useState(true);

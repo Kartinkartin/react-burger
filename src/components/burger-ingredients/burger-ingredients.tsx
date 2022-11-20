@@ -1,4 +1,4 @@
-import React, { useRef, FunctionComponent, RefObject } from "react";
+import React, { useState, useRef, FunctionComponent, RefObject } from "react";
 import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
@@ -9,7 +9,7 @@ import { getApiIngredients } from "../../services/selectors/selectors";
 export const BurgerIngredients: FunctionComponent = () => {
     const items = useSelector(getApiIngredients); // загрузка в App
     
-    const [current, setCurrent] = React.useState('bun');
+    const [current, setCurrent] = useState<string | undefined>('bun');
     const containerRef = useRef<HTMLInputElement>(null);
     const bunRef = useRef<HTMLInputElement>(null);
     const mainRef = useRef<HTMLInputElement>(null);
@@ -21,7 +21,7 @@ export const BurgerIngredients: FunctionComponent = () => {
             return Math.abs(item.current!.getBoundingClientRect().top - containerRef.current!.getBoundingClientRect().top)
         })
         const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];
-        const currentSection: any = currentTabRef.current!.dataset.type; 
+        const currentSection = currentTabRef.current!.dataset.type; 
         // dataset.type - чтение атрибута data-type, см. MenuCategory -> h2.data-type (так и называется data-* атрибуты)
         setCurrent(currentSection)
     }
