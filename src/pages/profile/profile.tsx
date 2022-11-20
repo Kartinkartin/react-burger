@@ -8,12 +8,13 @@ import { getUserRequest } from '../../components/api/api';
 import { refreshUser } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie'; 
 import { getAccessToken } from '../../services/selectors/selectors';
+import { AppDispatch } from '../../services/types';
 
 export const ProfilePage: FunctionComponent = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
-    const dispatch: any = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
@@ -27,7 +28,7 @@ export const ProfilePage: FunctionComponent = () => {
                 if(data.current) setUser(data.current)
             })
         .catch(err => {
-            dispatch(refreshUser(refreshToken))
+            refreshUser(refreshToken)(dispatch)
         })
     }, [data, accessToken, dispatch, history, location, isLogin, refreshToken])
     

@@ -28,13 +28,13 @@ import {
     getError 
 } from '../../services/selectors/selectors';
 import { OrdertDetail } from '../order-detail/order-detail';
-import { TLocationState } from '../../services/types';
+import { AppDispatch, TLocationState } from '../../services/types';
 
 function App() {
     const history = useHistory();
     const location = useLocation<TLocationState | any>();
     let background = location.state?.background; // для модального окна с ингредиентом
-    const dispatch: any = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const error = useSelector(getError);
     const ingredientsApi = useSelector(getApiIngredients)
 
@@ -42,12 +42,12 @@ function App() {
         history.replace({ pathname: background.pathname })
     }
     function closeErrorModal() {
-        dispatch(deleteError())
+        deleteError()(dispatch)
     }
 
     useEffect(() => {
         if(!ingredientsApi.length) {
-            dispatch(getApiItems()); // получение всех возможных ингредиентов
+            getApiItems()(dispatch); // получение всех возможных ингредиентов
         }
     }, [dispatch, ingredientsApi])
 

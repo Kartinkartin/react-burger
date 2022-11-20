@@ -4,14 +4,14 @@ import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
 import { useForm } from '../../services/hooks/useForm';
-import { TLoginData } from '../../services/types';
+import { AppDispatch, TLoginData } from '../../services/types';
 import { getAccessToken } from '../../services/selectors/selectors';
 
 type TProfileProps = {
     userData: TLoginData
 }
 export const FormProfile: FunctionComponent<TProfileProps> = ({ userData }: TProfileProps) => {
-    const dispatch: any = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const {values, handleChange, setValues} = useForm({ name: userData.name, email: userData.email, password: '' });
     const [dirty, setDirty] = useState(false);
     const token = useSelector(getAccessToken);
@@ -27,7 +27,7 @@ export const FormProfile: FunctionComponent<TProfileProps> = ({ userData }: TPro
             ...values
         };
 
-        dispatch(changeUserData(token, newData));
+        changeUserData(token, newData)(dispatch);
         setDirty(false)
     }
 

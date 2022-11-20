@@ -187,13 +187,13 @@ export const deleteError = () => (dispatch: AppDispatch) => {
 export const performActionWithRefreshedToken = (accessToken: string, action: any, ...args: any) => {
     const tokenLifeTime: number = 20 * 60 * 1000; // 20 min
     const tokenDate = new Date(getCookie('date')).getTime();
-    return function (dispatch: any) {
+    return function (dispatch: AppDispatch) {
         if ((new Date().getTime() - tokenDate < tokenLifeTime) && accessToken) {
             dispatch(action(...args, accessToken));
         }
         if ((new Date().getTime() - tokenDate > tokenLifeTime) || !accessToken) {
             const refreshToken = getCookie('refreshToken');
-            dispatch(refreshUser(refreshToken))
+            refreshUser(refreshToken)(dispatch)
                 .then((accessToken: string) => dispatch(action(...args, accessToken)))
         }
     }

@@ -8,12 +8,13 @@ import { OrdersList } from '../../components/orders-list/orders-list';
 import { getAccessToken, getWSOrders } from '../../services/selectors/selectors';
 import { disconnectWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { performActionWithRefreshedToken } from '../../services/actions';
+import { AppDispatch } from '../../services/types';
 
 export const OrdersPage: FunctionComponent = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
-    const dispatch: any = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ?
         getCookie('refreshToken') : '';
@@ -22,10 +23,10 @@ export const OrdersPage: FunctionComponent = () => {
     useEffect(() => {
         if (!isLogin) history.replace({ pathname: '/login', state: { from: location.pathname } })
 
-        dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute,))
+        performActionWithRefreshedToken(accessToken, startWsProtectedRoute,)(dispatch)
 
         return (() => {
-            dispatch(disconnectWs())
+            disconnectWs()(dispatch)
         })
 }, [dispatch, isLogin, history, location, accessToken])
 
