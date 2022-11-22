@@ -8,7 +8,7 @@ import {
 } from "../../components/api/api";
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { TIngredient } from "../types/data";
-import { AppDispatch, TChangeUserData } from "../types";
+import { AppDispatch, AppThunk, TChangeUserData } from "../types";
 import {
     addIngredientAction,
     addOrChangeBunAction,
@@ -30,7 +30,7 @@ import {
     setUserAction,
     sortIngredientsAction
 } from "./actions";
-import { TApplicationActions } from "../types/actions";
+import { TFeedActions } from "../types/actions";
 
 
 // action creator для получения всего набора, см. ConstructorPage
@@ -95,7 +95,7 @@ export const postOrder = (orderList: Array<TIngredient>, token: string) => {
 
 export const loginUser = (loginData: {[name: string]: string}, history: any): any  => {
     let accessToken;
-    return function (dispatch: AppDispatch): TApplicationActions | void {
+    return function (dispatch: AppDispatch): TFeedActions | void {
         loginUserRequest(loginData)
             .then(res => {
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
@@ -176,7 +176,7 @@ export const changeUserData = (token: string, newData: TChangeUserData) => {
     }
 }
 
-export const deleteError = () => (dispatch: AppDispatch): any => {
+export const deleteError = () => (dispatch: AppDispatch) => {
     dispatch(resetErrorAction())
 }
 

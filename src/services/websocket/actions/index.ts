@@ -1,4 +1,4 @@
-import { WsDispatch } from "../../types"
+import { AppThunk, WsDispatch } from "../../types"
 import { TDisconnectWsAction, TStartWsAction } from "../../types/actions"
 import { WS_CONNECTION_DISCONNECT, WS_CONNECTION_START } from "./wsActionTypes"
 

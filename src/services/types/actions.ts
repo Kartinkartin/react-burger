@@ -113,7 +113,7 @@ export type TConstructorActions = TAddIngredientAction | TAddOrChangeBunAction |
 export type TOrderNumActions = TPostItemsSuccessAction | TPostItemsFailedAction | TResetOrderNumAction;
 //юнион тип для номера заказа. См. reducers/order.ts
 
-export type TApplicationActions = TConstructorActions | TErrorActions | TLoadingActions | TGetApiItemsActions | TUserActions | TOrderNumActions;
+export type TFeedActions = TConstructorActions | TErrorActions | TLoadingActions | TGetApiItemsActions | TUserActions | TOrderNumActions;
 
 
 //типизация webSocket actions

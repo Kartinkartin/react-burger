@@ -9,7 +9,7 @@ import { TLoadingState } from '../reducers/loading';
 import { TLoginState } from '../reducers/login';
 import { TOrderNumState } from '../reducers/order';
 import { TSocketState } from '../websocket/reducers/socketReducer';
-import { TApplicationActions, TWsActions } from './actions';
+import { TFeedActions, TWsActions } from './actions';
 
 export type TLoginData = {
     name:  string,
@@ -37,5 +37,11 @@ export type TLocationState = {
 
 
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
-export type AppDispatch = Dispatch<TApplicationActions>
+export type AppDispatch = Dispatch<TFeedActions>
 export type WsDispatch = Dispatch<TWsActions>
+
+export type RootState = ReturnType<typeof store.getState>;
+export type TApplicationActions = TFeedActions | TWsActions
+export type AppThunk<TReturn = void> = ActionCreator<
+  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+>;

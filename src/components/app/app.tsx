@@ -34,7 +34,7 @@ function App() {
     const history = useHistory();
     const location = useLocation<TLocationState | any>();
     let background = location.state?.background; // для модального окна с ингредиентом
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useDispatch();
     const error = useSelector(getError);
     const ingredientsApi = useSelector(getApiIngredients)
 
