@@ -6,10 +6,10 @@ import { OrdertDetail } from '../../components/order-detail/order-detail';
 import { performActionWithRefreshedToken } from '../../services/actions';
 import { disconnectWs, startWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { getAccessToken } from '../../services/selectors/selectors';
-import { AppDispatch } from '../../services/types';
+import { AppDispatch, WsDispatch } from '../../services/types';
 
 export const OrderDetailPage: FunctionComponent = () => {
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch: WsDispatch = useDispatch();
     const location = useLocation();
     const accessToken = useSelector(getAccessToken);
     useEffect(() => {

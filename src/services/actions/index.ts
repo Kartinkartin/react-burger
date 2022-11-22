@@ -30,6 +30,7 @@ import {
     setUserAction,
     sortIngredientsAction
 } from "./actions";
+import { TApplicationActions } from "../types/actions";
 
 
 // action creator для получения всего набора, см. ConstructorPage
@@ -92,9 +93,9 @@ export const postOrder = (orderList: Array<TIngredient>, token: string) => {
     }
 }
 
-export const loginUser = (loginData: {[name: string]: string}, history: any) => {
+export const loginUser = (loginData: {[name: string]: string}, history: any): any  => {
     let accessToken;
-    return function (dispatch: AppDispatch) {
+    return function (dispatch: AppDispatch): TApplicationActions | void {
         loginUserRequest(loginData)
             .then(res => {
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
@@ -175,7 +176,7 @@ export const changeUserData = (token: string, newData: TChangeUserData) => {
     }
 }
 
-export const deleteError = () => (dispatch: AppDispatch) => {
+export const deleteError = () => (dispatch: AppDispatch): any => {
     dispatch(resetErrorAction())
 }
 

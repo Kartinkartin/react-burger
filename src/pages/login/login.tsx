@@ -21,7 +21,7 @@ export const LoginPage: FunctionComponent = () => {
         e.preventDefault();
         loginData.email = values.email;
         loginData.password = values.password;
-        loginUser(values, history)(dispatch);
+        dispatch(loginUser(values, history));
     }
 
     return (
