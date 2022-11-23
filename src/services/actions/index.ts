@@ -176,7 +176,7 @@ export const changeUserData = (token: string, newData: TChangeUserData) => {
     }
 }
 
-export const deleteError = () => (dispatch: AppDispatch) => {
+export const deleteError = () => (dispatch:AppDispatch) => {
     dispatch(resetErrorAction())
 }
 

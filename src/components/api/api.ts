@@ -1,17 +1,28 @@
-import { TChangeUserData, TLoginData } from "../../services/types";
+import { TChangeUserData } from "../../services/types";
+import { TUserActions } from "../../services/types/actions";
+import { 
+  TGetCardsResponse, 
+  TAuthResponse, 
+  TResponse, 
+  TTokenResponse, 
+  TLoginResponse, 
+  TUserResponse, 
+  TPostOrderResponse 
+} from "../../services/types/data";
 
 type TOptions = { 
   headers: { authorization?: string; 'Content-Type': string; }; 
   method?: string; 
   body?: string; 
 }
-function checkRes(res: any) {
+
+function checkRes<T>(res: TResponse<T>): Promise<T> | Promise<never> {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject([`Ошибка ${res.status}`, res.json()]);
 }
-function request(url: string, options: TOptions) {
+function request<T>(url: string, options: TOptions) {
   return (fetch(url, options)
   .then(checkRes))
 }
@@ -27,7 +38,7 @@ export const wsUrl =  'wss://norma.nomoreparties.space/orders'
 
 // получение всех начальных ингредиентов
 export function getCardsRequest() {
-  return request(`${config.baseUrl}/ingredients`, {
+  return request<TGetCardsResponse>(`${config.baseUrl}/ingredients`, {
     headers: config.headers
   })
 }
@@ -35,7 +46,7 @@ export function getCardsRequest() {
 // отправка заказа на сервер
 export function postOrderRequest(orderListId: Array<string>, token: string) {
   const order = { ingredients: orderListId };
-  return request(`${config.baseUrl}/orders`, {
+  return request<TPostOrderResponse>(`${config.baseUrl}/orders`, {
     headers: {
       ...config.headers, 
       authorization: `Bearer ${token}`
@@ -47,7 +58,7 @@ export function postOrderRequest(orderListId: Array<string>, token: string) {
 
 // сброс пароля
 export function resetPassRequest(email: string) {
-  return request(`${config.baseUrl}/password-reset`, {
+  return request<TAuthResponse>(`${config.baseUrl}/password-reset`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify({
@@ -58,7 +69,7 @@ export function resetPassRequest(email: string) {
 
 // создание нового пароля
 export function newPassRequest(newPassData: { [name: string]: string; }) {
-  return request(`${config.baseUrl}/password-reset/reset`, {
+  return request<TAuthResponse>(`${config.baseUrl}/password-reset/reset`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(newPassData)
@@ -67,7 +78,7 @@ export function newPassRequest(newPassData: { [name: string]: string; }) {
 
 // регистрация нового пользователя
 export function registerUserRequest(userData: { [name: string]: string; }) {
-  return request(`${config.baseUrl}/auth/register`, {
+  return request<TLoginResponse>(`${config.baseUrl}/auth/register`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(userData)
@@ -76,7 +87,7 @@ export function registerUserRequest(userData: { [name: string]: string; }) {
 
 // авторизация пользователя
 export function loginUserRequest(loginData: { [name: string]: string; }) {
-  return request(`${config.baseUrl}/auth/login`, {
+  return request<TLoginResponse>(`${config.baseUrl}/auth/login`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(loginData)
@@ -85,7 +96,7 @@ export function loginUserRequest(loginData: { [name: string]: string; }) {
 
 // выход из аккаунта
 export function logoutUserRequest(logoutData: { token: string; }) {
-  return request(`${config.baseUrl}/auth/logout`, {
+  return request<TAuthResponse>(`${config.baseUrl}/auth/logout`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(logoutData)
@@ -94,7 +105,7 @@ export function logoutUserRequest(logoutData: { token: string; }) {
 
 // обновление токена
 export function refreshTokenRequest(tokenData: { token: string; }) {
-  return request(`${config.baseUrl}/auth/token`, {
+  return request<TTokenResponse>(`${config.baseUrl}/auth/token`, {
     headers: config.headers,
     method: 'POST',
     body: JSON.stringify(tokenData)
@@ -103,7 +114,7 @@ export function refreshTokenRequest(tokenData: { token: string; }) {
 
 // получение информации профиля пользователя
 export function getUserRequest(token: string) {
-  return request(`${config.baseUrl}/auth/user`, {
+  return request<TUserResponse>(`${config.baseUrl}/auth/user`, {
     headers: {
       ...config.headers,
       authorization: `Bearer ${token}`
@@ -114,7 +125,7 @@ export function getUserRequest(token: string) {
 
 // изменение данных профиля пользователя, пароль тоже меняется
 export function changeUserDataRequest(token: string, userData: TChangeUserData) {
-  return request(`${config.baseUrl}/auth/user`, {
+  return request<TUserActions>(`${config.baseUrl}/auth/user`, {
     headers: {
       ...config.headers,
       authorization: `Bearer ${token}`
