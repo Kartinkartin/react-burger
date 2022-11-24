@@ -8,8 +8,8 @@ import { useForm } from '../../services/hooks/useForm';
 import { AppDispatch } from '../../services/types';
 
 
-export const LoginPage: FunctionComponent = () => {
-    const dispatch: AppDispatch = useDispatch();
+export const LoginPage = () => {
+    const dispatch = useDispatch();
     const history = useHistory();
     const {values, handleChange} = useForm({});
     const loginData = {

@@ -30,7 +30,7 @@ export type TUser = {
     readonly email: string,
     password?: string
 }
-
+// для типизации в запросах /components/api
 export interface TResponse<T> extends Body {
     readonly body: any;
     readonly bodyUsed: boolean;

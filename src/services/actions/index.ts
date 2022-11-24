@@ -7,7 +7,7 @@ import {
     changeUserDataRequest,
 } from "../../components/api/api";
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
-import { TIngredient } from "../types/data";
+import { TAuthResponse, TIngredient } from "../types/data";
 import { AppDispatch, AppThunk, TChangeUserData } from "../types";
 import {
     addIngredientAction,
@@ -93,9 +93,9 @@ export const postOrder = (orderList: Array<TIngredient>, token: string) => {
     }
 }
 
-export const loginUser = (loginData: {[name: string]: string}, history: any): any  => {
+export const loginUser: AppThunk = (loginData: {[name: string]: string}, history: any)  => {
     let accessToken;
-    return function (dispatch: AppDispatch): TFeedActions | void {
+    return function (dispatch: AppDispatch) {
         loginUserRequest(loginData)
             .then(res => {
                 if (res.accessToken.indexOf('Bearer') === 0) accessToken = res.accessToken.split('Bearer ')[1]
@@ -111,7 +111,7 @@ export const loginUser = (loginData: {[name: string]: string}, history: any): an
             .catch(err => {
                 console.log(err[0])
                 err[1]
-                    .then((res: object & { message: string }) => {
+                    .then((res: TAuthResponse) => {
                         dispatch(setErrorAction(err[0], res.message))
                     })
             })

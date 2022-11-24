@@ -37,11 +37,12 @@ export type TLocationState = {
 
 
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
-export type AppDispatch = Dispatch<TFeedActions>
+// export type AppDispatch = Dispatch<TFeedActions>
+export type AppDispatch = typeof store.dispatch;
 export type WsDispatch = Dispatch<TWsActions>
 
 export type RootState = ReturnType<typeof store.getState>;
 export type TApplicationActions = TFeedActions | TWsActions
-export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+export type AppThunk<ReturnType = void> = ActionCreator<
+  ThunkAction<ReturnType, Action, RootState, TApplicationActions>
 >;
