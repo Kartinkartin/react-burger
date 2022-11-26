@@ -10,17 +10,18 @@ import { getCookie } from '../../services/utils/cookie';
 import { getAccessToken } from '../../services/selectors/selectors';
 import { AppDispatch } from '../../services/types';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
+import { TUser } from '../../services/types/data';
 
 export const ProfilePage: FunctionComponent = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useDispatch();
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
     const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка
-    let data = useRef();
+    let data = useRef<any>(null);
 
     useEffect(() => {
         getUserRequest(accessToken)

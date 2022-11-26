@@ -49,18 +49,3 @@ export type WsDispatch = Dispatch<TWsActions>
 export type AppThunk<ReturnType = void> = ActionCreator<
     ThunkAction<ReturnType, RootState, Action, TApplicationActions>
 >;
-
-
-import {
-    TypedUseSelectorHook,
-    useDispatch as dispatchHook,
-    useSelector as selectorHook
-} from 'react-redux';
-
-
-
-// Теперь этот хук знает структуру хранилища
-export const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-
-// Хук не даст отправить экшен, который ему не знаком
-// export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>(); 

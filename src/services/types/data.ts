@@ -45,7 +45,7 @@ export interface TResponse<T> extends Body {
     json(): Promise<T>
 }
 
-interface TResBody {
+export interface TResBody {
     success: boolean
 }
 export interface TGetCardsResponse extends TResBody {
