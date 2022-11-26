@@ -167,7 +167,7 @@ export const changeUserData: AppThunk = (token: string, newData: TChangeUserData
             .then(res => {
                 dispatch(changeUserDataAction(newData))
             })
-            .catch(err => console.log(err)) //честно, ни одной идеи нет. но я что-то могу и показала это в логине
+            .catch(err => console.log(err))
 
     }
 }
