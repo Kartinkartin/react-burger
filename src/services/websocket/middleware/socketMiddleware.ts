@@ -1,8 +1,8 @@
-import { WsDispatch } from "../../types";
+import { TwsActions, WsDispatch } from "../../types";
 import { TWsActions } from "../../types/actions";
 
 
-export const socketMiddleware = (wsUrl: string, wsActions: any) => {
+export const socketMiddleware = (wsUrl: string, wsActions: TwsActions) => {
   return (store: object & { dispatch: WsDispatch }) => {
     let socket: any | null = null;
     return (next: (action: TWsActions) => {}) => (action: TWsActions) => {
@@ -18,22 +18,22 @@ export const socketMiddleware = (wsUrl: string, wsActions: any) => {
       if (socket) {
 
         // функция, которая вызывается при открытии сокета
-        socket.onopen = (event: object) => {
+        socket.onopen = (event: Event) => {
           dispatch({ type: onOpen, payload: event });
         };
 
         // функция, которая вызывается при ошибке соединения
-        socket.onerror = (event: object) => {
+        socket.onerror = (event: ErrorEvent) => {
           dispatch({ type: onError, payload: event });
         };
 
         // функция, которая вызывается при получении события от сервера
-        socket.onmessage = (event: object & { data: string }) => {
+        socket.onmessage = (event: MessageEvent) => {
           const { data } = event;
           dispatch({ type: onMessage, payload: JSON.parse(data) });
         };
         // функция, которая вызывается при закрытии соединения
-        socket.onclose = (event: object) => {
+        socket.onclose = (event: Event) => {
           dispatch({ type: onClose, payload: event });
         };
         if (type === wsClosing) {

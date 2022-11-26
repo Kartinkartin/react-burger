@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
 import { ProfileNavigator } from '../../components/profile-navigator/profile-navigator';
@@ -9,7 +9,7 @@ import { disconnectWs, startWsProtectedRoute } from '../../services/websocket/ac
 import { performActionWithRefreshedToken } from '../../services/actions';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
-export const OrdersPage: FunctionComponent = () => {
+export const OrdersPage = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');

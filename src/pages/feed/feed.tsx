@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import styles from './feed.module.css';
 import { OrdersList } from '../../components/orders-list/orders-list';
 import { OrderStatistics } from '../../components/order-statistics/order-statistics';
 import { getWSOrders } from '../../services/selectors/selectors';
 import { disconnectWs, startWs } from '../../services/websocket/actions';
-import { AppDispatch } from '../../services/types';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 export const FeedPage = () => {

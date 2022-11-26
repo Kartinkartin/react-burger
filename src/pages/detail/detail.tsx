@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import styles from './detail.module.css';
 import { IngredientDetail } from '../../components/ingredient-detail/ingredient-detail';
 
-export const IngredientDetailPage: FunctionComponent = () => {
+export const IngredientDetailPage = () => {
     return (
         <div className={styles.main}>
             <IngredientDetail />

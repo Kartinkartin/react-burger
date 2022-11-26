@@ -1,11 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactChild } from 'react';
 import { useLocation, Route, Redirect } from 'react-router-dom';
 
 type TRouteProps = {
   path: string,
   exact: boolean,
   loggedUser?: boolean, 
-  children: any, 
+  children: JSX.Element, 
 }
 export const ProtectedRoute: FunctionComponent<TRouteProps> = ({ loggedUser = false, children, ...rest }: TRouteProps) => {
   const location = useLocation();

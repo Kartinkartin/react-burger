@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './404.module.css';
 import notFoundImg from '../../images/404-page.png'
 
-export const NotFoundPage: FunctionComponent = () => {
+export const NotFoundPage = () => {
     return (
         <div className={styles.main} >
             <img src={notFoundImg} alt='Not Found 404' />

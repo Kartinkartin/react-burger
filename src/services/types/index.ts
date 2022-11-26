@@ -10,7 +10,24 @@ import { TLoginState } from '../reducers/login';
 import { TOrderNumState } from '../reducers/order';
 import { TSocketState } from '../websocket/reducers/socketReducer';
 import { TFeedActions, TWsActions } from './actions';
+import { 
+    WS_CONNECTION_CLOSED, 
+    WS_CONNECTION_DISCONNECT, 
+    WS_CONNECTION_ERROR, 
+    WS_CONNECTION_START, 
+    WS_CONNECTION_SUCCESS, 
+    WS_GET_MESSAGE 
+} from '../websocket/actions/wsActionTypes';
 
+export type TwsActions = {
+
+    wsInit: typeof WS_CONNECTION_START,
+    onOpen: typeof WS_CONNECTION_SUCCESS,
+    wsClosing: typeof WS_CONNECTION_DISCONNECT,
+    onClose: typeof WS_CONNECTION_CLOSED,
+    onError: typeof WS_CONNECTION_ERROR,
+    onMessage: typeof WS_GET_MESSAGE
+}
 export type TLoginData = {
     name: string,
     email: string,

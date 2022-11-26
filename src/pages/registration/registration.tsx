@@ -5,7 +5,7 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import { registerUserRequest } from '../../components/api/api';
 import { useForm } from '../../services/hooks/hooks';
 
-export const RegistrationPage: FunctionComponent = () => {
+export const RegistrationPage = () => {
     const {values, handleChange} = useForm({});
     const [passIcon, setPassIcon] = useState('ShowIcon');
 

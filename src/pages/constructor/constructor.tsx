@@ -1,5 +1,5 @@
 
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -9,7 +9,7 @@ import { BurgerConstructor } from '../../components/burger-constructor/burger-co
 import { Modal } from '../../components/modal/modal';
 import { getLoadingStatus } from '../../services/selectors/selectors';
 
-export const ConstructorPage: FunctionComponent = () => {
+export const ConstructorPage = () => {
     const loading = useSelector(getLoadingStatus);
 
     return (

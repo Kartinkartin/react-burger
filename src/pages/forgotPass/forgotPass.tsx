@@ -1,11 +1,11 @@
-import React, { useState, FormEvent, FunctionComponent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { useLocation, Link, Redirect } from 'react-router-dom';
 import styles from './forgotPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassRequest } from '../../components/api/api';
 import { useForm } from '../../services/hooks/hooks';
 
-export const ForgotPassPage: FunctionComponent = () => {
+export const ForgotPassPage = () => {
     const location = useLocation();
     const {values, handleChange} = useForm({});
     const [wasReset, setReset] = useState(false);

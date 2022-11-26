@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, FunctionComponent } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
 import { FormProfile } from '../../components/form-profile/form-profile';
@@ -9,7 +9,7 @@ import { getCookie } from '../../services/utils/cookie';
 import { getAccessToken } from '../../services/selectors/selectors';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
-export const ProfilePage: FunctionComponent = () => {
+export const ProfilePage = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');

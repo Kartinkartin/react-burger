@@ -120,7 +120,7 @@ export type TFeedActions = TConstructorActions | TErrorActions | TLoadingActions
     //для обычного и защищенного роутинга
 export type TStartWsAction = {
     readonly type: typeof WS_CONNECTION_START,
-    readonly payload: string | object
+    readonly payload: string | Event
 }
 
 export type TDisconnectWsAction = {
@@ -129,15 +129,15 @@ export type TDisconnectWsAction = {
 }
 export type TWsConnectionSuccessAction = {
     readonly type: typeof WS_CONNECTION_SUCCESS
-    readonly payload?: string
+    readonly payload?: string | Event
 }
 export type TWsConnectionErrorAction = {
     readonly type: typeof WS_CONNECTION_ERROR
-    readonly payload?: string
+    readonly payload?: string | Event
 }
 export type TWsConnectionClosedAction = {
     readonly type: typeof WS_CONNECTION_CLOSED
-    readonly payload?: string
+    readonly payload?: string | Event
 }
 export type TWsGetMessageAction = {
     readonly type: typeof WS_GET_MESSAGE

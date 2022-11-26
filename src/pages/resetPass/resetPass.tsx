@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, FunctionComponent } from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,7 +7,7 @@ import { useForm } from '../../services/hooks/hooks';
 import { TLocationState } from '../../services/types';
 
 
-export const ResetPassPage: FunctionComponent = () => {
+export const ResetPassPage = () => {
     const history = useHistory();
     const location = useLocation<TLocationState>();
     const {values, handleChange } = useForm({});
