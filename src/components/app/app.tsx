@@ -28,7 +28,7 @@ import {
     getError 
 } from '../../services/selectors/selectors';
 import { OrdertDetail } from '../order-detail/order-detail';
-import { AppDispatch, TLocationState } from '../../services/types';
+import { TLocationState } from '../../services/types';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 function App() {

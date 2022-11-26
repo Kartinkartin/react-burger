@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import styles from './order-detail.module.css';
 import { OrdertDetail } from '../../components/order-detail/order-detail';
 import { performActionWithRefreshedToken } from '../../services/actions';
 import { disconnectWs, startWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { getAccessToken } from '../../services/selectors/selectors';
-import { AppDispatch } from '../../services/types';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 export const OrderDetailPage = () => {

@@ -1,10 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, SyntheticEvent, FunctionComponent } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
 import { useDispatch, useForm, useSelector } from '../../services/hooks/hooks';
-import { AppDispatch, TLoginData } from '../../services/types';
+import { TLoginData } from '../../services/types';
 import { getAccessToken } from '../../services/selectors/selectors';
 
 type TProfileProps = {

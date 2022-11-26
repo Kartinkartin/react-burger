@@ -1,11 +1,9 @@
 import React, { FormEvent } from 'react';
-// import { useDispatch } from 'react-redux';
 import { useHistory, Link } from 'react-router-dom';
 import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../../services/actions';
 import { useDispatch, useForm } from '../../services/hooks/hooks';
-import { AppDispatch } from '../../services/types';
 
 
 export const LoginPage = () => {

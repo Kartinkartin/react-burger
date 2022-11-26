@@ -1,5 +1,3 @@
-import { Ingredient } from "../../components/ingredient/ingredient"
-
 export type TIngredient = {
     readonly "_id": string,
     readonly "name": string,

@@ -5,10 +5,10 @@ import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для ген�
 import styles from './order.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getApiIngredients } from '../../services/selectors/selectors';
-import { TIngredient } from '../../services/types/data';
+import { TIngredient, TOrderApi } from '../../services/types/data';
 
 type TOrderProps = {
-    order: any
+    order: TOrderApi
 }
 export const Order: FunctionComponent<TOrderProps> = ({ order }: TOrderProps) => {
     const location = useLocation();

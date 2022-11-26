@@ -1,5 +1,4 @@
 import React, { useEffect, FunctionComponent } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
 import { ProfileNavigator } from '../../components/profile-navigator/profile-navigator';
@@ -8,7 +7,6 @@ import { OrdersList } from '../../components/orders-list/orders-list';
 import { getAccessToken, getWSOrders } from '../../services/selectors/selectors';
 import { disconnectWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { performActionWithRefreshedToken } from '../../services/actions';
-import { AppDispatch } from '../../services/types';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 export const OrdersPage: FunctionComponent = () => {

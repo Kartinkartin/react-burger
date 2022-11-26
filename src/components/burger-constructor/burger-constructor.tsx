@@ -1,11 +1,8 @@
 import React, { useEffect, useState, useMemo, FunctionComponent } from "react";
 import { useDrop } from "react-dnd";
-// import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from "./burger-constructor.module.css";
 import { LayerElement } from "../layer-element/layer-element";
 import { Modal } from '../modal/modal';
@@ -21,10 +18,7 @@ import {
 } from "../../services/actions";
 import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
 import { TIngredient } from "../../services/types/data";
-import { AppDispatch } from "../../services/types";
 import { useDispatch, useSelector } from "../../services/hooks/hooks";
-
-
 
 export const BurgerConstructor: FunctionComponent = () => {
     const history = useHistory();

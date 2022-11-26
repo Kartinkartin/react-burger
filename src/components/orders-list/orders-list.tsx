@@ -1,10 +1,11 @@
 import React, { useEffect, FunctionComponent } from 'react';
 import styles from './orders-list.module.css';
 import { Order } from '../order/order';
+import { TOrderApi } from '../../services/types/data';
 
 type TOrderListProps = {
     width: string, 
-    orders: Array<any>
+    orders: Array<TOrderApi>
 }
 export const OrdersList: FunctionComponent<TOrderListProps> = ({ width, orders }: TOrderListProps) => {
     useEffect(() => {}, [orders])
@@ -14,7 +15,7 @@ export const OrdersList: FunctionComponent<TOrderListProps> = ({ width, orders }
                 <div className={`${styles.list} pr-2`}>
                     {orders.map((order) => {
                         return (
-                            <Order
+                            <Order 
                                 order={order}
                                 key={order._id} />
                         )

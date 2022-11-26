@@ -1,5 +1,5 @@
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { Action, ActionCreator, StateFromReducersMapObject } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import { store } from '../store';
 import { Dispatch } from 'redux';
 import { TConstructorState } from '../reducers/constructorItems';

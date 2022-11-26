@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, FunctionComponent } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './profile.module.css';
 import { FormProfile } from '../../components/form-profile/form-profile';
@@ -8,9 +7,7 @@ import { getUserRequest } from '../../components/api/api';
 import { refreshUser } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie'; 
 import { getAccessToken } from '../../services/selectors/selectors';
-import { AppDispatch } from '../../services/types';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
-import { TUser } from '../../services/types/data';
 
 export const ProfilePage: FunctionComponent = () => {
     const history = useHistory();
