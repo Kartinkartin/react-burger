@@ -138,7 +138,7 @@ export const logoutUser: AppThunk = (token: string, history: any) => {
 }
 
 // action creator обновляет просроченный accessToken, отправляет в запросе refreshToken 
-export const refreshUser: AppThunk = (token: string) => {
+export const refreshUser: AppThunk<Promise<any>> = (token: string) => {
     let refreshData = {
         "token": token
     };
