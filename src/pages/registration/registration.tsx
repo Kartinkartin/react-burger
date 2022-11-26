@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './registration.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerUserRequest } from '../../components/api/api';
-import { useForm } from '../../services/hooks/useForm';
+import { useForm } from '../../services/hooks/hooks';
 
 export const RegistrationPage: FunctionComponent = () => {
     const {values, handleChange} = useForm({});

@@ -1,5 +1,5 @@
 import React, { useEffect, FunctionComponent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styles from './orders.module.css';
 import { ProfileNavigator } from '../../components/profile-navigator/profile-navigator';
@@ -9,12 +9,13 @@ import { getAccessToken, getWSOrders } from '../../services/selectors/selectors'
 import { disconnectWs, startWsProtectedRoute } from '../../services/websocket/actions';
 import { performActionWithRefreshedToken } from '../../services/actions';
 import { AppDispatch } from '../../services/types';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 export const OrdersPage: FunctionComponent = () => {
     const history = useHistory();
     const location = useLocation();
     const isLogin = document.cookie.includes('refreshToken');
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useDispatch();
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ?
         getCookie('refreshToken') : '';
@@ -22,11 +23,9 @@ export const OrdersPage: FunctionComponent = () => {
 
     useEffect(() => {
         if (!isLogin) history.replace({ pathname: '/login', state: { from: location.pathname } })
-
-        performActionWithRefreshedToken(accessToken, startWsProtectedRoute,)(dispatch)
-
+        dispatch(performActionWithRefreshedToken(accessToken, startWsProtectedRoute,))
         return (() => {
-            disconnectWs()(dispatch)
+            dispatch(disconnectWs()) // socket.close()
         })
 }, [dispatch, isLogin, history, location, accessToken])
 

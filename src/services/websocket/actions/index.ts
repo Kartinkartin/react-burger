@@ -14,13 +14,13 @@ const disconnectWsAction = ():TDisconnectWsAction => ({
     type: WS_CONNECTION_DISCONNECT
 })
 
-export const startWs = () => (dispatch: WsDispatch) => {
+export const startWs: AppThunk = () => (dispatch: WsDispatch) => {
     dispatch(startWsAction())
 }
-export const startWsProtectedRoute = (accessToken: string) => (dispatch: WsDispatch) => {
+export const startWsProtectedRoute: AppThunk = (accessToken: string) => (dispatch: WsDispatch) => {
     dispatch(startWsProtectedRouteAction(accessToken))
 }
 
-export const disconnectWs = () => (dispatch: WsDispatch) => {
+export const disconnectWs: AppThunk = () => (dispatch: WsDispatch) => {
     dispatch(disconnectWsAction())
 }

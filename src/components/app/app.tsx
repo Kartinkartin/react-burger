@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import styles from './app.module.css';
@@ -28,7 +28,8 @@ import {
     getError 
 } from '../../services/selectors/selectors';
 import { OrdertDetail } from '../order-detail/order-detail';
-import { TLocationState } from '../../services/types';
+import { AppDispatch, TLocationState } from '../../services/types';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 function App() {
     const history = useHistory();
@@ -42,12 +43,12 @@ function App() {
         history.replace({ pathname: background.pathname })
     }
     function closeErrorModal() {
-        deleteError()(dispatch)
+        dispatch(deleteError())
     }
 
     useEffect(() => {
         if(!ingredientsApi.length) {
-            getApiItems()(dispatch); // получение всех возможных ингредиентов
+            dispatch(getApiItems()); // получение всех возможных ингредиентов
         }
     }, [dispatch, ingredientsApi])
 

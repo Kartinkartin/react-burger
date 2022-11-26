@@ -30,49 +30,46 @@ import {
     setUserAction,
     sortIngredientsAction
 } from "./actions";
-import { TFeedActions } from "../types/actions";
 
 
 // action creator для получения всего набора, см. ConstructorPage
-export function getApiItems() {
-    return function (dispatch: AppDispatch) {
-        dispatch(getApiItemsRequestAction());
-        // установка модалки с ожиданием
-        dispatch(setLoadingModeAction());
-        return getCardsRequest()
-            .then(res => {
-                // снятие модалки с ожиданием
-                dispatch(resetLoadingModeAction())
-                if (res && res.success) {
-                    dispatch(getApiItemsSuccessAction(res.data));
-                } else {
-                    dispatch(getApiItemsFailedAction(res));
-                }
-            })
-            .catch(err => {
-                dispatch(getApiItemsFailedAction(err));
-            })
-    };
-}
+export const getApiItems: AppThunk = () => (dispatch: AppDispatch) => {
+    dispatch(getApiItemsRequestAction());
+    // установка модалки с ожиданием
+    dispatch(setLoadingModeAction());
+    return getCardsRequest()
+        .then(res => {
+            // снятие модалки с ожиданием
+            dispatch(resetLoadingModeAction())
+            if (res && res.success) {
+                dispatch(getApiItemsSuccessAction(res.data));
+            } else {
+                dispatch(getApiItemsFailedAction(res));
+            }
+        })
+        .catch(err => {
+            dispatch(getApiItemsFailedAction(err));
+        })
+};
 
-export const addIngredient = (prod: TIngredient) => (dispatch: AppDispatch) => {
+export const addIngredient: AppThunk = (prod: TIngredient) => (dispatch: AppDispatch) => {
     dispatch(addIngredientAction(prod));
 }
-export const addOrChangeBun = (bun: TIngredient, key: string) => (dispatch: AppDispatch) => {
+export const addOrChangeBun: AppThunk = (bun: TIngredient, key: string) => (dispatch: AppDispatch) => {
     dispatch(addOrChangeBunAction(bun, key))
 }
-export const sortIngredients = (item: TIngredient, droppedIndex: number, draggedIndex: number) => (dispatch: AppDispatch) => {
+export const sortIngredients: AppThunk = (item: TIngredient, droppedIndex: number, draggedIndex: number) => (dispatch: AppDispatch) => {
     dispatch(sortIngredientsAction(item, droppedIndex, draggedIndex))
 }
-export const deleteIngredient = (notBunsIngredients: Array<TIngredient>, id: string) => (dispatch: AppDispatch) => {
+export const deleteIngredient: AppThunk = (notBunsIngredients: Array<TIngredient>, id: string) => (dispatch: AppDispatch) => {
     dispatch(deleteIngredientAction(notBunsIngredients, id))
 }
-export const resetOrderNum = () => (dispatch: AppDispatch) => {
+export const resetOrderNum: AppThunk = () => (dispatch: AppDispatch) => {
     dispatch(resetOrderNumAction())
 }
 
 // action creator для отправки заказа, см. ConstructorPage
-export const postOrder = (orderList: Array<TIngredient>, token: string) => {
+export const postOrder: AppThunk = (orderList: Array<TIngredient>, token: string) => {
     const orderListId = orderList.map((item): string => item._id);
     orderListId.push(orderList[0]._id);
     return function (dispatch: AppDispatch) {
@@ -93,7 +90,7 @@ export const postOrder = (orderList: Array<TIngredient>, token: string) => {
     }
 }
 
-export const loginUser: AppThunk = (loginData: {[name: string]: string}, history: any)  => {
+export const loginUser: AppThunk = (loginData: { [name: string]: string }, history: any) => {
     let accessToken;
     return function (dispatch: AppDispatch) {
         loginUserRequest(loginData)
@@ -118,7 +115,7 @@ export const loginUser: AppThunk = (loginData: {[name: string]: string}, history
     }
 }
 
-export const logoutUser = (token: string, history: any) => {
+export const logoutUser: AppThunk = (token: string, history: any) => {
     let logoutData = {
         "token": token
     };
@@ -141,7 +138,7 @@ export const logoutUser = (token: string, history: any) => {
 }
 
 // action creator обновляет просроченный accessToken, отправляет в запросе refreshToken 
-export const refreshUser = (token: string) => {
+export const refreshUser: AppThunk = (token: string) => {
     let refreshData = {
         "token": token
     };
@@ -159,13 +156,12 @@ export const refreshUser = (token: string) => {
                 setCookie('date', new Date().toString());
                 return accessToken;
             })
-            .catch(err => console.log(err)) // я кончилась где-то на написании текста ошибок Т.Т
-
+            .catch(err => console.log(err))
     }
 }
 
 // action creator обновляет данные пользователя, см. Profile
-export const changeUserData = (token: string, newData: TChangeUserData) => {
+export const changeUserData: AppThunk = (token: string, newData: TChangeUserData) => {
     return function (dispatch: AppDispatch) {
         changeUserDataRequest(token, newData)
             .then(res => {
@@ -176,7 +172,7 @@ export const changeUserData = (token: string, newData: TChangeUserData) => {
     }
 }
 
-export const deleteError = () => (dispatch:AppDispatch) => {
+export const deleteError: AppThunk = () => (dispatch: AppDispatch) => {
     dispatch(resetErrorAction())
 }
 
@@ -185,7 +181,7 @@ export const deleteError = () => (dispatch:AppDispatch) => {
 // экшен со всеми его аргументами. Будет выполнять просто экшен, 
 // если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. 
 // Над названием можно подумать еще)
-export const performActionWithRefreshedToken = (accessToken: string, action: any, ...args: any) => {
+export const performActionWithRefreshedToken: AppThunk = (accessToken: string, action: any, ...args: any) => {
     const tokenLifeTime: number = 20 * 60 * 1000; // 20 min
     const tokenDate = new Date(getCookie('date')).getTime();
     return function (dispatch: AppDispatch) {
@@ -194,7 +190,7 @@ export const performActionWithRefreshedToken = (accessToken: string, action: any
         }
         if ((new Date().getTime() - tokenDate > tokenLifeTime) || !accessToken) {
             const refreshToken = getCookie('refreshToken');
-            refreshUser(refreshToken)(dispatch)
+            dispatch(refreshUser(refreshToken))
                 .then((accessToken: string) => dispatch(action(...args, accessToken)))
         }
     }

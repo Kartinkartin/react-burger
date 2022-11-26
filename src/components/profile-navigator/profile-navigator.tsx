@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useHistory, NavLink } from 'react-router-dom';
 import { logoutUser } from '../../services/actions';
+import { useDispatch } from '../../services/hooks/hooks';
 import { AppDispatch } from '../../services/types';
 import styles from './profile-navigator.module.css';
 
@@ -9,10 +10,10 @@ type TNavigatorProps = {
     refreshToken: string
 }
 export const ProfileNavigator: FunctionComponent<TNavigatorProps> = ({ refreshToken }: TNavigatorProps) => {
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useDispatch();
     const history = useHistory();
     const onLogoutClick = () => {
-        logoutUser(refreshToken, history)(dispatch)
+        dispatch(logoutUser(refreshToken, history))
     }
     return (
         <nav className={`${styles.nav_container} mr-6`}>

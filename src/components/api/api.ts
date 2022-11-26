@@ -22,7 +22,7 @@ function checkRes<T>(res: TResponse<T>): Promise<T> | Promise<never> {
   }
   return Promise.reject([`Ошибка ${res.status}`, res.json()]);
 }
-function request<T>(url: string, options: TOptions) {
+function request<T>(url: string, options: TOptions): Promise<any> {
   return (fetch(url, options)
   .then(checkRes))
 }

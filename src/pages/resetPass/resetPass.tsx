@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation, Redirect } from 'react-router-dom';
 import styles from './resetPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { newPassRequest } from '../../components/api/api';
-import { useForm } from '../../services/hooks/useForm'; 
+import { useForm } from '../../services/hooks/hooks'; 
 import { TLocationState } from '../../services/types';
 
 

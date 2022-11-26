@@ -3,7 +3,7 @@ import { useLocation, Link, Redirect } from 'react-router-dom';
 import styles from './forgotPass.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassRequest } from '../../components/api/api';
-import { useForm } from '../../services/hooks/useForm';
+import { useForm } from '../../services/hooks/hooks';
 
 export const ForgotPassPage: FunctionComponent = () => {
     const location = useLocation();

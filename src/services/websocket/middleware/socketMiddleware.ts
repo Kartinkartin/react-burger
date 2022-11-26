@@ -1,6 +1,3 @@
-// import type { Middleware, MiddlewareAPI } from 'redux';
-
-import { Middleware } from "redux";
 import { WsDispatch } from "../../types";
 import { TWsActions } from "../../types/actions";
 

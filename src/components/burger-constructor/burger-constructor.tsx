@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, FunctionComponent } from "react";
 import { useDrop } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -22,12 +22,13 @@ import {
 import { getAccessToken, getApiIngredients, getConstructorIngedients, getOrderNum } from "../../services/selectors/selectors";
 import { TIngredient } from "../../services/types/data";
 import { AppDispatch } from "../../services/types";
+import { useDispatch, useSelector } from "../../services/hooks/hooks";
 
 
 
 export const BurgerConstructor: FunctionComponent = () => {
     const history = useHistory();
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch = useDispatch();
     const itemsMenu = useSelector(getApiIngredients);
     const ingredientsConstructor = useSelector(getConstructorIngedients);
     const orderNum = useSelector(getOrderNum);
@@ -56,15 +57,15 @@ export const BurgerConstructor: FunctionComponent = () => {
             else {
                 const key = uuidv4();
                 item.type === 'bun' ?
-                    addOrChangeBun(item, key)(dispatch) :
-                    addIngredient({...item, key: key})(dispatch)
+                    dispatch(addOrChangeBun(item, key)) :
+                    dispatch(addIngredient({...item, key: key}))
             };
 
         }
     })
 
     const sortIngredientsInConstructor = (item: TIngredient, droppedIndex: any, draggedIndex: any) => {
-        sortIngredients(item, droppedIndex, draggedIndex)(dispatch);
+        dispatch(sortIngredients(item, droppedIndex, draggedIndex));
         setIsSort(false);
         setDraggedIndex(null);
         setDroppedIndex(null);
@@ -72,12 +73,12 @@ export const BurgerConstructor: FunctionComponent = () => {
     const handleDeleteItem = (e: any, index: number) => {
         const id = notBunsIngredients[index]._id;
         const item = notBunsIngredients.splice(index, 1)[0]; // изменяет notBunsIngredients
-        deleteIngredient(notBunsIngredients, id)(dispatch)
+        dispatch(deleteIngredient(notBunsIngredients, id))
     };
 
     const makeOrder = () => {
         if (wasLogged) {
-            performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor)(dispatch)
+            dispatch(performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor))
             setOpeningOrder(true);
         }
         else {
@@ -86,7 +87,7 @@ export const BurgerConstructor: FunctionComponent = () => {
     }
     function closePopup() {
         setOpeningOrder(false);
-        resetOrderNum()(dispatch)
+        dispatch(resetOrderNum())
     }
 
     useEffect(() => {
