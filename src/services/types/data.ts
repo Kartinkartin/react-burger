@@ -23,7 +23,7 @@ export type TOrderApi = {
     number: number
 }
 
-export type TUser = {
+export interface TUser {
     readonly name: string,
     readonly email: string,
     password?: string

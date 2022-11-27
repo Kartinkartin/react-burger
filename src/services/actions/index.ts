@@ -48,6 +48,7 @@ export const getApiItems: AppThunk = () => (dispatch: AppDispatch) => {
             }
         })
         .catch(err => {
+            debugger
             dispatch(getApiItemsFailedAction(err));
         })
 };
@@ -90,7 +91,7 @@ export const postOrder: AppThunk = (orderList: Array<TIngredient>, token: string
     }
 }
 
-export const loginUser: AppThunk = (loginData: { [name: string]: string }, history: any) => {
+export const loginUser: AppThunk = (loginData: { [name: string]: string }, history) => {
     let accessToken;
     return function (dispatch: AppDispatch) {
         loginUserRequest(loginData)
@@ -115,7 +116,7 @@ export const loginUser: AppThunk = (loginData: { [name: string]: string }, histo
     }
 }
 
-export const logoutUser: AppThunk = (token: string, history: any) => {
+export const logoutUser: AppThunk = (token: string, history) => {
     let logoutData = {
         "token": token
     };

@@ -18,6 +18,7 @@ import {
     WS_CONNECTION_SUCCESS, 
     WS_GET_MESSAGE 
 } from '../websocket/actions/wsActionTypes';
+import { TUser } from './data';
 
 export type TwsActions = {
 
@@ -28,7 +29,7 @@ export type TwsActions = {
     onError: typeof WS_CONNECTION_ERROR,
     onMessage: typeof WS_GET_MESSAGE
 }
-export type TLoginData = {
+export interface TLoginData {
     name: string,
     email: string,
     password: string,

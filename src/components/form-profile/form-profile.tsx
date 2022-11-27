@@ -5,9 +5,10 @@ import { changeUserData } from '../../services/actions';
 import { useDispatch, useForm, useSelector } from '../../services/hooks/hooks';
 import { TLoginData } from '../../services/types';
 import { getAccessToken } from '../../services/selectors/selectors';
+import { TUser } from '../../services/types/data';
 
 type TProfileProps = {
-    userData: TLoginData
+    userData: TUser
 }
 export const FormProfile: FunctionComponent<TProfileProps> = ({ userData }: TProfileProps) => {
     const dispatch = useDispatch();

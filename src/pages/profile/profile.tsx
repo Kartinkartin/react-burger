@@ -8,6 +8,8 @@ import { refreshUser } from '../../services/actions';
 import { getCookie } from '../../services/utils/cookie'; 
 import { getAccessToken } from '../../services/selectors/selectors';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
+import { TChangeUserData, TLoginData } from '../../services/types';
+import { TUser, TUserResponse } from '../../services/types/data';
 
 export const ProfilePage = () => {
     const history = useHistory();
@@ -17,8 +19,9 @@ export const ProfilePage = () => {
     const accessToken = useSelector(getAccessToken);
     const refreshToken = document.cookie.includes('refreshToken') ? getCookie('refreshToken') : '';
 
-    const [user, setUser] = useState(null); // заполняется именем/почтой по ответу сервера, пароль пустая строка
-    let data = useRef<any>(null);
+    // заполняется именем/почтой по ответу сервера, пароль пустая строка
+    const [user, setUser] = useState<TUser | null>(null); 
+    let data = useRef<TUser | null>(null);
 
     useEffect(() => {
         getUserRequest(accessToken)

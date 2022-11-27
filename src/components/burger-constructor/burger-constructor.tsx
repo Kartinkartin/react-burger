@@ -29,16 +29,16 @@ export const BurgerConstructor: FunctionComponent = () => {
     const [bunEl, setBunEl] = useState<TIngredient | null>(null);
     const notBunsIngredients = ingredientsConstructor.filter(prod => prod.type !== 'bun')
     const [isSort, setIsSort] = useState(false);
-    const [droppedIndex, setDroppedIndex] = useState(null);
-    const [draggedIndex, setDraggedIndex] = useState(null);
+    const [droppedIndex, setDroppedIndex] = useState<number | null>(null);
+    const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
     const [openingOrder, setOpeningOrder] = useState(false);
     const wasLogged = document.cookie.includes('refreshToken');
 
-    const handleDrag = (draggedTargetIndex: any) => {
+    const handleDrag = (draggedTargetIndex: number) => {
         setIsSort(true);
         setDraggedIndex(draggedTargetIndex)
     };
-    const handleDrop = (e: { preventDefault: () => void; }, droppedTargetIndex: any) => {
+    const handleDrop = (e: { preventDefault: () => void; }, droppedTargetIndex: number) => {
         e.preventDefault();
         setDroppedIndex(droppedTargetIndex)
     };
@@ -46,7 +46,7 @@ export const BurgerConstructor: FunctionComponent = () => {
     const [, targetDrop] = useDrop({
         accept: 'item',
         drop(item: TIngredient) {
-            if (isSort) sortIngredientsInConstructor(item, droppedIndex, draggedIndex)
+            if (isSort) sortIngredientsInConstructor(item, droppedIndex!, draggedIndex!)
             else {
                 const key = uuidv4();
                 item.type === 'bun' ?
@@ -57,7 +57,7 @@ export const BurgerConstructor: FunctionComponent = () => {
         }
     })
 
-    const sortIngredientsInConstructor = (item: TIngredient, droppedIndex: any, draggedIndex: any) => {
+    const sortIngredientsInConstructor = (item: TIngredient, droppedIndex: number, draggedIndex: number) => {
         dispatch(sortIngredients(item, droppedIndex, draggedIndex));
         setIsSort(false);
         setDraggedIndex(null);
