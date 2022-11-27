@@ -5,7 +5,7 @@ import { ModalOverlay } from "../modal-overlay/modal-overlay";
 
 type TModalProps = {
     title?: string,
-    children: any, 
+    children?: JSX.Element, 
     onClose: () => void
 }
 export const Modal: FunctionComponent<TModalProps> = ({ title = '', children, onClose }: TModalProps) => {

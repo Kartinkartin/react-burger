@@ -7,7 +7,7 @@ import { TIngredient } from '../../services/types/data';
 type TLayerProps = {
     prod: TIngredient, 
     index: number, 
-    handleDelete: (e: any, index: number) => any, 
+    handleDelete: any, // перенести функцию удаления сюда из пропсов
     handleDrag: (index: number) => void, 
     handleDrop: (e: DragEvent<HTMLLIElement>, index: number) => void
 }
@@ -32,7 +32,7 @@ export const LayerElement: FunctionComponent<TLayerProps> = ({ prod, index, hand
                 text={prod.name}
                 price={prod.price}
                 thumbnail={prod.image}
-                handleClose={() => (e: any) => handleDelete(e, index)}
+                handleClose={() => (e:any) => handleDelete(e, index)}
             />
         </li>
     )

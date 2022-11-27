@@ -16,7 +16,7 @@ import {
 } from "../actions/action-types/order";
 import { ORDER_NUMBER_RESET } from "../actions/action-types/order";
 import { LOADING_MODE_SET, LOADING_MODE_RESET } from "../actions/action-types/loading";
-import { TIngredient, TUser } from "./data";
+import { TIngredient, TOrderApi, TUser } from "./data";
 import { USER_CHANGE_DATA, USER_REFRESH, USER_RESET, USER_SET } from "../actions/action-types/login";
 import { ERROR_RESET, ERROR_SET } from "../actions/action-types/error";
 import { TChangeUserData } from ".";
@@ -142,7 +142,7 @@ export type TWsConnectionClosedAction = {
 export type TWsGetMessageAction = {
     readonly type: typeof WS_GET_MESSAGE
     readonly payload: {
-        orders: Array<any>,
+        orders: Array<TOrderApi>,
         total: number,
         totalToday: number
     }

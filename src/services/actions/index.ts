@@ -181,7 +181,7 @@ export const deleteError: AppThunk = () => (dispatch: AppDispatch) => {
 // экшен со всеми его аргументами. Будет выполнять просто экшен, 
 // если с токеном все ок и обновлять токен, а потом выполнять экшен, если токен истёк. 
 // Над названием можно подумать еще)
-export const performActionWithRefreshedToken: AppThunk = (accessToken: string, action: any, ...args: any) => {
+export const performActionWithRefreshedToken: AppThunk = (accessToken: string, action: AppThunk, ...args: any) => {
     const tokenLifeTime: number = 20 * 60 * 1000; // 20 min
     const tokenDate = new Date(getCookie('date')).getTime();
     return function (dispatch: AppDispatch) {

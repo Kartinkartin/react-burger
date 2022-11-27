@@ -4,7 +4,7 @@ import { TWsActions } from "../../types/actions";
 
 export const socketMiddleware = (wsUrl: string, wsActions: TwsActions) => {
   return (store: object & { dispatch: WsDispatch }) => {
-    let socket: any | null = null;
+    let socket: any = null;
     return (next: (action: TWsActions) => {}) => (action: TWsActions) => {
       const { dispatch } = store;
       const { type, payload } = action;
