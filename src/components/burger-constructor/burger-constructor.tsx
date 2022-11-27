@@ -10,7 +10,6 @@ import { OrderInfo } from "../order-info/order-info";
 import {
     addIngredient,
     addOrChangeBun,
-    deleteIngredient,
     performActionWithRefreshedToken,
     postOrder,
     resetOrderNum,
@@ -64,12 +63,7 @@ export const BurgerConstructor: FunctionComponent = () => {
         setDraggedIndex(null);
         setDroppedIndex(null);
     };
-    const handleDeleteItem = (e: any, index: number) => {
-        const id = notBunsIngredients[index]._id;
-        const item = notBunsIngredients.splice(index, 1)[0]; // изменяет notBunsIngredients
-        dispatch(deleteIngredient(notBunsIngredients, id))
-    };
-
+    
     const makeOrder = () => {
         if (wasLogged) {
             dispatch(performActionWithRefreshedToken(accessToken, postOrder, ingredientsConstructor))
@@ -122,7 +116,6 @@ export const BurgerConstructor: FunctionComponent = () => {
                                             prod={item}
                                             index={index}
                                             key={item.key}
-                                            handleDelete={handleDeleteItem}
                                             handleDrag={handleDrag}
                                             handleDrop={handleDrop}
                                         />
