@@ -1,10 +1,11 @@
-import { TwsActions, WsDispatch } from "../../types";
+import { Middleware, MiddlewareAPI } from "redux";
+import { AppDispatch, RootState, TwsActions } from "../../types";
 import { TWsActions } from "../../types/actions";
 
 
-export const socketMiddleware = (wsUrl: string, wsActions: TwsActions) => {
-  return (store: object & { dispatch: WsDispatch }) => {
-    let socket: any = null;
+export const socketMiddleware = (wsUrl: string, wsActions: TwsActions): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
     return (next: (action: TWsActions) => {}) => (action: TWsActions) => {
       const { dispatch } = store;
       const { type, payload } = action;
@@ -23,7 +24,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TwsActions) => {
         };
 
         // функция, которая вызывается при ошибке соединения
-        socket.onerror = (event: ErrorEvent) => {
+        socket.onerror = (event: Event) => {
           dispatch({ type: onError, payload: event });
         };
 
