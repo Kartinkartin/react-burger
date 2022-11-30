@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
-import { useSelector } from "react-redux";
 import styles from './order-ingredient.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getApiIngredients } from "../../services/selectors/selectors";
+import { useSelector } from "../../services/hooks/hooks";
 
 type TOrderIngredientProps = {
     id: string, 

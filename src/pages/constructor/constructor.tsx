@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from './constructor.module.css';
@@ -8,6 +7,7 @@ import { BurgerIngredients } from '../../components/burger-ingredients/burger-in
 import { BurgerConstructor } from '../../components/burger-constructor/burger-constructor';
 import { Modal } from '../../components/modal/modal';
 import { getLoadingStatus } from '../../services/selectors/selectors';
+import { useSelector } from '../../services/hooks/hooks';
 
 export const ConstructorPage = () => {
     const loading = useSelector(getLoadingStatus);

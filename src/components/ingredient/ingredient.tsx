@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
-import { useSelector } from "react-redux";
 import { Link, useLocation } from 'react-router-dom';
 import styles from './ingredient.module.css';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag } from "react-dnd";
 import { TIngredient } from "../../services/types/data";
 import { TStore } from "../../services/types";
+import { useSelector } from "../../services/hooks/hooks";
 
 type TIngredientInfo = {
     card: TIngredient

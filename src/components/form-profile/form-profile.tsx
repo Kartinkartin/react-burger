@@ -3,7 +3,6 @@ import { EmailInput, Input, Button } from '@ya.praktikum/react-developer-burger-
 import styles from './form-profile.module.css';
 import { changeUserData } from '../../services/actions';
 import { useDispatch, useForm, useSelector } from '../../services/hooks/hooks';
-import { TLoginData } from '../../services/types';
 import { getAccessToken } from '../../services/selectors/selectors';
 import { TUser } from '../../services/types/data';
 

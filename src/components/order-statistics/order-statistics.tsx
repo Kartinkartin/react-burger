@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import styles from './order-statistics.module.css';
-import { useSelector } from 'react-redux';
 import { getTodayDone, getTotalDone, getWSOrders } from '../../services/selectors/selectors';
+import { useSelector } from '../../services/hooks/hooks';
 
 export const OrderStatistics: FunctionComponent = () => {
     const orders = useSelector(getWSOrders);

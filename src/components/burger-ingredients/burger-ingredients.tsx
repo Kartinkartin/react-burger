@@ -1,9 +1,9 @@
 import React, { useState, useRef, FunctionComponent, RefObject } from "react";
-import { useSelector } from "react-redux";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import { MenuCategory } from "../menu-category/menu-category";
 import { getApiIngredients } from "../../services/selectors/selectors";
+import { useSelector } from "../../services/hooks/hooks";
 
 
 export const BurgerIngredients: FunctionComponent = () => {
