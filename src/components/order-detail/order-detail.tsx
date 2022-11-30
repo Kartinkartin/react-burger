@@ -11,12 +11,12 @@ export const OrdertDetail: FunctionComponent = () => {
     const orders = useSelector(getWSOrders);
     const currentOrder = orders.find(item => item._id === id);
     const ingredientsList = currentOrder ? currentOrder.ingredients.filter(
-        (item: string, index: number) => currentOrder.ingredients.indexOf(item) === index
+        (item, index) => currentOrder.ingredients.indexOf(item) === index
     ) : null;
     const ingredientsApi = useSelector(getApiIngredients);
     if (currentOrder) {
         const price = currentOrder ?
-            currentOrder.ingredients.reduce((price: number, current: string) => {
+            currentOrder.ingredients.reduce((price, current) => {
                 const currentPrice = ingredientsApi.find((el) => el._id === current)!.price;
                 return price + currentPrice
             }, 0) : 0;
@@ -37,8 +37,8 @@ export const OrdertDetail: FunctionComponent = () => {
                     </p>
                     <p className='text text_type_main-medium pt-15 pb-6'>Состав:</p>
                     <div className={`${styles.ingredients} pr-6`}>
-                        {ingredientsList.map((item: string) => {
-                            const counter = currentOrder.ingredients.filter((el: string) => el === item).length;
+                        {ingredientsList.map((item) => {
+                            const counter = currentOrder.ingredients.filter((el) => el === item).length;
                             return (
                                 <OrderIngredient
                                     id={item}

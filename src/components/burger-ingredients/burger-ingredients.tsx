@@ -17,7 +17,7 @@ export const BurgerIngredients: FunctionComponent = () => {
 
     const hightlightTab = () => {
         const refs = [bunRef, mainRef, sauceRef];
-        const positions: Array<number> = refs.map((item: RefObject<HTMLInputElement>) => {
+        const positions: Array<number> = refs.map((item) => {
             return Math.abs(item.current!.getBoundingClientRect().top - containerRef.current!.getBoundingClientRect().top)
         })
         const currentTabRef = refs[positions.indexOf(Math.min.apply(null, positions))];

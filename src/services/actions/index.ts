@@ -8,7 +8,7 @@ import {
 } from "../../components/api/api";
 import { deleteCookie, getCookie, setCookie } from "../utils/cookie";
 import { TAuthResponse, TIngredient } from "../types/data";
-import { AppDispatch, AppThunk, TChangeUserData } from "../types";
+import { AppDispatch, AppThunk, TChangeUserData, TLocationState } from "../types";
 import {
     addIngredientAction,
     addOrChangeBunAction,
@@ -30,6 +30,7 @@ import {
     setUserAction,
     sortIngredientsAction
 } from "./actions";
+import { History } from 'history';
 
 
 // action creator для получения всего набора, см. ConstructorPage
@@ -91,7 +92,7 @@ export const postOrder: AppThunk = (orderList: Array<TIngredient>, token: string
     }
 }
 
-export const loginUser: AppThunk = (loginData: { [name: string]: string }, history) => {
+export const loginUser: AppThunk = (loginData: { [name: string]: string }, history: History & {location: { state: TLocationState}}) => {
     let accessToken;
     return function (dispatch: AppDispatch) {
         loginUserRequest(loginData)
@@ -104,6 +105,7 @@ export const loginUser: AppThunk = (loginData: { [name: string]: string }, histo
             }
             )
             .then(res => {
+                debugger
                 history.replace({ pathname: history.location.state?.from || '/' })
             })
             .catch(err => {
@@ -116,7 +118,7 @@ export const loginUser: AppThunk = (loginData: { [name: string]: string }, histo
     }
 }
 
-export const logoutUser: AppThunk = (token: string, history) => {
+export const logoutUser: AppThunk = (token: string, history: History) => {
     let logoutData = {
         "token": token
     };
