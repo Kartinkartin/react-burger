@@ -29,17 +29,7 @@ export interface TUser {
     password?: string
 }
 // для типизации в запросах /components/api
-export interface TResponse<T> extends Body {
-    readonly body: any;
-    readonly bodyUsed: boolean;
-    readonly headers: Headers;
-    readonly ok: boolean;
-    readonly redirected: boolean;
-    readonly status: number;
-    readonly statusText: string;
-    readonly type: ResponseType;
-    readonly url: string;
-    clone(): Response;
+export interface TResponse<T> extends Response {
     json(): Promise<T>
 }
 
