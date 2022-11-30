@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import {
   TypedUseSelectorHook,
   useDispatch as dispatchHook,
@@ -9,7 +9,7 @@ import { AppDispatch, AppThunk, RootState } from '../types';
 export function useForm(inputValues: {[name: string]: string}) {
     const [values, setValues] = useState(inputValues);
   
-    const handleChange = (event: any) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const {value, name} = event.target;
       setValues({...values, [name]: value});
     };

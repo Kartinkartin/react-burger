@@ -80,7 +80,8 @@ export const FormProfile: FunctionComponent<TProfileProps> = ({ userData }: TPro
                 <Button
                     type="primary"
                     size="medium"
-                    onClick={handleReset} htmlType='reset'
+                    onClick={handleReset} 
+                    htmlType='reset'
                     disabled={!dirty} >
                     Отменить
                 </Button>

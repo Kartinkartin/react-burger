@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import styles from './app.module.css';

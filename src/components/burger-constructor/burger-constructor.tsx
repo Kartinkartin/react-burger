@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, FunctionComponent } from "react";
+import React, { useEffect, useState, useMemo, FunctionComponent, DragEvent } from "react";
 import { useDrop } from "react-dnd";
 import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid'; // библиотека uuid для генерации уникального ключа 
@@ -38,7 +38,7 @@ export const BurgerConstructor: FunctionComponent = () => {
         setIsSort(true);
         setDraggedIndex(draggedTargetIndex)
     };
-    const handleDrop = (e: { preventDefault: () => void; }, droppedTargetIndex: number) => {
+    const handleDrop = (e: DragEvent<HTMLLIElement>, droppedTargetIndex: number) => {
         e.preventDefault();
         setDroppedIndex(droppedTargetIndex)
     };
