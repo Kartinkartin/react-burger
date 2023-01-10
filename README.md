@@ -8,6 +8,8 @@
 
 [Проект с булоньками доступен на GitHub Pages](https://kartinkartin.github.io/react-burger/)
 
+[Набор UI-компонентов для курсового проекта](https://yandex-practicum.github.io/react-developer-burger-ui-components/docs/)
+
 Приложение организовано модульной структурой.
 
 Используются хуки, порталы для отображения модальных окон.
